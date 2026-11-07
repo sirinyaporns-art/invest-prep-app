@@ -1,97 +1,211 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { ShieldCheck, Moon, Sun, FileSpreadsheet, RotateCcw, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  ShieldCheck,
+  Moon,
+  Sun,
+  FileSpreadsheet,
+  RotateCcw,
+  ChevronDown,
+  Check,
+  SlidersHorizontal,
+  Download,
+  FolderGit2,
+  Home,
+  CheckCircle2,
+  PieChart,
+  AlertTriangle,
+  Layers,
+  Sparkles,
+  BookOpen,
+  UserCheck,
+} from 'lucide-react';
 
 interface NavbarProps {
   isDarkMode: boolean;
   onToggleTheme: () => void;
   onOpenReport: () => void;
+  onOpenGitHubModal: () => void;
   onResetData: () => void;
+  onLoadDemoData?: () => void;
   activeTab: string;
   onSelectTab: (tabId: string) => void;
   readinessScore: number;
+}
+
+interface NavGroup {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+  items?: {
+    id: string;
+    stepNum: string;
+    title: string;
+    desc: string;
+  }[];
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onToggleTheme,
   onOpenReport,
+  onOpenGitHubModal,
   onResetData,
+  onLoadDemoData,
   activeTab,
   onSelectTab,
   readinessScore,
 }) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  // Dropdown States
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const navContainerRef = useRef<HTMLDivElement>(null);
+  const toolsMenuRef = useRef<HTMLDivElement>(null);
 
-  // Pure Thai & English Nav Items (All Japanese removed entirely)
-  const navItems = [
-    { id: 'finance', label: 'ข้อมูลส่วนตัวและการเงิน', sub: 'Finance' },
-    { id: 'checklist', label: 'เช็กลิสต์มือใหม่', sub: 'Checklist' },
-    { id: 'goal', label: 'เป้าหมายการลงทุน', sub: 'Goals' },
-    { id: 'tsi', label: 'แบบทดสอบ TSI', sub: 'TSI Test' },
-    { id: 'assets', label: 'สินทรัพย์ลงทุน', sub: 'Assets' },
-    { id: 'portfolio', label: 'จัดสัดส่วนพอร์ต', sub: 'Portfolio' },
-    { id: 'budget', label: 'จัดสรรเงิน & จำลอง DCA', sub: 'DCA Plan' },
-    { id: 'caution', label: 'ข้อควรระวัง & คำเตือน', sub: 'Cautions' },
+  // Grouped Navigation Structure (Consolidating into clean categories)
+  const navGroups: NavGroup[] = [
+    {
+      id: 'home',
+      label: 'หน้าแรก',
+      icon: Home,
+    },
+    {
+      id: 'self_assessment_group',
+      label: 'สำรวจตนเองก่อนเริ่มลงทุน',
+      icon: UserCheck,
+      items: [
+        {
+          id: 'self_assessment',
+          stepNum: '01',
+          title: 'ภาพรวมสำรวจตนเอง (การเงิน & TSI)',
+          desc: 'รวบรวมทั้งข้อมูลสุขภาพการเงินและแบบประเมินความเสี่ยงไว้ในที่เดียว',
+        },
+        {
+          id: 'finance',
+          stepNum: '01.1',
+          title: 'ข้อมูลส่วนตัวและสถานะการเงิน',
+          desc: 'ตรวจกระแสเงินสด ภาระหนี้ DTI และเงินสำรองฉุกเฉิน',
+        },
+        {
+          id: 'tsi',
+          stepNum: '01.2',
+          title: 'แบบประเมินความเสี่ยง TSI',
+          desc: 'แบบทดสอบ 10 ข้อมาตรฐาน ก.ล.ต. จัดระดับความเสี่ยง 1-5',
+        },
+      ],
+    },
+    {
+      id: 'readiness_plan',
+      label: 'เช็กลิสต์ & เป้าหมาย',
+      icon: CheckCircle2,
+      items: [
+        {
+          id: 'checklist',
+          stepNum: '02',
+          title: 'เช็กลิสต์ความพร้อม 7 เสาหลัก',
+          desc: 'ตรวจเช็กความพร้อมรอบด้าน (ซิงค์อัตโนมัติจากข้อมูลจริง)',
+        },
+        {
+          id: 'goal',
+          stepNum: '03',
+          title: 'กำหนดเป้าหมายการลงทุน',
+          desc: 'กำหนดจำนวนเงินและกรอบเวลาเพื่อเกษียณหรือซื้อบ้าน',
+        },
+      ],
+    },
+    {
+      id: 'portfolio_plan',
+      label: 'สินทรัพย์ & จัดพอร์ต',
+      icon: PieChart,
+      items: [
+        {
+          id: 'assets',
+          stepNum: '04',
+          title: 'คลังสินทรัพย์การลงทุน',
+          desc: 'ทำความเข้าใจผลตอบแทนและความเสี่ยงของสินทรัพย์แต่ละประเภท',
+        },
+        {
+          id: 'portfolio',
+          stepNum: '05',
+          title: 'จัดสัดส่วนพอร์ตโฟลิโอ',
+          desc: 'แผน Asset Allocation แนะนำเฉพาะบุคคลตามความเสี่ยง',
+        },
+        {
+          id: 'budget',
+          stepNum: '06',
+          title: 'จัดสรรเงิน 50/30/20 & DCA',
+          desc: 'วางแผนออมสม่ำเสมอและจำลองพลังดอกเบี้ยทบต้น',
+        },
+      ],
+    },
+    {
+      id: 'glossary',
+      label: 'คลังคำศัพท์การลงทุน',
+      icon: BookOpen,
+    },
+    {
+      id: 'caution',
+      label: 'ข้อควรระวัง & มิจฉาชีพ',
+      icon: AlertTriangle,
+    },
   ];
 
-  // Check scroll position to show/hide indicators
-  const checkScroll = () => {
-    const el = scrollContainerRef.current;
-    if (el) {
-      const { scrollLeft, scrollWidth, clientWidth } = el;
-      setCanScrollLeft(scrollLeft > 6);
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+  // Helper to determine active group and current step label
+  const getActiveGroupInfo = () => {
+    for (const group of navGroups) {
+      if (group.id === activeTab) {
+        return { groupId: group.id, currentItemTitle: group.label };
+      }
+      if (group.items) {
+        const found = group.items.find((item) => item.id === activeTab);
+        if (found) {
+          return { groupId: group.id, currentItemTitle: `${found.stepNum}. ${found.title}` };
+        }
+      }
     }
+    if (activeTab === 'self_assessment' || activeTab === 'finance' || activeTab === 'tsi') {
+      return { groupId: 'self_assessment_group', currentItemTitle: 'สำรวจตนเองก่อนเริ่มลงทุน' };
+    }
+    return { groupId: 'home', currentItemTitle: 'หน้าแรก' };
   };
 
+  const { groupId: currentGroupId } = getActiveGroupInfo();
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
-    checkScroll();
-    window.addEventListener('resize', checkScroll);
-    return () => window.removeEventListener('resize', checkScroll);
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (navContainerRef.current && !navContainerRef.current.contains(target)) {
+        setActiveDropdown(null);
+      }
+      if (toolsMenuRef.current && !toolsMenuRef.current.contains(target)) {
+        setIsToolsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Auto-scroll active item into center view smoothly
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (el) {
-      const activeBtn = el.querySelector<HTMLButtonElement>(`[data-tab-id="${activeTab}"]`);
-      if (activeBtn) {
-        activeBtn.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center',
-        });
-      }
-      setTimeout(checkScroll, 300);
-    }
-  }, [activeTab]);
-
-  const handleScroll = (direction: 'left' | 'right') => {
-    const el = scrollContainerRef.current;
-    if (el) {
-      const scrollAmount = 260;
-      el.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-      setTimeout(checkScroll, 250);
-    }
+  const handleSelectSubItem = (itemId: string) => {
+    onSelectTab(itemId);
+    setActiveDropdown(null);
   };
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF8F5]/95 dark:bg-[#131915]/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800 transition-colors shadow-2xs">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        {/* Top Header Row: Brand, Summary, Tools (Green-Brown Earth Tone) */}
+        {/* Top Header Row: Brand, Summary, Tools Dropdown */}
         <div className="flex items-center justify-between gap-4 h-16">
           {/* Zone 1: Brand Wordmark (Forest Green & Warm Earth Wood) */}
           <div className="flex items-center gap-3 shrink-0">
             <button
-              onClick={() => onSelectTab('finance')}
+              onClick={() => {
+                onSelectTab('home');
+                setActiveDropdown(null);
+              }}
               className="flex items-center gap-3 text-left group focus:outline-none"
             >
-              <div className="w-9 h-9 rounded-xl bg-emerald-700 hover:bg-emerald-800 flex items-center justify-center text-amber-200 font-bold shadow-xs border border-amber-600/40 transition-transform group-hover:scale-105">
+              <div className="w-9 h-9 rounded-xl bg-emerald-800 hover:bg-emerald-900 flex items-center justify-center text-amber-200 font-bold shadow-xs border border-amber-600/40 transition-transform group-hover:scale-105">
                 <ShieldCheck className="w-5 h-5 text-amber-200" />
               </div>
               <div>
@@ -110,10 +224,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Zone 3: Actions & Controls */}
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Zone 3: Actions, Tools Dropdown Menu, Report Modal */}
+          <div className="flex items-center gap-2.5 shrink-0">
             {/* Readiness Indicator (Forest Green & Warm Brown Styled) */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs font-medium text-stone-700 dark:text-stone-300">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs font-medium text-stone-700 dark:text-stone-300">
               <span className="text-stone-600 dark:text-stone-400 text-[11px]">ความพร้อม</span>
               <span className="font-mono tabular-nums font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
                 <span>{readinessScore}%</span>
@@ -121,40 +235,124 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </div>
 
-            {/* Download Standalone HTML Link */}
-            <a
-              href="/investprep-standalone.html"
-              download="investprep-standalone.html"
-              title="ดาวน์โหลดไฟล์ HTML เดี่ยว (ใช้งานออฟไลน์ได้ทุกอุปกรณ์)"
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/50 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 border border-amber-300/80 dark:border-amber-700 transition-colors"
-            >
-              <Download className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
-              <span>ดาวน์โหลด HTML</span>
-            </a>
+            {/* Consolidated Tools & Options Dropdown Menu */}
+            <div className="relative" ref={toolsMenuRef}>
+              <button
+                type="button"
+                onClick={() => setIsToolsOpen((prev) => !prev)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-all ${
+                  isToolsOpen
+                    ? 'bg-amber-100/80 dark:bg-stone-800 border-amber-400 dark:border-amber-600 text-amber-900 dark:text-amber-200'
+                    : 'bg-white dark:bg-stone-800/80 hover:bg-stone-50 dark:hover:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200'
+                }`}
+                title="เมนูเครื่องมือและตัวเลือกเพิ่มเติม"
+              >
+                <SlidersHorizontal className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
+                <span className="hidden sm:inline">เครื่องมือ</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    isToolsOpen ? 'rotate-180 text-amber-800' : 'text-stone-400'
+                  }`}
+                />
+              </button>
 
-            {/* Reset / Demo sample button */}
-            <button
-              onClick={onResetData}
-              title="รีเซ็ตหรือโหลดข้อมูลตัวอย่างเริ่มต้น"
-              className="p-2 text-stone-500 hover:text-emerald-700 dark:text-stone-400 dark:hover:text-amber-300 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-              aria-label="โหลดข้อมูลตัวอย่าง / รีเซ็ต"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
+              {/* Tools Dropdown Menu Content */}
+              {isToolsOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 py-2 z-50 animate-fadeIn text-xs">
+                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 border-b border-stone-100 dark:border-stone-800">
+                    ตัวเลือกและการจัดการ
+                  </div>
 
-            {/* Theme Toggle */}
-            <button
-              onClick={onToggleTheme}
-              className="p-2 text-stone-500 hover:text-emerald-700 dark:text-stone-400 dark:hover:text-amber-300 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-              aria-label="เปลี่ยนธีม สว่าง/มืด"
-            >
-              {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-emerald-700" />}
-            </button>
+                  {/* Dark Mode Toggle */}
+                  <button
+                    onClick={() => {
+                      onToggleTheme();
+                      setIsToolsOpen(false);
+                    }}
+                    className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      {isDarkMode ? (
+                        <Sun className="w-4 h-4 text-amber-400" />
+                      ) : (
+                        <Moon className="w-4 h-4 text-emerald-700" />
+                      )}
+                      <span>ธีมการแสดงผล</span>
+                    </span>
+                    <span className="text-[11px] font-mono text-stone-400">
+                      {isDarkMode ? 'โหมดมืด' : 'โหมดสว่าง'}
+                    </span>
+                  </button>
+
+                  {/* Reset Data to Clean Slate */}
+                  <button
+                    onClick={() => {
+                      onResetData();
+                      setIsToolsOpen(false);
+                    }}
+                    className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <RotateCcw className="w-4 h-4 text-stone-500" />
+                      <span>ล้างข้อมูลเป็นค่าเริ่มต้น (ว่าง)</span>
+                    </span>
+                  </button>
+
+                  {/* Load Sample Demo Data */}
+                  {onLoadDemoData && (
+                    <button
+                      onClick={() => {
+                        onLoadDemoData();
+                        setIsToolsOpen(false);
+                      }}
+                      className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-amber-600" />
+                        <span>โหลดข้อมูลตัวอย่างจำลอง</span>
+                      </span>
+                    </button>
+                  )}
+
+                  <div className="my-1 border-t border-stone-100 dark:border-stone-800" />
+
+                  {/* Download HTML for Offline/GitHub */}
+                  <a
+                    href="/download/index.html"
+                    download="index.html"
+                    onClick={() => setIsToolsOpen(false)}
+                    className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Download className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+                      <span>ดาวน์โหลดไฟล์ index.html</span>
+                    </span>
+                    <span className="text-[10px] font-mono bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.5 rounded">
+                      Single File
+                    </span>
+                  </a>
+
+                  {/* GitHub Pages Deployment Guide Modal */}
+                  <button
+                    onClick={() => {
+                      onOpenGitHubModal();
+                      setIsToolsOpen(false);
+                    }}
+                    className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-200 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <FolderGit2 className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+                      <span>คู่มือนำขึ้น GitHub Pages</span>
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Primary Action Button (Forest Green with Warm Brown Accent) */}
             <button
               onClick={onOpenReport}
-              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg transition-all whitespace-nowrap shrink-0 shadow-2xs border border-amber-600/40 hover:shadow-xs"
+              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all whitespace-nowrap shrink-0 shadow-2xs border border-amber-600/40 hover:shadow-xs"
             >
               <FileSpreadsheet className="w-3.5 h-3.5 text-amber-200" />
               <span>สรุปผลพอร์ตลงทุน</span>
@@ -162,74 +360,131 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Dedicated Scrollable Ribbon in Forest Green & Earth Brown */}
-        <div className="relative border-t border-stone-200 dark:border-stone-800 py-2 flex items-center">
-          {/* Scroll Left Button */}
-          <button
-            type="button"
-            onClick={() => handleScroll('left')}
-            disabled={!canScrollLeft}
-            aria-label="เลื่อนแถบเมนูไปทางซ้าย"
-            className={`shrink-0 z-10 w-7 h-7 mr-1.5 rounded-lg flex items-center justify-center transition-all ${
-              canScrollLeft
-                ? 'bg-white hover:bg-emerald-50 dark:bg-stone-800 dark:hover:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-stone-200 dark:border-stone-700 hover:border-emerald-300 shadow-2xs cursor-pointer'
-                : 'opacity-25 text-stone-400 cursor-not-allowed border border-transparent'
-            }`}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
+        {/* Grouped Workflow Bar with Category Dropdown Menus (Forest Green & Earth Brown) */}
+        <div
+          ref={navContainerRef}
+          className="relative border-t border-stone-200 dark:border-stone-800 py-2.5 flex items-center justify-start overflow-visible"
+        >
+          <div className="flex items-center gap-2 flex-wrap">
+            {navGroups.map((group) => {
+              const hasSubItems = !!group.items && group.items.length > 0;
+              const isGroupActive = currentGroupId === group.id;
+              const isOpen = activeDropdown === group.id;
+              const GroupIcon = group.icon;
 
-          {/* Scrollable Items Container */}
-          <div
-            ref={scrollContainerRef}
-            onScroll={checkScroll}
-            className="flex-1 flex items-center gap-2 overflow-x-auto py-1 scroll-smooth scrollbar-thin select-none"
-            style={{ scrollbarWidth: 'thin' }}
-          >
-            {navItems.map((item, idx) => {
-              const isActive = activeTab === item.id;
+              // Find active sub-item title if in this group
+              const activeSubItem = group.items?.find((i) => i.id === activeTab);
+
+              if (!hasSubItems) {
+                // Direct Tab Button (Home or Caution)
+                const isTabActive = activeTab === group.id;
+                return (
+                  <button
+                    key={group.id}
+                    onClick={() => {
+                      onSelectTab(group.id);
+                      setActiveDropdown(null);
+                    }}
+                    className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all ${
+                      isTabActive
+                        ? 'bg-emerald-800 text-white shadow-xs border border-amber-300/40 ring-2 ring-amber-400/40'
+                        : 'bg-white dark:bg-stone-900 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 border border-stone-200 dark:border-stone-800'
+                    }`}
+                  >
+                    <GroupIcon className={`w-3.5 h-3.5 ${isTabActive ? 'text-amber-300' : 'text-stone-400'}`} />
+                    <span>{group.label}</span>
+                  </button>
+                );
+              }
+
+              // Group with Dropdown Menu
               return (
-                <button
-                  key={item.id}
-                  data-tab-id={item.id}
-                  onClick={() => onSelectTab(item.id)}
-                  className={`group relative flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap shrink-0 transition-all focus:outline-none ${
-                    isActive
-                      ? 'bg-emerald-100/90 dark:bg-emerald-950/70 text-emerald-900 dark:text-emerald-100 font-bold border border-emerald-600/70 dark:border-emerald-500 shadow-2xs ring-2 ring-amber-700/60 dark:ring-amber-500/70'
-                      : 'text-stone-700 dark:text-stone-300 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30 border border-transparent hover:border-stone-200 dark:hover:border-stone-800'
-                  }`}
-                >
-                  {/* Warm Earth Brown Accent Dot for Active Tab or Step Number */}
-                  {isActive ? (
-                    <span
-                      aria-hidden="true"
-                      className="w-2 h-2 rounded-full bg-amber-600 dark:bg-amber-400 ring-2 ring-amber-500/40 shrink-0"
+                <div key={group.id} className="relative">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveDropdown((prev) => (prev === group.id ? null : group.id))
+                    }
+                    className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-xl border transition-all ${
+                      isGroupActive
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-600 dark:border-emerald-500 text-emerald-950 dark:text-emerald-100 shadow-2xs ring-2 ring-emerald-600/20'
+                        : isOpen
+                        ? 'bg-stone-100 dark:bg-stone-800 border-stone-300 dark:border-stone-700 text-stone-900 dark:text-stone-100'
+                        : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800'
+                    }`}
+                  >
+                    <GroupIcon
+                      className={`w-3.5 h-3.5 ${
+                        isGroupActive
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-stone-400'
+                      }`}
                     />
-                  ) : (
-                    <span className="text-[10px] text-stone-400 font-mono">
-                      0{idx + 1}
-                    </span>
+                    <span>{group.label}</span>
+
+                    {/* Active sub-item chip badge */}
+                    {isGroupActive && activeSubItem && (
+                      <span className="hidden md:inline-flex items-center px-1.5 py-0.2 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 text-[10px] font-mono font-bold border border-amber-300/80 dark:border-amber-700">
+                        {activeSubItem.stepNum}
+                      </span>
+                    )}
+
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        isOpen ? 'rotate-180 text-emerald-800 dark:text-emerald-300' : 'text-stone-400'
+                      }`}
+                    />
+                  </button>
+
+                  {/* Dropdown Menu Container */}
+                  {isOpen && (
+                    <div className="absolute left-0 mt-2 w-72 sm:w-80 bg-white dark:bg-stone-900 rounded-2xl shadow-xl border border-stone-200 dark:border-stone-800 py-2 z-50 animate-fadeIn">
+                      <div className="px-3.5 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 dark:text-stone-500 border-b border-stone-100 dark:border-stone-800">
+                        {group.label} · ขั้นตอนย่อย
+                      </div>
+                      <div className="p-1 space-y-1">
+                        {group.items?.map((item) => {
+                          const isSubActive = activeTab === item.id;
+                          return (
+                            <button
+                              key={item.id}
+                              onClick={() => handleSelectSubItem(item.id)}
+                              className={`w-full p-2.5 rounded-xl text-left flex items-start gap-3 transition-colors ${
+                                isSubActive
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-700/80 text-emerald-950 dark:text-emerald-100'
+                                  : 'hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300'
+                              }`}
+                            >
+                              <div
+                                className={`w-6 h-6 rounded-lg font-mono text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5 ${
+                                  isSubActive
+                                    ? 'bg-emerald-800 text-white'
+                                    : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400'
+                                }`}
+                              >
+                                {item.stepNum}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-xs">{item.title}</span>
+                                  {isSubActive && (
+                                    <Check className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400 shrink-0" />
+                                  )}
+                                </div>
+                                <p className="text-[11px] text-stone-500 dark:text-stone-400 truncate mt-0.5">
+                                  {item.desc}
+                                </p>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   )}
-                  <span>{item.label}</span>
-                </button>
+                </div>
               );
             })}
           </div>
-
-          {/* Scroll Right Button */}
-          <button
-            type="button"
-            onClick={() => handleScroll('right')}
-            disabled={!canScrollRight}
-            aria-label="เลื่อนแถบเมนูไปทางขวา"
-            className={`shrink-0 z-10 w-7 h-7 ml-1.5 rounded-lg flex items-center justify-center transition-all ${
-              canScrollRight
-                ? 'bg-white hover:bg-emerald-50 dark:bg-stone-800 dark:hover:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-stone-200 dark:border-stone-700 hover:border-emerald-300 shadow-2xs cursor-pointer'
-                : 'opacity-25 text-stone-400 cursor-not-allowed border border-transparent'
-            }`}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
         </div>
       </div>
     </header>

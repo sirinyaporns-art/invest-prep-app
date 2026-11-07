@@ -21,8 +21,8 @@ export const ASSET_CLASSES: AssetClassItem[] = [
     ],
     beginnerRecommendation: '⭐ แนะนำเป็นอันดับ 1 สำหรับมือใหม่: เหมาะที่สุดสำหรับคนไม่มีเวลาเฝ้าจอและต้องการสร้างวินัย DCA รายเดือน',
     description: 'การระดมเงินลงทุนจากคนจำนวนมาก นำมารวมกันเป็นกองทุนเดียว แล้วให้ผู้เชี่ยวชาญ (บลจ.) นำไปกระจายลงทุนตามนโยบายที่กำหนด เช่น พันธบัตร หุ้น หรืออสังหาฯ',
-    isInterested: true,
-    interestLevel: 'high',
+    isInterested: false,
+    interestLevel: 'none',
   },
   {
     id: 'etf',
@@ -44,8 +44,8 @@ export const ASSET_CLASSES: AssetClassItem[] = [
     ],
     beginnerRecommendation: '⭐ แนะนำอย่างยิ่ง: ทางเลือกสร้างความมั่งคั่งระยะยาวที่ดีที่สุดในโลกสำหรับผู้ที่เชื่อมั่นในการเติบโตของนวัตกรรมโลก',
     description: 'กองทุนเปิดที่จดทะเบียนซื้อขายในตลาดหลักทรัพย์ เน้นสร้างผลตอบแทนให้เคลื่อนไหวล้อไปกับดัชนีอ้างอิง เช่น S&P 500 หรือ SET50 ค่าธรรมเนียมถูกและโปร่งใส',
-    isInterested: true,
-    interestLevel: 'high',
+    isInterested: false,
+    interestLevel: 'none',
   },
   {
     id: 'thai_stocks',
@@ -68,7 +68,7 @@ export const ASSET_CLASSES: AssetClassItem[] = [
     beginnerRecommendation: 'ควรเริ่มต้นจากหุ้นขนาดใหญ่พื้นฐานดี (Blue Chip) ที่มีกำไรต่อเนื่อง หรือเริ่มจากกองทุนรวม/ETF ก่อนแล้วค่อยศึกษาหุ้นรายตัว',
     description: 'การเป็นเจ้าของร่วมในบริษัทจดทะเบียนไทย ได้รับส่วนแบ่งกำไรในรูปเงินปันผลและโอกาสที่ราคาหุ้นจะเติบโตขึ้นตามผลประกอบการ',
     isInterested: false,
-    interestLevel: 'medium',
+    interestLevel: 'none',
   },
   {
     id: 'foreign_stocks',
@@ -91,7 +91,7 @@ export const ASSET_CLASSES: AssetClassItem[] = [
     beginnerRecommendation: 'สำหรับมือใหม่ แนะนำให้ลงทุนผ่าน DR (Depositary Receipt) หรือ ETF บนกระดานหุ้นไทยก่อน เพื่อความสะดวกและไม่ซับซ้อนเรื่องภาษี',
     description: 'การลงทุนในหุ้นของบริษัทระดับโลกในตลาดหลักทรัพย์สหรัฐอเมริกา ยุโรป หรือเอเชีย ช่วยเปิดโอกาสการเติบโตที่ไม่มีในตลาดหุ้นไทย',
     isInterested: false,
-    interestLevel: 'medium',
+    interestLevel: 'none',
   },
   {
     id: 'government_bonds',
@@ -113,8 +113,8 @@ export const ASSET_CLASSES: AssetClassItem[] = [
     ],
     beginnerRecommendation: 'เหมาะมากสำหรับเงินที่ต้องการความปลอดภัยสูง เช่น เงินออมสำหรับซื้อบ้านใน 1-3 ปีข้างหน้า หรือเป็นกันชนของพอร์ต',
     description: 'ตราสารที่ผู้ลงทุนมีฐานะเป็น "เจ้าหนี้" และผู้ออกตราสาร (รัฐบาลหรือบริษัทเอกชน) มีฐานะเป็น "ลูกหนี้" สัญญาว่าจะจ่ายดอกเบี้ยและคืนเงินต้นเมื่อครบกำหนด',
-    isInterested: true,
-    interestLevel: 'medium',
+    isInterested: false,
+    interestLevel: 'none',
   },
   {
     id: 'reits_property',
@@ -204,7 +204,7 @@ export const ASSET_CLASSES: AssetClassItem[] = [
     ],
     beginnerRecommendation: 'ที่พักเงินอันดับ 1 สำหรับ "เงินสำรองฉุกเฉิน" และเงินที่จะต้องใช้ภายใน 6-12 เดือนข้างหน้า',
     description: 'บัญชีเงินฝากออมทรัพย์แบบไม่มีสมุดคู่ฝากของธนาคารพาณิชย์ ให้ดอกเบี้ยสูงกว่าบัญชีทั่วไปและบริหารจัดการง่ายบนมือถือ',
-    isInterested: true,
-    interestLevel: 'high',
+    isInterested: false,
+    interestLevel: 'none',
   },
 ];

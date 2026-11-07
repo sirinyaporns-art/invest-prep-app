@@ -122,46 +122,121 @@
             <span>พิมพ์รายงานสรุป</span>
           </button>
 
-          <button onclick="resetDefaults()" title="รีเซ็ตเป็นข้อมูลตัวอย่างเริ่มต้น" class="p-2 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 rounded-xl transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-          </button>
+          <!-- Tools Dropdown Menu -->
+          <div class="relative">
+            <button onclick="toggleToolsMenu()" class="p-2 text-stone-600 hover:text-stone-900 bg-white hover:bg-stone-100 rounded-xl border border-stone-200 transition-colors flex items-center gap-1.5 text-xs font-medium" title="เครื่องมือเพิ่มเติม">
+              <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+              <span class="hidden sm:inline">เครื่องมือ</span>
+            </button>
+            <div id="tools-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-stone-200 py-2 z-50 text-xs">
+              <button onclick="resetDefaults(); toggleToolsMenu()" class="w-full px-3.5 py-2.5 text-left flex items-center gap-2 hover:bg-stone-50 text-stone-700">
+                <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span>รีเซ็ตข้อมูลตัวอย่าง</span>
+              </button>
+              <button onclick="window.print(); toggleToolsMenu()" class="w-full px-3.5 py-2.5 text-left flex items-center gap-2 hover:bg-stone-50 text-stone-700">
+                <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                <span>พิมพ์หน้านี้ / บันทึก PDF</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- HORIZONTAL SCROLLABLE TAB BAR (Forest Green & Chestnut Earth Theme) -->
-      <div class="relative -mb-px">
-        <div id="tab-scroll-container" class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar py-2 border-t border-amber-900/10">
-          <button onclick="switchTab('finance')" id="tab-btn-finance" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-emerald-900 bg-emerald-100 font-semibold shadow-xs">
-            <span class="w-5 h-5 rounded-md bg-emerald-800 text-white flex items-center justify-center text-[10px] font-mono">1</span>
-            <span>ข้อมูลส่วนตัวและการเงิน</span>
+      <!-- GROUPED NAVIGATION BAR (Forest Green & Chestnut Earth Theme) -->
+      <div class="relative border-t border-amber-900/10 py-2">
+        <div id="tab-scroll-container" class="flex items-center gap-2 flex-wrap">
+          <!-- 1. Home -->
+          <button onclick="switchTab('home')" id="tab-btn-home" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-emerald-950 bg-emerald-100 border border-emerald-300">
+            <span>🏠 หน้าแรก</span>
           </button>
-          <button onclick="switchTab('checklist')" id="tab-btn-checklist" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">2</span>
-            <span>เช็กลิสต์มือใหม่</span>
+
+          <!-- 2. Self Assessment Group Dropdown (ข้อมูลส่วนตัว + แบบประเมิน TSI) -->
+          <div class="relative">
+            <button onclick="toggleGroupMenu('self_assessment')" id="group-btn-self_assessment" class="group-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+              <span>👤 สำรวจตนเองก่อนเริ่มลงทุน</span>
+              <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="group-menu-self_assessment" class="group-dropdown-menu hidden absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
+              <button onclick="switchTab('finance'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-6 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">01.1</span>
+                <div>
+                  <div class="font-semibold text-stone-900">ข้อมูลส่วนตัวและสถานะการเงิน</div>
+                  <div class="text-[10px] text-stone-500">ตรวจกระแสเงินสด ภาระหนี้ DTI และเงินฉุกเฉิน</div>
+                </div>
+              </button>
+              <button onclick="switchTab('tsi'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-6 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">01.2</span>
+                <div>
+                  <div class="font-semibold text-stone-900">แบบประเมินความเสี่ยง TSI (10 ข้อ)</div>
+                  <div class="text-[10px] text-stone-500">มาตรฐาน ก.ล.ต. จัดระดับความเสี่ยง 1-5</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Readiness & Goal Group Dropdown -->
+          <div class="relative">
+            <button onclick="toggleGroupMenu('readiness')" id="group-btn-readiness" class="group-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+              <span>📋 เช็กลิสต์ & เป้าหมาย</span>
+              <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="group-menu-readiness" class="group-dropdown-menu hidden absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
+              <button onclick="switchTab('checklist'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">02</span>
+                <div>
+                  <div class="font-semibold text-stone-900">เช็กลิสต์ความพร้อม 7 เสาหลัก</div>
+                  <div class="text-[10px] text-stone-500">ซิงค์อัตโนมัติจากข้อมูลจริง</div>
+                </div>
+              </button>
+              <button onclick="switchTab('goal'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">03</span>
+                <div>
+                  <div class="font-semibold text-stone-900">กำหนดเป้าหมายการลงทุน</div>
+                  <div class="text-[10px] text-stone-500">เป้าหมาย ยอดเงิน และกรอบเวลา</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. Portfolio & Assets Group Dropdown -->
+          <div class="relative">
+            <button onclick="toggleGroupMenu('portfolio_plan')" id="group-btn-portfolio_plan" class="group-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+              <span>📊 สินทรัพย์ & จัดพอร์ต</span>
+              <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="group-menu-portfolio_plan" class="group-dropdown-menu hidden absolute left-0 mt-2 w-68 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
+              <button onclick="switchTab('assets'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">04</span>
+                <div>
+                  <div class="font-semibold text-stone-900">คลังสินทรัพย์การลงทุน 9 ประเภท</div>
+                  <div class="text-[10px] text-stone-500">เงินฝาก ตราสารหนี้ หุ้น กองทุน ทองคำ</div>
+                </div>
+              </button>
+              <button onclick="switchTab('portfolio'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">05</span>
+                <div>
+                  <div class="font-semibold text-stone-900">จัดสัดส่วนพอร์ตโฟลิโอ</div>
+                  <div class="text-[10px] text-stone-500">Asset Allocation แนะนำเฉพาะบุคคล</div>
+                </div>
+              </button>
+              <button onclick="switchTab('budget'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">06</span>
+                <div>
+                  <div class="font-semibold text-stone-900">จัดสรรเงิน 50/30/20 & DCA</div>
+                  <div class="text-[10px] text-stone-500">จำลองพลังดอกเบี้ยทบต้น</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. Investment Glossary (New Dedicated Tab) -->
+          <button onclick="switchTab('glossary')" id="tab-btn-glossary" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+            <span>📖 คลังคำศัพท์การลงทุน</span>
           </button>
-          <button onclick="switchTab('goal')" id="tab-btn-goal" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">3</span>
-            <span>เป้าหมายการลงทุน</span>
-          </button>
-          <button onclick="switchTab('tsi')" id="tab-btn-tsi" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">4</span>
-            <span>แบบทดสอบ TSI</span>
-          </button>
-          <button onclick="switchTab('assets')" id="tab-btn-assets" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">5</span>
-            <span>สินทรัพย์ลงทุน</span>
-          </button>
-          <button onclick="switchTab('portfolio')" id="tab-btn-portfolio" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">6</span>
-            <span>จัดสัดส่วนพอร์ต</span>
-          </button>
-          <button onclick="switchTab('budget')" id="tab-btn-budget" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">7</span>
-            <span>จัดสรรเงิน & DCA</span>
-          </button>
-          <button onclick="switchTab('caution')" id="tab-btn-caution" class="tab-btn shrink-0 flex items-center gap-2 px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-stone-600 hover:text-stone-900 hover:bg-stone-200/50">
-            <span class="w-5 h-5 rounded-md bg-stone-300 text-stone-700 flex items-center justify-center text-[10px] font-mono">8</span>
-            <span>ข้อควรระวัง</span>
+
+          <!-- 6. Cautions -->
+          <button onclick="switchTab('caution')" id="tab-btn-caution" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+            <span>🛡️ ข้อควรระวัง & มิจฉาชีพ</span>
           </button>
         </div>
       </div>
@@ -171,65 +246,151 @@
   <!-- MAIN CONTAINER -->
   <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-10">
 
-    <!-- HERO HIGHLIGHT BANNER (Forest Green & Warm Chestnut) -->
-    <div class="rounded-2xl border border-amber-900/15 overflow-hidden bg-white shadow-xs p-6 sm:p-8">
-      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-        <div class="space-y-3 max-w-2xl">
-          <div class="flex items-center gap-2 text-xs font-semibold text-emerald-800">
-            <span class="font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">INVESTPREP</span>
-            <span>•</span>
-            <span class="text-amber-800">คู่มือและเครื่องมือประเมินความพร้อมการลงทุนส่วนบุคคล</span>
+    <!-- TAB 0: WELCOME SECTION (หน้าแรก) -->
+    <section id="tab-content-home" class="tab-panel space-y-10">
+      <!-- HERO BANNER: Welcome to InvestPrep -->
+      <div class="rounded-3xl border border-amber-900/15 overflow-hidden bg-white shadow-xs p-6 sm:p-10 lg:p-12">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div class="space-y-4 max-w-2xl">
+            <div class="flex items-center gap-2 text-xs font-semibold text-emerald-800">
+              <span class="font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-300">INVESTPREP</span>
+              <span>•</span>
+              <span class="text-amber-800">ระบบประเมินความพร้อมและวางแผนพอร์ตการลงทุน</span>
+            </div>
+            <div class="space-y-2">
+              <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                Welcome to <span class="text-emerald-800">InvestPrep</span>
+              </h1>
+              <p class="text-lg sm:text-xl font-bold text-amber-800">
+                ตัวช่วยและแหล่งความรู้การลงทุนสำหรับคนทั่วไป
+              </p>
+            </div>
+            <p class="text-xs sm:text-sm text-stone-600 leading-relaxed max-w-xl">
+              ออกแบบขึ้นเพื่อเป็นเครื่องมือประเมินสุขภาพการเงิน ค้นหาระดับความเสี่ยงตามมาตรฐานสถาบัน TSI ตลาดหลักทรัพย์แห่งประเทศไทย และสำนักงาน ก.ล.ต. พร้อมจำลองพอร์ตและคำนวณการจัดสรรรายได้อย่างเป็นรูปธรรม ช่วยให้คนทั่วไปเริ่มต้นลงทุนได้อย่างมั่นใจ ไม่หลงทาง และไม่ตกเป็นเหยื่อมิจฉาชีพ
+            </p>
+            <div class="pt-2 flex flex-wrap items-center gap-3">
+              <button onclick="switchTab('finance')" class="px-6 py-3 text-xs sm:text-sm font-bold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-md flex items-center gap-2 border border-amber-300/40">
+                <span>เริ่มต้นใช้งาน (ถัดไป)</span>
+                <span class="text-amber-300">→</span>
+              </button>
+              <button onclick="openReportModal()" class="px-4 py-3 text-xs font-semibold text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors">
+                ดูตัวอย่างรายงานสรุป
+              </button>
+            </div>
           </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
-            เริ่มต้นวางแผนการเงินส่วนบุคคล <br class="hidden sm:inline" />
-            <span class="text-emerald-800">และประเมินความพร้อมก่อนตัดสินใจลงทุน</span>
-          </h1>
-          <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
-            สำรวจสุขภาพทางการเงิน ตรวจสอบเช็กลิสต์ 7 เสาหลัก คำนวณแบบทดสอบความเสี่ยง TSI ตลาดหลักทรัพย์ฯ 10 ข้อ จัดสรรสัดส่วนพอร์ต และวางแผนจำลอง DCA ดอกเบี้ยทบต้นอย่างเป็นระบบ
-          </p>
-        </div>
 
-        <!-- Quick Summary Card -->
-        <div class="w-full lg:w-auto shrink-0 bg-[#FAF8F5] p-5 rounded-xl border border-amber-900/10 space-y-3 min-w-[280px]">
-          <div class="text-xs font-semibold text-stone-700 flex items-center justify-between">
-            <span>สรุปสถานะของคุณ</span>
-            <span id="hero-risk-badge" class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] font-mono">เสี่ยงปานกลาง (Level 3)</span>
+          <!-- Quick Summary Card -->
+          <div class="w-full lg:w-auto shrink-0 bg-[#FAF8F5] p-5 rounded-2xl border border-amber-900/10 space-y-3 min-w-[280px]">
+            <div class="text-xs font-semibold text-stone-700 flex items-center justify-between">
+              <span>สถานะจำลองของคุณ</span>
+              <span id="hero-risk-badge" class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] font-mono">เสี่ยงปานกลาง (Level 3)</span>
+            </div>
+            <div class="space-y-2 text-xs text-stone-600 border-t border-stone-200 pt-2.5">
+              <div class="flex justify-between">
+                <span>เช็กลิสต์ความพร้อม:</span>
+                <span id="hero-checklist-count" class="font-bold text-emerald-800">4 / 7 ข้อ</span>
+              </div>
+              <div class="flex justify-between">
+                <span>เงินสำรองฉุกเฉิน:</span>
+                <span id="hero-emergency-months" class="font-bold text-emerald-800">4.5 เดือน (เพียงพอ)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>ภาระหนี้ต่อรายได้ (DTI):</span>
+                <span id="hero-dti-ratio" class="font-bold text-emerald-800">10.5% (ปลอดภัย)</span>
+              </div>
+            </div>
+            <button onclick="switchTab('finance')" class="w-full py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-colors text-center">
+              เริ่มตรวจข้อมูลการเงิน (STEP 01)
+            </button>
           </div>
-          <div class="space-y-2 text-xs text-stone-600 border-t border-stone-200 pt-2.5">
-            <div class="flex justify-between">
-              <span>เช็กลิสต์ความพร้อม:</span>
-              <span id="hero-checklist-count" class="font-bold text-emerald-800">4 / 7 ข้อ</span>
-            </div>
-            <div class="flex justify-between">
-              <span>เงินสำรองฉุกเฉิน:</span>
-              <span id="hero-emergency-months" class="font-bold text-emerald-800">4.5 เดือน (เพียงพอ)</span>
-            </div>
-            <div class="flex justify-between">
-              <span>ภาระหนี้ต่อรายได้ (DTI):</span>
-              <span id="hero-dti-ratio" class="font-bold text-emerald-800">10.5% (ปลอดภัย)</span>
-            </div>
-          </div>
-          <button onclick="switchTab('tsi')" class="w-full py-2 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-lg transition-colors text-center">
-            ทำแบบประเมินความเสี่ยง TSI
-          </button>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 1: PERSONAL FINANCE SECTION -->
-    <section id="tab-content-finance" class="tab-panel space-y-8">
+      <!-- 8 Steps Overview Cards -->
+      <div class="space-y-4">
+        <h3 class="text-base sm:text-lg font-bold text-stone-900 border-b border-stone-200 pb-2">
+          ตัวช่วยและแหล่งความรู้ 8 ขั้นตอนสำหรับคนทั่วไป
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 01</span>
+            <h4 class="font-bold text-stone-900">ข้อมูลส่วนตัวและการเงิน</h4>
+            <p class="text-stone-500">วิเคราะห์กระแสเงินสด ภาระหนี้ DTI และเงินสำรองฉุกเฉิน</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 02</span>
+            <h4 class="font-bold text-stone-900">เช็กลิสต์มือใหม่ 7 เสาหลัก</h4>
+            <p class="text-stone-500">วัดความพร้อมก่อนนำเงินก้อนไปเสี่ยงในตลาดจริง</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 03</span>
+            <h4 class="font-bold text-stone-900">เป้าหมายการลงทุน</h4>
+            <p class="text-stone-500">กำหนดเงินและระยะเวลาเพื่อเกษียณ ซื้อบ้าน หรืออิสรภาพ</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 04</span>
+            <h4 class="font-bold text-stone-900">แบบประเมิน TSI 10 ข้อ</h4>
+            <p class="text-stone-500">ประเมินระดับความเสี่ยงตามมาตรฐาน ก.ล.ต. ระดับ 1 ถึง 5</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 05</span>
+            <h4 class="font-bold text-stone-900">คลังสินทรัพย์ลงทุน</h4>
+            <p class="text-stone-500">ความรู้เกี่ยวกับ 9 สินทรัพย์ ตั้งแต่เงินฝาก พันธบัตร ถึงหุ้น</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 06</span>
+            <h4 class="font-bold text-stone-900">จัดสัดส่วนพอร์ต</h4>
+            <p class="text-stone-500">แผน Asset Allocation เฉพาะบุคคลตามความเสี่ยงและเวลา</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 07</span>
+            <h4 class="font-bold text-stone-900">จัดสรรเงิน 50/30/20 & DCA</h4>
+            <p class="text-stone-500">เครื่องคิดเลขจำลองพลังดอกเบี้ยทบต้นระยะยาว</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
+            <span class="font-mono text-emerald-800 font-bold">STEP 08</span>
+            <h4 class="font-bold text-stone-900">ข้อควรระวัง & ก.ล.ต.</h4>
+            <p class="text-stone-500">เครื่องมือตรวจจับสัญญาณมิจฉาชีพ Scam Red-Flag Detector</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Welcome Banner -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-800 to-emerald-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold">พร้อมเริ่มต้นก้าวแรกของคุณแล้วหรือยัง?</h3>
+          <p class="text-xs text-emerald-100">คลิกปุ่มถัดไปเพื่อเริ่มกรอกข้อมูลส่วนตัวและตรวจสุขภาพทางการเงิน</p>
+        </div>
+        <button onclick="switchTab('finance')" class="px-5 py-3 text-xs font-bold text-emerald-950 bg-amber-300 hover:bg-amber-400 rounded-xl transition-all shadow-md shrink-0">
+          ถัดไป: ข้อมูลส่วนตัวและการเงิน →
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 1: PERSONAL FINANCE SECTION (สำรวจตนเอง: ส่วนที่ 1) -->
+    <section id="tab-content-finance" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
           <span class="font-mono text-emerald-800 font-bold">STEP 01</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">การเงินส่วนบุคคล</span>
+          <span class="text-amber-800 font-medium">สำรวจตนเองก่อนเริ่มลงทุน</span>
           <span>/</span>
-          <span>สำรวจความพร้อมทางการเงิน</span>
+          <span>ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
         </div>
-        <h2 class="text-xl sm:text-2xl font-bold text-stone-900">1. ข้อมูลส่วนตัวและสถานะทางการเงินปัจจุบัน</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-stone-900">สำรวจตนเองก่อนเริ่มลงทุน: ข้อมูลส่วนตัวและสถานะทางการเงิน</h2>
         <p class="text-xs sm:text-sm text-stone-600 mt-1">
-          กรอกข้อมูลตามความเป็นจริง เพื่อให้ระบบคำนวณอัตราส่วนสภาพคล่อง ภาระหนี้ และขีดความสามารถในการลงทุนอย่างแม่นยำ
+          การลงทุนที่ดีเริ่มจากการรู้จักตนเอง 2 ด้าน: สุขภาพทางการเงินจริง (ส่วนที่ 1) และระดับความเสี่ยงที่รับได้ตามแบบประเมิน TSI (ส่วนที่ 2)
         </p>
+      </div>
+
+      <!-- Sub-Tab Switcher: สำรวจตนเองก่อนเริ่มลงทุน -->
+      <div class="flex items-center gap-2 border-b border-stone-200 pb-3">
+        <button onclick="switchTab('finance')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-800 text-white shadow-xs">
+          <span>💳 ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
+        </button>
+        <button onclick="switchTab('tsi')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors">
+          <span>🎯 ส่วนที่ 2: แบบประเมินความเสี่ยง TSI (10 ข้อ)</span>
+        </button>
       </div>
 
       <!-- Financial Health Ratio Dashboard -->
@@ -274,68 +435,71 @@
           <!-- Age -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">อายุของคุณ (ปี)</label>
-            <input type="number" id="input-age" value="28" min="15" max="90" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-age" value="" placeholder="เช่น 28" min="15" max="90" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
 
           <!-- Gender -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">เพศ</label>
             <select id="input-gender" onchange="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm bg-white">
-              <option value="female" selected>หญิง</option>
+              <option value="" selected disabled>-- เลือกเพศ / ไม่ระบุ --</option>
+              <option value="female">หญิง</option>
               <option value="male">ชาย</option>
-              <option value="other">ไม่ระบุ</option>
+              <option value="other">เพศทางเลือก / อื่นๆ</option>
             </select>
           </div>
 
           <!-- Occupation -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">อาชีพ / แหล่งที่มาของรายได้</label>
-            <input type="text" id="input-occupation" value="พนักงานบริษัทเอกชน (ประจำ)" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="text" id="input-occupation" value="" placeholder="เช่น พนักงานบริษัทเอกชน, ข้าราชการ, ค้าขาย" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
 
           <!-- Monthly Income -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">รายได้เฉลี่ยต่อเดือน (บาท)</label>
-            <input type="number" id="input-income" value="38000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
+            <input type="number" id="input-income" value="" placeholder="เช่น 35000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
           </div>
 
           <!-- Monthly Expenses -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">รายจ่ายจำเป็นและทั่วไปต่อเดือน (บาท)</label>
-            <input type="number" id="input-expenses" value="19000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-expenses" value="" placeholder="เช่น 18000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
 
           <!-- Monthly Debt Payment -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">ยอดผ่อนชำระหนี้สินต่อเดือน (บาท)</label>
-            <input type="number" id="input-debt-payment" value="4000" min="0" step="500" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-debt-payment" value="" placeholder="เช่น 4000 (หากไม่มีใส่ 0)" min="0" step="500" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
 
           <!-- Total Outstanding Debt -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">ภาระหนี้สินคงค้างทั้งหมด (บาท)</label>
-            <input type="number" id="input-total-debt" value="35000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-total-debt" value="" placeholder="เช่น 0 หรือ 35000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
 
           <!-- Emergency Fund -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">เงินสำรองเผื่อฉุกเฉินปัจจุบัน (บาท)</label>
-            <input type="number" id="input-emergency" value="85000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-emergency" value="" placeholder="เช่น 50000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
 
           <!-- Current Investments -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">มูลค่าพอร์ตลงทุนที่มีอยู่ปัจจุบัน (บาท)</label>
-            <input type="number" id="input-investments" value="30000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-investments" value="" placeholder="เช่น 0 หรือ 30000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
           </div>
         </div>
       </div>
 
       <!-- Navigation buttons -->
       <div class="flex items-center justify-between pt-4 border-t border-stone-200">
-        <span class="text-xs text-stone-400">บันทึกข้อมูลอัตโนมัติ</span>
-        <button onclick="switchTab('checklist')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: STEP 02 · เช็กลิสต์มือใหม่</span>
+        <button onclick="switchTab('home')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
+          ← ย้อนกลับ: หน้าแรก (Welcome)
+        </button>
+        <button onclick="switchTab('tsi')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+          <span>ถัดไป: ทำแบบประเมินความเสี่ยง TSI (ส่วนที่ 2)</span>
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
@@ -418,13 +582,13 @@
             <!-- Target Amount -->
             <div class="space-y-1.5">
               <label class="block text-xs font-semibold text-stone-700">เป้าหมายจำนวนเงินที่ต้องการ (บาท)</label>
-              <input type="number" id="input-goal-target" value="3000000" step="100000" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
+              <input type="number" id="input-goal-target" value="" placeholder="เช่น 1000000" step="100000" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
             </div>
 
             <!-- Time Horizon -->
             <div class="space-y-1.5">
               <label class="block text-xs font-semibold text-stone-700">ระยะเวลาการลงทุน (ปี)</label>
-              <input type="number" id="input-goal-years" value="15" min="1" max="40" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
+              <input type="number" id="input-goal-years" value="5" min="1" max="40" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
             </div>
           </div>
 
@@ -463,29 +627,39 @@
       <!-- Navigation buttons -->
       <div class="flex items-center justify-between pt-4 border-t border-stone-200">
         <button onclick="switchTab('checklist')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
-          ← ย้อนกลับ: STEP 02 · เช็กลิสต์มือใหม่
+          ← ย้อนกลับ: STEP 02 · เช็กลิสต์ความพร้อม
         </button>
-        <button onclick="switchTab('tsi')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: STEP 04 · แบบทดสอบ TSI</span>
+        <button onclick="switchTab('assets')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+          <span>ถัดไป: STEP 04 · คลังสินทรัพย์ลงทุน</span>
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
 
-    <!-- TAB 4: TSI SUITABILITY TEST SECTION -->
+    <!-- TAB 4: TSI SUITABILITY TEST SECTION (สำรวจตนเอง: ส่วนที่ 2) -->
     <section id="tab-content-tsi" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 04</span>
+          <span class="font-mono text-emerald-800 font-bold">STEP 01</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">ประเมินความเสี่ยง</span>
+          <span class="text-amber-800 font-medium">สำรวจตนเองก่อนเริ่มลงทุน</span>
           <span>/</span>
-          <span>แบบทดสอบ TSI 10 ข้อ</span>
+          <span>ส่วนที่ 2: แบบประเมินความเสี่ยง TSI (10 ข้อ)</span>
         </div>
-        <h2 class="text-xl sm:text-2xl font-bold text-stone-900">4. แบบประเมินความเหมาะสมในการลงทุน (TSI Suitability Test)</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-stone-900">สำรวจตนเองก่อนเริ่มลงทุน: แบบประเมินความเสี่ยง TSI</h2>
         <p class="text-xs sm:text-sm text-stone-600 mt-1">
           พัฒนาตามหลักเกณฑ์มาตรฐานสถาบัน TSI ตลาดหลักทรัพย์แห่งประเทศไทย และสำนักงาน ก.ล.ต. เพื่อจัดระดับความเสี่ยงที่เหมาะสม 1 - 5
         </p>
+      </div>
+
+      <!-- Sub-Tab Switcher: สำรวจตนเองก่อนเริ่มลงทุน -->
+      <div class="flex items-center gap-2 border-b border-stone-200 pb-3">
+        <button onclick="switchTab('finance')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors">
+          <span>💳 ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
+        </button>
+        <button onclick="switchTab('tsi')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-800 text-white shadow-xs">
+          <span>🎯 ส่วนที่ 2: แบบประเมินความเสี่ยง TSI (10 ข้อ)</span>
+        </button>
       </div>
 
       <!-- TSI Live Score Banner -->
@@ -515,11 +689,11 @@
 
       <!-- Navigation buttons -->
       <div class="flex items-center justify-between pt-4 border-t border-stone-200">
-        <button onclick="switchTab('goal')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
-          ← ย้อนกลับ: STEP 03 · เป้าหมายการลงทุน
+        <button onclick="switchTab('finance')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
+          ← ย้อนกลับ: ตรวจข้อมูลการเงิน (ส่วนที่ 1)
         </button>
-        <button onclick="switchTab('assets')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: STEP 05 · สินทรัพย์ลงทุน</span>
+        <button onclick="switchTab('checklist')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+          <span>ถัดไป: STEP 02 · เช็กลิสต์ความพร้อม 7 เสาหลัก</span>
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
@@ -548,11 +722,11 @@
 
       <!-- Navigation buttons -->
       <div class="flex items-center justify-between pt-4 border-t border-stone-200">
-        <button onclick="switchTab('tsi')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
-          ← ย้อนกลับ: STEP 04 · แบบทดสอบ TSI
+        <button onclick="switchTab('goal')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
+          ← ย้อนกลับ: STEP 03 · เป้าหมายการลงทุน
         </button>
         <button onclick="switchTab('portfolio')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: STEP 06 · จัดสัดส่วนพอร์ต</span>
+          <span>ถัดไป: STEP 05 · จัดสัดส่วนพอร์ต</span>
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
@@ -676,11 +850,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="space-y-1">
             <label class="text-xs font-semibold text-stone-700">เงินลงทุนเริ่มต้น (บาท)</label>
-            <input type="number" id="sim-initial" value="30000" step="5000" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs">
+            <input type="number" id="sim-initial" value="0" step="5000" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs">
           </div>
           <div class="space-y-1">
             <label class="text-xs font-semibold text-stone-700">เงินลงทุน DCA ต่อเดือน (บาท)</label>
-            <input type="number" id="sim-monthly" value="7000" step="500" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-emerald-800">
+            <input type="number" id="sim-monthly" value="0" placeholder="เช่น 3000" step="500" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-emerald-800">
           </div>
           <div class="space-y-1">
             <label class="text-xs font-semibold text-stone-700">ผลตอบแทนเฉลี่ยคาดหวัง (% ต่อปี)</label>
@@ -688,7 +862,7 @@
           </div>
           <div class="space-y-1">
             <label class="text-xs font-semibold text-stone-700">ระยะเวลาลงทุน (ปี)</label>
-            <input type="number" id="sim-years" value="15" min="1" max="40" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-semibold">
+            <input type="number" id="sim-years" value="5" min="1" max="40" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-semibold">
           </div>
         </div>
 
@@ -712,10 +886,89 @@
       <!-- Navigation buttons -->
       <div class="flex items-center justify-between pt-4 border-t border-stone-200">
         <button onclick="switchTab('portfolio')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
-          ← ย้อนกลับ: STEP 06 · จัดสัดส่วนพอร์ต
+          ← ย้อนกลับ: STEP 05 · จัดสัดส่วนพอร์ต
+        </button>
+        <button onclick="switchTab('glossary')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+          <span>ถัดไป: คลังคำศัพท์การลงทุน (ก.ล.ต./ธปท./SET)</span>
+          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB: INVESTMENT GLOSSARY SECTION (คลังคำศัพท์การลงทุน) -->
+    <section id="tab-content-glossary" class="tab-panel hidden space-y-8">
+      <div class="border-b border-stone-200 pb-4">
+        <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
+          <span class="font-mono text-emerald-800 font-bold">KNOWLEDGE HUB</span>
+          <span>/</span>
+          <span class="text-amber-800 font-medium">คลังความรู้การลงทุน</span>
+          <span>/</span>
+          <span>มาตรฐาน 3 หน่วยงานกำกับดูแลไทย</span>
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-stone-900">คลังคำศัพท์ที่ควรรู้เกี่ยวกับการลงทุน</h2>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1">
+              รวบรวมคำศัพท์สำคัญที่มือใหม่ต้องเข้าใจ โดยอ้างอิงมาตรฐานจาก <strong>สำนักงาน ก.ล.ต.</strong>, <strong>ธนาคารแห่งประเทศไทย (ธปท.)</strong> และ <strong>ตลาดหลักทรัพย์แห่งประเทศไทย (SET)</strong>
+            </p>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 self-start md:self-auto">
+            18 คำศัพท์มาตรฐานทางการ
+          </span>
+        </div>
+      </div>
+
+      <!-- 3 Authority Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div onclick="filterGlossarySource('sec')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-emerald-500 cursor-pointer space-y-1.5 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-900 text-sm">สำนักงาน ก.ล.ต.</span>
+            <span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">SEC Thailand</span>
+          </div>
+          <p class="text-stone-500">กำกับดูแลตลาดทุน ปกป้องสิทธิผู้ลงทุน และปราบปรามมิจฉาชีพหลอกลงทุน</p>
+        </div>
+        <div onclick="filterGlossarySource('bot')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-amber-500 cursor-pointer space-y-1.5 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-900 text-sm">ธนาคารแห่งประเทศไทย</span>
+            <span class="text-[10px] font-mono text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Bank of Thailand</span>
+          </div>
+          <p class="text-stone-500">ดูแลเสถียรภาพระบบการเงิน อัตราดอกเบี้ยนโยบาย เงินเฟ้อ และภาระหนี้ DTI</p>
+        </div>
+        <div onclick="filterGlossarySource('set')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-teal-500 cursor-pointer space-y-1.5 transition-all">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-teal-900 text-sm">ตลาดหลักทรัพย์แห่งประเทศไทย</span>
+            <span class="text-[10px] font-mono text-teal-700 bg-teal-50 px-2 py-0.5 rounded">SET Thailand</span>
+          </div>
+          <p class="text-stone-500">ศูนย์กลางซื้อขายหุ้น กองทุนรวม ETF ดัชนีตลาด และหลักสูตรสถาบัน TSI</p>
+        </div>
+      </div>
+
+      <!-- Search & Filters Bar -->
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+        <div class="relative">
+          <input type="text" id="glossary-search-input" oninput="handleGlossarySearch()" placeholder="ค้นหาคำศัพท์ภาษาไทย หรือภาษาอังกฤษ เช่น DCA, NAV, เงินเฟ้อ, P/E, ก.ล.ต., DTI, บัญชีม้า..." class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700">
+        </div>
+        <div class="flex items-center gap-2 flex-wrap text-xs pt-1">
+          <span class="text-stone-400 font-medium">หน่วยงาน:</span>
+          <button onclick="filterGlossarySource('all')" id="g-src-all" class="g-src-btn px-2.5 py-1 rounded-lg font-semibold bg-emerald-800 text-white">ทั้งหมด</button>
+          <button onclick="filterGlossarySource('sec')" id="g-src-sec" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">สำนักงาน ก.ล.ต.</button>
+          <button onclick="filterGlossarySource('bot')" id="g-src-bot" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">ธนาคารแห่งประเทศไทย</button>
+          <button onclick="filterGlossarySource('set')" id="g-src-set" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">ตลาดหลักทรัพย์ฯ</button>
+        </div>
+      </div>
+
+      <!-- Glossary Terms Container -->
+      <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Navigation buttons -->
+      <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+        <button onclick="switchTab('budget')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
+          ← ย้อนกลับ: STEP 06 · จัดสรรเงิน 50/30/20 & DCA
         </button>
         <button onclick="switchTab('caution')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: STEP 08 · ข้อควรระวัง</span>
+          <span>ถัดไป: ข้อควรระวัง & มิจฉาชีพ</span>
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
@@ -927,37 +1180,35 @@
 
   <!-- JAVASCRIPT: LOGIC & STATE ENGINE -->
   <script>
-    // 1. Initial State Data
+    // 1. Initial State Data: Clean slate without pre-filled values
     const state = {
       finance: {
-        age: 28,
-        gender: 'female',
-        occupation: 'พนักงานบริษัทเอกชน (ประจำ)',
-        monthlyIncome: 38000,
-        monthlyExpenses: 19000,
-        monthlyDebtPayment: 4000,
-        totalDebt: 35000,
-        emergencyFund: 85000,
-        currentInvestments: 30000,
+        age: '',
+        gender: '',
+        occupation: '',
+        monthlyIncome: 0,
+        monthlyExpenses: 0,
+        monthlyDebtPayment: 0,
+        totalDebt: 0,
+        emergencyFund: 0,
+        currentInvestments: 0,
       },
       checklist: [
-        { id: '1', title: 'มีเงินสำรองฉุกเฉินอย่างน้อย 3-6 เท่าของรายจ่ายต่อเดือน', done: true, desc: 'เพื่อรองรับเหตุฉุกเฉิน เช่น ตกงาน เจ็บป่วย อุบัติเหตุ โดยไม่ต้องขายสินทรัพย์ลงทุนขาดทุน' },
-        { id: '2', title: 'ปลดหนี้สินดอกเบี้ยสูงเรียบร้อยแล้ว (หนี้บัตรเครดิต/หนี้นอกระบบ)', done: true, desc: 'ดอกเบี้ยบัตรเครดิต 16-25% ต่อปี สูงกว่าผลตอบแทนการลงทุนเฉลี่ย ต้องกำจัดก่อนเสมอ' },
-        { id: '3', title: 'เงินที่นำมาลงทุนเป็น "เงินเย็น" ที่ไม่ต้องใช้ในระยะสั้น', done: true, desc: 'เงินเย็นช่วยให้คุณอดทนผ่านช่วงตลาดผันผวนได้โดยไม่ต้องรีบร้อนขายขาดทุน' },
-        { id: '4', title: 'มีความรู้ความเข้าใจในสินทรัพย์ที่จะลงทุนเบื้องต้น', done: true, desc: 'อย่าลงทุนในสิ่งที่คุณไม่เข้าใจแม้แต่น้อย อ่านหนังสือชี้ชวนและศึกษาโมเดลธุรกิจ' },
-        { id: '5', title: 'มีประกันสุขภาพและประกันอุบัติเหตุคุ้มครองความเสี่ยงพื้นฐาน', done: false, desc: 'ป้องกันไม่ให้ค่ารักษาพยาบาลยามเจ็บป่วยดึงเงินเก็บและเงินลงทุนทั้งหมดไป' },
-        { id: '6', title: 'กำหนดเป้าหมายและกรอบเวลาการลงทุนที่ชัดเจน', done: true, desc: 'มีเป้าหมายทั้งระยะสั้น กลาง หรือยาว เพื่อเลือกสินทรัพย์และจัดพอร์ตได้ตรงจุด' },
-        { id: '7', title: 'เข้าใจและยอมรับความผันผวนและการขาดทุนในบางช่วงได้', done: false, desc: 'พอร์ตลงทุนมีขึ้นมีลงตามวัฏจักรเศรษฐกิจ ต้องมีจิตวิทยาการลงทุนที่มั่นคง' },
+        { id: '1', title: '1. มีเงินสำรองฉุกเฉินอย่างน้อย 3-6 เท่าของรายจ่ายต่อเดือน', done: false, isAuto: true, source: '01. ข้อมูลการเงิน (เงินสำรอง ≥ 3 เดือน)', targetTab: 'tab-finance', desc: 'เพื่อรองรับเหตุฉุกเฉิน เช่น ตกงาน เจ็บป่วย อุบัติเหตุ โดยไม่ต้องขายสินทรัพย์ลงทุนขาดทุน' },
+        { id: '2', title: '2. จัดการหนี้สินดอกเบี้ยสูงเรียบร้อยแล้ว (หนี้คงค้างเป็น 0)', done: false, isAuto: true, source: '01. ข้อมูลการเงิน (หนี้สินคงค้าง 0 บาท)', targetTab: 'tab-finance', desc: 'ดอกเบี้ยบัตรเครดิต 16-25% ต่อปี สูงกว่าผลตอบแทนการลงทุนเฉลี่ย ต้องกำจัดก่อนเสมอ' },
+        { id: '3', title: '3. มีประกันสุขภาพและประกันอุบัติเหตุคุ้มครองความเสี่ยงพื้นฐาน', done: false, isAuto: false, source: 'กดเช็กเองได้เลย', targetTab: null, desc: 'ป้องกันไม่ให้ค่ารักษาพยาบาลยามเจ็บป่วยดึงเงินเก็บและเงินลงทุนทั้งหมดไป' },
+        { id: '4', title: '4. กำหนดเป้าหมายและกรอบเวลาการลงทุนที่ชัดเจน', done: false, isAuto: true, source: '03. เป้าหมายลงทุน (ระบุเป้าหมาย & ยอดเงิน)', targetTab: 'tab-goal', desc: 'มีเป้าหมายทั้งระยะสั้น กลาง หรือยาว เพื่อเลือกสินทรัพย์และจัดพอร์ตได้ตรงจุด' },
+        { id: '5', title: '5. ทำแบบประเมินความเหมาะสมในการลงทุน (TSI Suitability)', done: false, isAuto: true, source: '04. แบบทดสอบ TSI (ตอบครบ 10 ข้อ)', targetTab: 'tab-tsi', desc: 'ประเมินขีดความสามารถและความทนทานต่อความเสี่ยงตามมาตรฐานตลาดหลักทรัพย์ฯ' },
+        { id: '6', title: '6. เปิดบัญชีลงทุนกับโบรกเกอร์ที่ได้รับอนุญาตจาก ก.ล.ต.', done: false, isAuto: false, source: 'กดเช็กเองได้เลย', targetTab: null, desc: 'เลือกเปิดบัญชีกับสถาบันการเงินที่อยู่ภายใต้การกำกับดูแลของ ก.ล.ต. เท่านั้น' },
+        { id: '7', title: '7. วางระบบลงทุนสม่ำเสมอ (DCA) และกระจายความเสี่ยง', done: false, isAuto: false, source: 'กดเช็กเองได้เลย', targetTab: null, desc: 'ตั้งระบบหักบัญชีลงทุนอัตโนมัติทุกเดือนเพื่อสร้างวินัยและถัวเฉลี่ยต้นทุน' },
       ],
       goal: {
-        purpose: 'retirement',
-        targetAmount: 3000000,
-        timeHorizonYears: 15,
+        purpose: '',
+        targetAmount: 0,
+        timeHorizonYears: 5,
         importanceLevel: 'important'
       },
-      tsiAnswers: {
-        1: 3, 2: 2, 3: 2, 4: 2, 5: 3, 6: 2, 7: 2, 8: 2, 9: 2, 10: 2
-      }
+      tsiAnswers: {}
     };
 
     // TSI Questions
@@ -987,33 +1238,90 @@
       { id: 'derivatives', name: 'สัญญาซื้อขายล่วงหน้า (TFEX)', risk: 'สูงมากพิเศษ (ระดับ 8+)', returnRate: 'Leverage สูง', desc: 'ใช้เครื่องมือ Leverage มีความซับซ้อนสูงมาก ไม่เหมาะกับมือใหม่เด็ดขาด' },
     ];
 
+    // DROPDOWN MENUS
+    function toggleToolsMenu() {
+      const menu = document.getElementById('tools-dropdown-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
+    function toggleGroupMenu(groupId) {
+      const target = document.getElementById(`group-menu-${groupId}`);
+      const isClosed = target.classList.contains('hidden');
+      closeAllMenus();
+      if (isClosed) {
+        target.classList.remove('hidden');
+      }
+    }
+
+    function closeAllMenus() {
+      document.querySelectorAll('.group-dropdown-menu').forEach(m => m.classList.add('hidden'));
+      const toolsMenu = document.getElementById('tools-dropdown-menu');
+      if (toolsMenu) toolsMenu.classList.add('hidden');
+    }
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.relative')) {
+        closeAllMenus();
+      }
+    });
+
     // TAB SWITCHING
     function switchTab(tabId) {
+      closeAllMenus();
       document.querySelectorAll('.tab-panel').forEach(el => el.classList.add('hidden'));
       const activePanel = document.getElementById(`tab-content-${tabId}`);
       if (activePanel) activePanel.classList.remove('hidden');
 
-      // Update Tab Buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('text-emerald-900', 'bg-emerald-100', 'font-semibold', 'shadow-xs');
-        btn.classList.add('text-stone-600');
-        const numBadge = btn.querySelector('span');
-        if (numBadge) {
-          numBadge.classList.remove('bg-emerald-800', 'text-white');
-          numBadge.classList.add('bg-stone-300', 'text-stone-700');
-        }
+      // Reset all group buttons
+      document.querySelectorAll('.group-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+        btn.classList.add('bg-white', 'border-stone-200', 'text-stone-700');
       });
 
-      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
-      if (activeBtn) {
-        activeBtn.classList.remove('text-stone-600');
-        activeBtn.classList.add('text-emerald-900', 'bg-emerald-100', 'font-semibold', 'shadow-xs');
-        const numBadge = activeBtn.querySelector('span');
-        if (numBadge) {
-          numBadge.classList.remove('bg-stone-300', 'text-stone-700');
-          numBadge.classList.add('bg-emerald-800', 'text-white');
+      // Reset direct tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+        btn.classList.add('text-stone-700', 'bg-white', 'border-stone-200');
+      });
+
+      // Highlight active
+      if (tabId === 'home') {
+        const homeBtn = document.getElementById('tab-btn-home');
+        if (homeBtn) {
+          homeBtn.classList.add('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+          homeBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
-        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      } else if (tabId === 'glossary') {
+        const glossaryBtn = document.getElementById('tab-btn-glossary');
+        if (glossaryBtn) {
+          glossaryBtn.classList.add('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+          glossaryBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
+      } else if (tabId === 'caution') {
+        const cautionBtn = document.getElementById('tab-btn-caution');
+        if (cautionBtn) {
+          cautionBtn.classList.add('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+          cautionBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
+      } else if (['finance', 'tsi'].includes(tabId)) {
+        const groupBtn = document.getElementById('group-btn-self_assessment');
+        if (groupBtn) {
+          groupBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+          groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
+      } else if (['checklist', 'goal'].includes(tabId)) {
+        const groupBtn = document.getElementById('group-btn-readiness');
+        if (groupBtn) {
+          groupBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+          groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
+      } else if (['assets', 'portfolio', 'budget'].includes(tabId)) {
+        const groupBtn = document.getElementById('group-btn-portfolio_plan');
+        if (groupBtn) {
+          groupBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+          groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1045,8 +1353,16 @@
       document.getElementById('metric-savings-rate').innerText = savingsRate + '%';
 
       // Update Hero quick status
-      document.getElementById('hero-emergency-months').innerText = emergencyMonths + ' เดือน (' + (emergencyMonths >= 3 ? 'เพียงพอ' : 'ควรเก็บเพิ่ม') + ')';
-      document.getElementById('hero-dti-ratio').innerText = dtiRatio + '% (' + (dtiRatio <= 35 ? 'ปลอดภัย' : 'ระวังภาระหนี้สูง') + ')';
+      if (totalOutflow > 0 && state.finance.emergencyFund > 0) {
+        document.getElementById('hero-emergency-months').innerText = emergencyMonths + ' เดือน (' + (emergencyMonths >= 3 ? 'เพียงพอ' : 'ควรเก็บเพิ่ม') + ')';
+      } else {
+        document.getElementById('hero-emergency-months').innerText = '0 เดือน (รอข้อมูล)';
+      }
+      if (state.finance.monthlyIncome > 0) {
+        document.getElementById('hero-dti-ratio').innerText = dtiRatio + '% (' + (dtiRatio <= 35 ? 'ปลอดภัย' : 'ระวังภาระหนี้สูง') + ')';
+      } else {
+        document.getElementById('hero-dti-ratio').innerText = '0% (รอข้อมูล)';
+      }
 
       // Update 50/30/20 card
       document.getElementById('budget-income-label').innerText = `(จากรายได้ ฿${state.finance.monthlyIncome.toLocaleString()}/เดือน)`;
@@ -1054,17 +1370,46 @@
       document.getElementById('budget-wants-val').innerText = '฿' + Math.round(state.finance.monthlyIncome * 0.3).toLocaleString();
       document.getElementById('budget-savings-val').innerText = '฿' + Math.round(state.finance.monthlyIncome * 0.2).toLocaleString();
 
+      autoSyncChecklist();
+      renderChecklist();
       saveToStorage();
+    }
+
+    // AUTO SYNC CHECKLIST WITH FINANCE, GOAL, AND TSI
+    function autoSyncChecklist() {
+      // 1. Emergency Fund (>= 3 months)
+      const emPassed = state.finance.monthlyExpenses > 0 && (state.finance.emergencyFund / state.finance.monthlyExpenses) >= 3;
+      state.checklist[0].done = emPassed;
+
+      // 2. Clear Debt (totalDebt === 0 and monthlyDebtPayment === 0)
+      const hasFinance = state.finance.monthlyIncome > 0 || state.finance.monthlyExpenses > 0;
+      const debtPassed = hasFinance && state.finance.totalDebt === 0 && state.finance.monthlyDebtPayment === 0;
+      state.checklist[1].done = debtPassed;
+
+      // 4. Goal
+      const goalPassed = Boolean(state.goal.purpose && state.goal.targetAmount > 0 && state.goal.timeHorizonYears > 0);
+      state.checklist[3].done = goalPassed;
+
+      // 5. TSI
+      const tsiCount = Object.keys(state.tsiAnswers).length;
+      state.checklist[4].done = tsiCount === 10;
     }
 
     // CHECKLIST TOGGLE
     function toggleChecklistItem(index) {
-      state.checklist[index].done = !state.checklist[index].done;
+      const item = state.checklist[index];
+      if (item.isAuto) {
+        alert(`ข้อนี้เชื่อมโยงกับ ${item.source} ระบบจะประเมินและติ๊กให้อัตโนมัติเมื่อข้อมูลผ่านเกณฑ์`);
+        if (item.targetTab) switchTab(item.targetTab);
+        return;
+      }
+      item.done = !item.done;
       renderChecklist();
       saveToStorage();
     }
 
     function renderChecklist() {
+      autoSyncChecklist();
       const container = document.getElementById('checklist-cards-container');
       container.innerHTML = '';
       let doneCount = 0;
@@ -1072,19 +1417,40 @@
       state.checklist.forEach((item, index) => {
         if (item.done) doneCount++;
         const card = document.createElement('div');
-        card.className = `p-4 sm:p-5 rounded-xl border transition-all cursor-pointer flex items-start gap-4 ${
+        card.className = `p-4 sm:p-5 rounded-2xl border transition-all flex items-start gap-4 ${
           item.done ? 'bg-emerald-50/50 border-emerald-300' : 'bg-white border-stone-200 hover:border-stone-300'
         }`;
-        card.onclick = () => toggleChecklistItem(index);
+        
+        const badgeHtml = item.isAuto
+          ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">🔗 ซิงค์อัตโนมัติ (${item.source})</span>`
+          : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200">✍️ กดเช็กเองได้เลย</span>`;
+
         card.innerHTML = `
-          <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
-            item.done ? 'bg-emerald-800 text-white' : 'border-2 border-stone-300 bg-white'
-          }">
+          <button type="button" onclick="toggleChecklistItem(${index})" class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 cursor-pointer ${
+            item.done ? 'bg-emerald-800 text-white font-bold' : 'border-2 border-stone-300 bg-white hover:border-emerald-600'
+          }" title="${item.isAuto ? 'ซิงค์จากข้อมูลอัตโนมัติ' : 'คลิกเพื่อติ๊กยืนยัน'}">
             ${item.done ? '✓' : ''}
-          </div>
-          <div class="space-y-1">
-            <h4 class="text-xs sm:text-sm font-bold ${item.done ? 'text-emerald-950' : 'text-stone-800'}">${item.title}</h4>
-            <p class="text-xs text-stone-500">${item.desc}</p>
+          </button>
+          <div class="space-y-1.5 flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <h4 class="text-xs sm:text-sm font-bold ${item.done ? 'text-emerald-950' : 'text-stone-800'}">${item.title}</h4>
+              ${badgeHtml}
+            </div>
+            <p class="text-xs text-stone-500 leading-relaxed">${item.desc}</p>
+            ${item.isAuto ? `
+              <div class="pt-1 text-[11px] flex items-center justify-between gap-2">
+                <span class="${item.done ? 'text-emerald-800 font-semibold' : 'text-amber-800'}">
+                  ${item.done ? '✓ ผ่านเกณฑ์ตามข้อมูลที่กรอกเรียบร้อย' : '⏳ รอการกรอกข้อมูลให้ครบถ้วนตามเกณฑ์'}
+                </span>
+                <button type="button" onclick="switchTab('${item.targetTab}')" class="text-emerald-800 hover:underline font-semibold">
+                  ไปหน้ากรอกข้อมูล →
+                </button>
+              </div>
+            ` : `
+              <div class="pt-1 text-[11px] text-stone-400">
+                ${item.done ? '✓ คุณได้ตรวจสอบและยืนยันข้อนี้แล้ว' : 'คลิกปุ่มสี่เหลี่ยมเพื่อติ๊กยืนยันเมื่อเตรียมพร้อมแล้ว'}
+              </div>
+            `}
           </div>
         `;
         container.appendChild(card);
@@ -1118,6 +1484,8 @@
         btn.onclick = () => {
           state.goal.purpose = opt.id;
           renderGoalButtons();
+          autoSyncChecklist();
+          renderChecklist();
           saveToStorage();
         };
         btn.innerHTML = `
@@ -1129,13 +1497,15 @@
     }
 
     function updateGoalState() {
-      state.goal.targetAmount = Number(document.getElementById('input-goal-target').value) || 3000000;
-      state.goal.timeHorizonYears = Number(document.getElementById('input-goal-years').value) || 15;
+      state.goal.targetAmount = Number(document.getElementById('input-goal-target').value) || 0;
+      state.goal.timeHorizonYears = Number(document.getElementById('input-goal-years').value) || 5;
       state.goal.importanceLevel = document.getElementById('input-goal-importance').value;
       
       const years = state.goal.timeHorizonYears;
       let horizonText = years >= 10 ? `ระยะยาวมาก (${years} ปี)` : years >= 5 ? `ระยะปานกลาง-ยาว (${years} ปี)` : `ระยะสั้น-ปานกลาง (${years} ปี)`;
       document.getElementById('goal-horizon-desc').innerText = horizonText;
+      autoSyncChecklist();
+      renderChecklist();
       saveToStorage();
     }
 
@@ -1175,38 +1545,43 @@
       state.tsiAnswers[questionId] = optionIndex;
       renderTSI();
       updatePortfolioRecommendation();
+      autoSyncChecklist();
+      renderChecklist();
       saveToStorage();
     }
 
     function calculateTSIScore() {
       let score = 0;
+      let answeredCount = 0;
       TSI_QUESTIONS.forEach(q => {
-        const selectedIdx = state.tsiAnswers[q.id] || 0;
-        score += q.options[selectedIdx].pts;
+        if (state.tsiAnswers[q.id] !== undefined) {
+          const selectedIdx = state.tsiAnswers[q.id];
+          if (q.options[selectedIdx]) {
+            score += q.options[selectedIdx].pts;
+            answeredCount++;
+          }
+        }
       });
 
-      let level = 3;
-      let levelTitle = 'ระดับ 3: เสี่ยงปานกลางค่อนข้างสูง';
-      let desc = 'ยอมรับความผันผวนได้ปานกลาง มุ่งหวังผลตอบแทนชนะเงินเฟ้อ สามารถมีสัดส่วนหุ้นและสินทรัพย์เสี่ยงได้ไม่เกิน 50%';
+      let levelTitle = '';
+      let desc = '';
 
-      if (score < 15) {
-        level = 1;
+      if (answeredCount === 0) {
+        levelTitle = 'ยังไม่ได้ทำแบบประเมิน (0/10 ข้อ)';
+        desc = 'กรุณาเลือกคำตอบ 10 ข้อด้านล่างเพื่อเริ่มการประเมินระดับความเสี่ยงที่แท้จริงของคุณ';
+      } else if (score < 15) {
         levelTitle = 'ระดับ 1: เสี่ยงต่ำ (Low Risk)';
         desc = 'เน้นรักษาเงินต้น ป้องกันการสูญเสีย สัดส่วนเงินฝากและตราสารหนี้ระยะสั้น 80-100%';
       } else if (score <= 21) {
-        level = 2;
         levelTitle = 'ระดับ 2: เสี่ยงปานกลางค่อนข้างต่ำ';
         desc = 'รับความเสี่ยงได้เล็กน้อย เน้นตราสารหนี้คุณภาพดี หุ้นกู้ มีหุ้นได้ไม่เกิน 20%';
       } else if (score <= 29) {
-        level = 3;
         levelTitle = 'ระดับ 3: เสี่ยงปานกลางค่อนข้างสูง';
         desc = 'ยอมรับความผันผวนได้ปานกลาง มุ่งหวังผลตอบแทนชนะเงินเฟ้อ สามารถมีสัดส่วนหุ้นและสินทรัพย์เสี่ยงได้ไม่เกิน 50%';
       } else if (score <= 36) {
-        level = 4;
         levelTitle = 'ระดับ 4: เสี่ยงสูง (High Risk)';
         desc = 'ยอมรับความผันผวนของราคาหุ้นได้สูง มุ่งเน้นการเติบโตของเงินทุนในระยะยาว หุ้นได้ถึง 70%';
       } else {
-        level = 5;
         levelTitle = 'ระดับ 5: เสี่ยงสูงมาก (Very High Risk)';
         desc = 'มุ่งหวังผลตอบแทนสูงสุด ยอมรับการขาดทุนเงินต้นในบางช่วงได้ มีสัดส่วนหุ้นและสินทรัพย์ทางเลือกได้มากกว่า 70%';
       }
@@ -1214,7 +1589,7 @@
       document.getElementById('tsi-total-score').innerText = `${score} / 40`;
       document.getElementById('tsi-result-level-title').innerText = levelTitle;
       document.getElementById('tsi-result-desc').innerText = desc;
-      document.getElementById('hero-risk-badge').innerText = levelTitle;
+      document.getElementById('hero-risk-badge').innerText = answeredCount === 0 ? 'ยังไม่ได้ประเมิน' : levelTitle;
     }
 
     // ASSET CLASSES RENDERING
@@ -1368,24 +1743,132 @@
       }
     }
 
+    // INVESTMENT GLOSSARY DATA & RENDERING
+    const GLOSSARY_DATA = [
+      { id: 'emergency-fund', th: 'เงินสำรองเผื่อฉุกเฉิน', en: 'Emergency Fund', src: 'bot', srcName: 'ธนาคารแห่งประเทศไทย (ธปท.)', srcUrl: 'https://www.bot.or.th', def: 'เงินสดหรือสินทรัพย์สภาพคล่องสูงที่สำรองไว้ใช้ยามเกิดเหตุไม่คาดฝัน เช่น ตกงาน เจ็บป่วย แนะนำ 3-6 เท่าของค่าใช้จ่ายรายเดือน', example: 'ค่าใช้จ่ายเดือนละ 20,000 บาท ควรมีเงินสำรอง 60,000 - 120,000 บาท ในบัญชี e-Savings', tip: 'เงินก้อนนี้มีไว้เพื่อความปลอดภัย ห้ามนำไปเสี่ยงในสินทรัพย์ผันผวนเด็ดขาด' },
+      { id: 'dti', th: 'สัดส่วนภาระหนี้ต่อรายได้ (DTI)', en: 'Debt to Income Ratio', src: 'bot', srcName: 'ธนาคารแห่งประเทศไทย (ธปท.)', srcUrl: 'https://www.bot.or.th', def: 'อัตราส่วนที่ใช้วัดว่าภาระการผ่อนหนี้ในแต่ละเดือนคิดเป็นกี่เปอร์เซ็นต์ของรายได้รวมทั้งหมด ไม่ควรเกิน 30-40%', example: 'รายได้ 40,000 บาท ผ่อนหนี้ 12,000 บาท คิดเป็น DTI = 30% ซึ่งอยู่ในเกณฑ์ปลอดภัย', tip: 'หากมีหนี้ดอกเบี้ยสูง เช่น บัตรกดเงินสด ควรเร่งปิดก่อนเริ่มลงทุนเสมอ' },
+      { id: 'compound', th: 'ดอกเบี้ยทบต้น', en: 'Compound Interest', src: 'bot', srcName: 'ธนาคารแห่งประเทศไทย (ธปท.)', srcUrl: 'https://www.bot.or.th', def: 'ดอกเบี้ยหรือผลตอบแทนที่คำนวณจากเงินต้นเดิมรวมกับดอกเบี้ยสะสมในงวดก่อนหน้า ทำให้เงินเติบโตแบบก้าวกระโดดตามกาลเวลา', example: 'ลงทุน 100,000 บาท ผลตอบแทน 8% ต่อปี 30 ปี เงินจะกลายเป็นกว่า 1,000,000 บาท', tip: 'เวลาคือปัจจัยสำคัญที่สุด เริ่มเร็วได้เปรียบกว่าเริ่มช้าแม้จะลงเงินน้อยกว่า' },
+      { id: 'policy-rate', th: 'อัตราดอกเบี้ยนโยบาย', en: 'Policy Interest Rate', src: 'bot', srcName: 'ธนาคารแห่งประเทศไทย (ธปท.)', srcUrl: 'https://www.bot.or.th', def: 'อัตราดอกเบี้ยที่คณะกรรมการนโยบายการเงิน (กนง.) กำหนดขึ้น เพื่อเป็นอัตราอ้างอิงของระบบเศรษฐกิจ', example: 'เมื่อ กนง. ขึ้นดอกเบี้ย ดอกเบี้ยเงินฝากและเงินกู้ของธนาคารพาณิชย์จะปรับขึ้นตาม', tip: 'ติดตามผลการประชุม กนง. ปีละ 6 ครั้ง เพื่อเข้าใจทิศทางเศรษฐกิจและเงินฝาก' },
+      { id: 'inflation', th: 'อัตราเงินเฟ้อ', en: 'Inflation Rate', src: 'bot', srcName: 'ธนาคารแห่งประเทศไทย (ธปท.)', srcUrl: 'https://www.bot.or.th', def: 'ภาวะที่ราคาสินค้าและบริการโดยทั่วไปเพิ่มขึ้นอย่างต่อเนื่อง ทำให้อำนาจซื้อของเงินลดลง', example: 'ข้าวกะเพราจาก 30 บาทกลายเป็น 60 บาทใน 10 ปี คือตัวอย่างของเงินเฟ้อ', tip: 'เป้าหมายการลงทุนขั้นต่ำคือต้องได้ผลตอบแทนเฉลี่ยสูงกว่าเงินเฟ้อ มิฉะนั้นเงินจะจนลงเงียบๆ' },
+      { id: 'stock', th: 'หุ้นสามัญ / ตราสารทุน', en: 'Common Stock / Equity', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.set.or.th', def: 'ตราสารที่แสดงความเป็น "เจ้าของร่วม" ในกิจการ ได้ผลตอบแทนจากเงินปันผลและส่วนต่างราคา', example: 'ซื้อหุ้นค้าปลีก 1,000 หุ้น ได้รับสิทธิเงินปันผลเมื่อบริษัทมีกำไร', tip: 'การซื้อหุ้นคือการเป็นเจ้าของธุรกิจ ควรเลือกกิจการที่เข้าใจและมีกำไรสม่ำเสมอ' },
+      { id: 'dca', th: 'การลงทุนแบบถัวเฉลี่ยต้นทุน (DCA)', en: 'Dollar-Cost Averaging', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.set.or.th', def: 'การลงทุนด้วยจำนวนเงินเท่าๆ กันอย่างสม่ำเสมอตามระยะเวลาที่กำหนด เช่น ทุกเดือน โดยไม่จับจังหวะตลาด', example: 'ตั้งระบบหักบัญชีซื้อกองทุนดัชนีเดือนละ 3,000 บาททุกวันเงินเดือนออก', tip: 'DCA ช่วยตัดอารมณ์ความโลภและความกลัวออกไป และได้ต้นทุนเฉลี่ยที่ไม่ติดดอย' },
+      { id: 'mutual-fund', th: 'กองทุนรวม', en: 'Mutual Fund', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.setinvestnow.com', def: 'เครื่องมือการลงทุนที่รวบรวมเงินจากผู้ลงทุนรายย่อย ให้ผู้จัดการกองทุนมืออาชีพนำไปบริหารตามนโยบาย', example: 'เงิน 500 บาท สามารถกระจายซื้อหุ้น 50 ตัวผ่านกองทุนรวม SET50 ได้ทันที', tip: 'ควรอ่านหนังสือชี้ชวนส่วนสรุปข้อมูลสำคัญ (Fund Fact Sheet) ก่อนซื้อทุกครั้ง' },
+      { id: 'etf', th: 'กองทุนรวมดัชนี (ETF)', en: 'Exchange Traded Fund', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.set.or.th', def: 'กองทุนรวมดัชนีที่จดทะเบียนซื้อขายในตลาดหลักทรัพย์เหมือนหุ้นแบบ Real-time ค่าธรรมเนียมต่ำ', example: 'ซื้อ TDEX ผ่าน Streaming เหมือนซื้อหุ้น เพื่อกระจายลงทุนใน SET50 ทันที', tip: 'เหมาะสำหรับผู้ที่ต้องการกระจายความเสี่ยงตามดัชนีแต่ต้องการความยืดหยุ่นในการซื้อขาย' },
+      { id: 'nav', th: 'มูลค่าทรัพย์สินสุทธิต่อหน่วย (NAV)', en: 'Net Asset Value', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.setinvestnow.com', def: 'มูลค่าทรัพย์สินทั้งหมดของกองทุนหักด้วยหนี้สินและค่าใช้จ่าย แล้วหารด้วยจำนวนหน่วยลงทุน', example: 'กองทุนมีทรัพย์สินสุทธิ 1,000 ล้านบาท มี 100 ล้านหน่วย NAV จะเท่ากับ 10 บาทต่อหน่วย', tip: 'NAV สูงหรือต่ำไม่ได้บอกว่ากองทุนถูกหรือแพง ให้ดูผลการดำเนินงานและค่าธรรมเนียม' },
+      { id: 'pe', th: 'อัตราส่วนราคาต่อกำไร (P/E Ratio)', en: 'Price to Earnings Ratio', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.set.or.th', def: 'ราคาหุ้นคิดเป็นกี่เท่าของกำไรต่อหุ้น บอกจำนวนปีที่จะคืนทุนหากกำไรคงที่', example: 'หุ้นราคา 50 บาท กำไร 5 บาทต่อหุ้น P/E = 10 เท่า คืนทุนใน 10 ปี', tip: 'อย่าดูค่า P/E เดี่ยวๆ ให้เทียบกับบริษัทในกลุ่มอุตสาหกรรมเดียวกัน' },
+      { id: 'dividend', th: 'อัตราเงินปันผลตอบแทน (Dividend Yield)', en: 'Dividend Yield', src: 'set', srcName: 'ตลาดหลักทรัพย์แห่งประเทศไทย (SET)', srcUrl: 'https://www.set.or.th', def: 'เปอร์เซ็นต์ของเงินปันผลต่อปีเทียบกับราคาหุ้นปัจจุบันที่ซื้อ', example: 'หุ้นราคา 100 บาท จ่ายปันผลปีละ 5 บาท Dividend Yield เท่ากับ 5% ต่อปี', tip: 'ระวังกับดักปันผลสูง บางบริษัทปันผลสูงเพราะราคาหุ้นร่วงลงมาจากธุรกิจที่กำลังแย่ลง' },
+      { id: 'suitability', th: 'แบบประเมินความเหมาะสมในการลงทุน', en: 'Suitability Test', src: 'sec', srcName: 'สำนักงาน ก.ล.ต.', srcUrl: 'https://www.sec.or.th', def: 'แบบสอบถามมาตรฐานที่ ก.ล.ต. กำหนดให้ประเมินขีดความสามารถในการรับความเสี่ยงก่อนเปิดบัญชี', example: 'ผู้เกษียณอายุ ผลประเมินมักจัดให้มีความเสี่ยงต่ำ สัดส่วนหุ้นไม่เกิน 10-20%', tip: 'ควรตอบตามความจริง ไม่ควรตอบให้ได้คะแนนสูงเกินจิตใจและเงินทุนจริงจะรับไหว' },
+      { id: 'allocation', th: 'การจัดสรรและกระจายสินทรัพย์', en: 'Asset Allocation', src: 'sec', srcName: 'สำนักงาน ก.ล.ต.', srcUrl: 'https://www.sec.or.th', def: 'การกระจายเงินลงทุนในสินทรัพย์หลากหลายประเภท เช่น ตราสารหนี้ หุ้น ทองคำ เพื่อลดความผันผวน', example: 'พอร์ตความเสี่ยงปานกลาง: ตราสารหนี้ 40% หุ้นโลก 30% หุ้นไทย 15% อสังหาฯ 10% ทองคำ 5%', tip: 'การกระจายความเสี่ยงช่วยให้คุณรอดชีวิตในทุกวิกฤตเศรษฐกิจ' },
+      { id: 'factsheet', th: 'หนังสือชี้ชวนส่วนสรุปข้อมูลสำคัญ', en: 'Fund Fact Sheet', src: 'sec', srcName: 'สำนักงาน ก.ล.ต.', srcUrl: 'https://www.sec.or.th', def: 'เอกสารสรุปข้อมูลสำคัญของกองทุนรวมไม่กี่หน้า จัดทำตามมาตรฐาน ก.ล.ต. ให้อ่านง่าย', example: 'เปิดอ่าน Fund Fact Sheet ดูกองทุนว่าลงทุนในอะไร ค่าธรรมเนียมกี่เปอร์เซ็นต์', tip: 'อ่าน 3 จุดสำคัญ: 1. นโยบายลงทุน 2. ค่าธรรมเนียม TER 3. ระดับความเสี่ยง 1-8' },
+      { id: 'checkfirst', th: 'SEC Check First (เช็กก่อนลงทุน)', en: 'SEC Check First', src: 'sec', srcName: 'สำนักงาน ก.ล.ต.', srcUrl: 'https://market.sec.or.th/public/idisc/th/CheckFirst', def: 'ระบบค้นหาของ ก.ล.ต. ที่ให้ประชาชนตรวจสอบว่า บุคคลหรือบริษัทได้รับใบอนุญาตถูกต้องหรือไม่', example: 'มีคนชวนลงทุนอ้างบริษัทหลักทรัพย์ ให้เข้า sec.or.th หรือแอป SEC Check First ตรวจค้นทันที', tip: 'ถ้าไม่ปรากฏชื่อในฐานข้อมูล ก.ล.ต. ให้สันนิษฐานไว้ก่อนว่าเป็นมิจฉาชีพ' },
+      { id: 'mule', th: 'บัญชีม้าและกลโกงหลอกลงทุน', en: 'Mule Account Scam Alert', src: 'sec', srcName: 'สำนักงาน ก.ล.ต.', srcUrl: 'https://www.sec.or.th', def: 'บัญชีเงินฝากที่มิจฉาชีพจ้างหรือหลอกให้ผู้อื่นเปิด เพื่อรับโอนเงินจากการหลอกลวงประชาชน', example: 'ชวนเทรดหุ้นทองคำ ให้โอนเงินเข้าบัญชีนายสมชาย นี่คือบัญชีม้าหลอกลวงแน่นอน', tip: 'กฎเหล็ก: สถาบันการเงินที่ถูกกฎหมายไม่มีนโยบายให้โอนเงินเข้าบัญชีบุคคลธรรมดาเด็ดขาด' },
+      { id: 'fee', th: 'ค่าธรรมเนียมรวมของกองทุน (TER)', en: 'Total Expense Ratio', src: 'sec', srcName: 'สำนักงาน ก.ล.ต.', srcUrl: 'https://www.sec.or.th', def: 'ค่าใช้จ่ายรวมทั้งหมดที่กองทุนเรียกเก็บจากผู้ถือหน่วยลงทุน โดยหักออกจาก NAV ทุกวัน', example: 'กองทุน A เก็บ 1.8% ต่อปี ส่วนกองทุน B เก็บ 0.3% ต่อปี กองทุน B ให้ผลตอบแทนสุทธิเข้ากระเป๋าสูงกว่า', tip: 'สำหรับกองทุนดัชนีที่ลงทุนเหมือนกัน ให้เลือกกองทุนที่ค่าธรรมเนียมต่ำที่สุดเสมอ' },
+    ];
+
+    let currentGlossarySource = 'all';
+    let currentGlossarySearch = '';
+
+    function filterGlossarySource(src) {
+      currentGlossarySource = src;
+      document.querySelectorAll('.g-src-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-800', 'text-white');
+        btn.classList.add('text-stone-600', 'bg-stone-50');
+      });
+      const activeBtn = document.getElementById(`g-src-${src}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-emerald-800', 'text-white');
+        activeBtn.classList.remove('text-stone-600', 'bg-stone-50');
+      }
+      renderGlossary();
+    }
+
+    function handleGlossarySearch() {
+      currentGlossarySearch = (document.getElementById('glossary-search-input').value || '').trim().toLowerCase();
+      renderGlossary();
+    }
+
+    function renderGlossary() {
+      const container = document.getElementById('glossary-grid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const filtered = GLOSSARY_DATA.filter(item => {
+        if (currentGlossarySource !== 'all' && item.src !== currentGlossarySource) return false;
+        if (currentGlossarySearch) {
+          const matchTh = item.th.toLowerCase().includes(currentGlossarySearch);
+          const matchEn = item.en.toLowerCase().includes(currentGlossarySearch);
+          const matchDef = item.def.toLowerCase().includes(currentGlossarySearch);
+          return matchTh || matchEn || matchDef;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-8 text-center text-xs text-stone-500 bg-white p-6 rounded-2xl border border-stone-200">
+            ไม่พบคำศัพท์ที่ตรงกับการค้นหา ลองเปลี่ยนคำค้นหาหรือกดปุ่ม "ทั้งหมด"
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const badgeColor = item.src === 'sec' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
+                           item.src === 'bot' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                           'bg-teal-100 text-teal-800 border-teal-300';
+        const card = document.createElement('div');
+        card.className = 'bg-white p-5 rounded-2xl border border-stone-200 shadow-xs flex flex-col justify-between space-y-3';
+        card.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="font-bold text-sm sm:text-base text-stone-900">${item.th}</h3>
+                <span class="font-mono text-xs text-amber-800 font-semibold">${item.en}</span>
+              </div>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded border shrink-0 ${badgeColor}">
+                ${item.srcName}
+              </span>
+            </div>
+            <p class="text-xs text-stone-600 leading-relaxed">${item.def}</p>
+            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs space-y-1">
+              <span class="font-semibold text-emerald-800 block text-[11px]">ตัวอย่างจริง:</span>
+              <p class="text-stone-700 text-[11px]">${item.example}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs space-y-1">
+              <span class="font-semibold text-amber-900 block text-[11px]">💡 ข้อคิดสำหรับมือใหม่:</span>
+              <p class="text-amber-950 text-[11px]">${item.tip}</p>
+            </div>
+          </div>
+          <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px]">
+            <a href="${item.srcUrl}" target="_blank" rel="noreferrer" class="text-emerald-700 hover:underline font-semibold flex items-center gap-1">
+              <span>แหล่งข้อมูลทางการ</span>
+              <span>↗</span>
+            </a>
+            <span class="text-stone-400 font-mono">Verified Source</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
     // INITIALIZATION
     window.addEventListener('DOMContentLoaded', () => {
       loadFromStorage();
       
       // Sync Form inputs with state
-      document.getElementById('input-age').value = state.finance.age;
-      document.getElementById('input-gender').value = state.finance.gender;
-      document.getElementById('input-occupation').value = state.finance.occupation;
-      document.getElementById('input-income').value = state.finance.monthlyIncome;
-      document.getElementById('input-expenses').value = state.finance.monthlyExpenses;
-      document.getElementById('input-debt-payment').value = state.finance.monthlyDebtPayment;
-      document.getElementById('input-total-debt').value = state.finance.totalDebt;
-      document.getElementById('input-emergency').value = state.finance.emergencyFund;
-      document.getElementById('input-investments').value = state.finance.currentInvestments;
+      document.getElementById('input-age').value = state.finance.age || '';
+      document.getElementById('input-gender').value = state.finance.gender || '';
+      document.getElementById('input-occupation').value = state.finance.occupation || '';
+      document.getElementById('input-income').value = state.finance.monthlyIncome ? state.finance.monthlyIncome : '';
+      document.getElementById('input-expenses').value = state.finance.monthlyExpenses ? state.finance.monthlyExpenses : '';
+      document.getElementById('input-debt-payment').value = state.finance.monthlyDebtPayment ? state.finance.monthlyDebtPayment : '';
+      document.getElementById('input-total-debt').value = state.finance.totalDebt ? state.finance.totalDebt : '';
+      document.getElementById('input-emergency').value = state.finance.emergencyFund ? state.finance.emergencyFund : '';
+      document.getElementById('input-investments').value = state.finance.currentInvestments ? state.finance.currentInvestments : '';
 
-      document.getElementById('input-goal-target').value = state.goal.targetAmount;
-      document.getElementById('input-goal-years').value = state.goal.timeHorizonYears;
-      document.getElementById('input-goal-importance').value = state.goal.importanceLevel;
+      document.getElementById('input-goal-target').value = state.goal.targetAmount ? state.goal.targetAmount : '';
+      document.getElementById('input-goal-years').value = state.goal.timeHorizonYears || 5;
+      document.getElementById('input-goal-importance').value = state.goal.importanceLevel || 'important';
 
       updateFinanceState();
       renderChecklist();
@@ -1395,6 +1878,7 @@
       renderAssets();
       updatePortfolioRecommendation();
       calculateDCA();
+      renderGlossary();
     });
   </script>
 </body>

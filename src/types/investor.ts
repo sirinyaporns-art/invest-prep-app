@@ -6,6 +6,8 @@ export interface ChecklistItem {
   actionTip: string;
   category: 'foundation' | 'knowledge' | 'execution';
   isCompleted: boolean;
+  isAutoSynced?: boolean;
+  syncSourceLabel?: string;
 }
 
 export interface PersonalFinance {

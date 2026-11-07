@@ -1,20 +1,41 @@
 import React, { useState } from 'react';
-import { ChecklistItem } from '../types/investor';
-import { CheckCircle2, Circle, AlertCircle, ArrowRight, ArrowLeft, Lightbulb, Shield, BookOpen, Rocket } from 'lucide-react';
+import { ChecklistItem, PersonalFinance, InvestmentGoal } from '../types/investor';
+import {
+  CheckCircle2,
+  Circle,
+  AlertCircle,
+  ArrowRight,
+  ArrowLeft,
+  Lightbulb,
+  Shield,
+  BookOpen,
+  Rocket,
+  Link2,
+  Edit3,
+  Sparkles,
+  ExternalLink,
+} from 'lucide-react';
 
 interface ChecklistSectionProps {
   items: ChecklistItem[];
   onToggleItem: (id: string) => void;
   onNavigateToTab: (tabId: string) => void;
+  finance: PersonalFinance;
+  goal: InvestmentGoal;
+  tsiAnswers: Record<number, number>;
 }
 
 export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
   items,
   onToggleItem,
   onNavigateToTab,
+  finance,
+  goal,
+  tsiAnswers,
 }) => {
   const [filter, setFilter] = useState<'all' | 'foundation' | 'knowledge' | 'execution'>('all');
   const [expandedId, setExpandedId] = useState<string | null>('emergency-fund');
+  const [autoSyncTipId, setAutoSyncTipId] = useState<string | null>(null);
 
   const completedCount = items.filter((i) => i.isCompleted).length;
   const progressPct = Math.round((completedCount / items.length) * 100);
@@ -24,21 +45,103 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
     return item.category === filter;
   });
 
+  const getItemSyncInfo = (id: string) => {
+    switch (id) {
+      case 'emergency-fund': {
+        const ratio = finance.monthlyExpenses > 0 ? finance.emergencyFund / finance.monthlyExpenses : 0;
+        const isPassed = finance.monthlyExpenses > 0 && ratio >= 3;
+        let detail = 'รอการกรอกรายจ่ายใน 01. ข้อมูลการเงิน';
+        if (finance.monthlyExpenses > 0) {
+          detail = `ปัจจุบันมีสำรอง ${ratio.toFixed(1)} / 3.0 เดือน (${finance.emergencyFund.toLocaleString()} / ${(finance.monthlyExpenses * 3).toLocaleString()} บาท)`;
+        }
+        return {
+          isAuto: true,
+          isPassed,
+          sourceName: 'ข้อมูลการเงิน (Step 01)',
+          detail,
+          targetTab: 'finance',
+          conditionText: 'เงินสำรองเผื่อฉุกเฉินต้องมีอย่างน้อย 3 เท่าของรายจ่ายต่อเดือน',
+        };
+      }
+      case 'clear-high-interest-debt': {
+        const hasData = finance.monthlyIncome > 0 || finance.monthlyExpenses > 0;
+        const isPassed = hasData && finance.totalDebt === 0 && finance.monthlyDebtPayment === 0;
+        let detail = 'รอการกรอกข้อมูลหนี้สินใน 01. ข้อมูลการเงิน';
+        if (hasData) {
+          detail =
+            finance.totalDebt > 0
+              ? `มียอดหนี้คงค้าง ฿${finance.totalDebt.toLocaleString()} (ผ่อน ฿${finance.monthlyDebtPayment.toLocaleString()}/ด.)`
+              : 'ปลอดหนี้สินคงค้าง (0 บาท)';
+        }
+        return {
+          isAuto: true,
+          isPassed,
+          sourceName: 'ข้อมูลการเงิน (Step 01)',
+          detail,
+          targetTab: 'finance',
+          conditionText: 'ปลอดหนี้ดอกเบี้ยสูงหรือยอดหนี้สินคงค้างเป็น 0 บาท',
+        };
+      }
+      case 'clear-goal-horizon': {
+        const isPassed = Boolean(goal.purpose && goal.targetAmount > 0 && goal.timeHorizonYears > 0);
+        let detail = 'รอการระบุเป้าหมายและยอดเงินใน 03. เป้าหมายลงทุน';
+        if (isPassed) {
+          detail = `เป้าหมาย ฿${goal.targetAmount.toLocaleString()} (${goal.timeHorizonYears} ปี)`;
+        } else if (goal.purpose) {
+          detail = `เลือกวัตถุประสงค์แล้ว แต่ยังไม่ระบุจำนวนเงินเป้าหมาย`;
+        }
+        return {
+          isAuto: true,
+          isPassed,
+          sourceName: 'เป้าหมายลงทุน (Step 03)',
+          detail,
+          targetTab: 'goal',
+          conditionText: 'เลือกวัตถุประสงค์และระบุจำนวนเงินเป้าหมายการลงทุน',
+        };
+      }
+      case 'tsi-suitability': {
+        const answeredCount = Object.keys(tsiAnswers).length;
+        const isPassed = answeredCount === 10;
+        let detail = `ทำแบบทดสอบแล้ว ${answeredCount} / 10 ข้อ`;
+        if (isPassed) {
+          detail = `ทำแบบทดสอบครบ 10 ข้อแล้ว`;
+        }
+        return {
+          isAuto: true,
+          isPassed,
+          sourceName: 'แบบทดสอบ TSI (Step 04)',
+          detail,
+          targetTab: 'tsi',
+          conditionText: 'ตอบแบบประเมินความเหมาะสมในการลงทุนครบทั้ง 10 ข้อ',
+        };
+      }
+      default:
+        return {
+          isAuto: false,
+          isPassed: false,
+          sourceName: 'ประเมินตนเอง',
+          detail: 'สามารถกดคลิกติ๊กเช็กด้วยตนเองได้เมื่อเตรียมพร้อมแล้ว',
+          targetTab: null,
+          conditionText: 'ตรวจสอบความพร้อมและคลิกเพื่อติ๊กยืนยันด้วยตนเอง',
+        };
+    }
+  };
+
   const getShortcutTab = (id: string): { tab: string; label: string } | null => {
     if (id === 'emergency-fund' || id === 'clear-high-interest-debt') {
-      return { tab: 'finance', label: 'ดูข้อมูลการเงิน' };
+      return { tab: 'finance', label: 'ไปกรอกข้อมูลการเงิน' };
     }
     if (id === 'clear-goal-horizon') {
-      return { tab: 'goal', label: 'ระบุเป้าหมายลงทุน' };
+      return { tab: 'goal', label: 'ไประบุเป้าหมายลงทุน' };
     }
     if (id === 'tsi-suitability') {
-      return { tab: 'tsi', label: 'เริ่มทำแบบทดสอบ TSI' };
+      return { tab: 'tsi', label: 'ไปทำแบบทดสอบ TSI' };
     }
     if (id === 'regulated-broker') {
-      return { tab: 'caution', label: 'อ่านวิธีเช็กโบรกเกอร์ถูกกฎหมาย' };
+      return { tab: 'caution', label: 'วิธีเช็กโบรกเกอร์ถูกกฎหมาย' };
     }
     if (id === 'dca-discipline') {
-      return { tab: 'budget', label: 'คำนวณเงิน DCA รายเดือน' };
+      return { tab: 'budget', label: 'ไปวางแผนจัดสรรเงิน DCA' };
     }
     return null;
   };
@@ -158,6 +261,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
         {filteredItems.map((item) => {
           const isExpanded = expandedId === item.id;
           const shortcut = getShortcutTab(item.id);
+          const syncInfo = getItemSyncInfo(item.id);
 
           return (
             <div
@@ -169,29 +273,71 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               }`}
             >
               <div className="p-5 flex items-start gap-4">
-                {/* Toggle Button */}
-                <button
-                  type="button"
-                  onClick={() => onToggleItem(item.id)}
-                  className="mt-0.5 shrink-0 text-stone-300 dark:text-stone-600 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors focus:outline-none"
-                  aria-label={item.isCompleted ? 'ทำเครื่องหมายว่ายังไม่เสร็จ' : 'ทำเครื่องหมายว่าเสร็จแล้ว'}
-                >
-                  {item.isCompleted ? (
-                    <CheckCircle2 className="w-6 h-6 text-emerald-700 dark:text-emerald-400 fill-emerald-100 dark:fill-emerald-950" />
+                {/* Toggle Button / Auto-Sync Indicator */}
+                <div className="flex flex-col items-center shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (syncInfo.isAuto) {
+                        setAutoSyncTipId((prev) => (prev === item.id ? null : item.id));
+                        return;
+                      }
+                      onToggleItem(item.id);
+                    }}
+                    className={`mt-0.5 transition-colors focus:outline-none ${
+                      syncInfo.isAuto
+                        ? item.isCompleted
+                          ? 'text-emerald-700 dark:text-emerald-400'
+                          : 'text-stone-300 dark:text-stone-600 hover:text-amber-700'
+                        : 'text-stone-300 dark:text-stone-600 hover:text-emerald-700 dark:hover:text-emerald-400 cursor-pointer'
+                    }`}
+                    title={
+                      syncInfo.isAuto
+                        ? 'ข้อนี้ซิงค์และตรวจสอบอัตโนมัติจากข้อมูลที่กรอก (ไม่ต้องกดติ๊กเอง)'
+                        : 'คลิกเพื่อติ๊กยืนยันด้วยตนเอง'
+                    }
+                  >
+                    {item.isCompleted ? (
+                      <CheckCircle2 className="w-6 h-6 text-emerald-700 dark:text-emerald-400 fill-emerald-100 dark:fill-emerald-950" />
+                    ) : (
+                      <Circle className="w-6 h-6 hover:text-stone-400" />
+                    )}
+                  </button>
+                  {syncInfo.isAuto ? (
+                    <span className="text-[10px] text-emerald-800 dark:text-emerald-400 font-mono mt-1 font-semibold">
+                      AUTO
+                    </span>
                   ) : (
-                    <Circle className="w-6 h-6 hover:text-stone-400" />
+                    <span className="text-[10px] text-amber-700 dark:text-amber-400 font-mono mt-1">
+                      MANUAL
+                    </span>
                   )}
-                </button>
+                </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
-                    <button
-                      onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                      className="text-left font-semibold text-sm sm:text-base text-stone-900 dark:text-stone-100 hover:text-emerald-800 dark:hover:text-emerald-400 transition-colors"
-                    >
-                      {item.title}
-                    </button>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <button
+                        onClick={() => setExpandedId(isExpanded ? null : item.id)}
+                        className="text-left font-semibold text-sm sm:text-base text-stone-900 dark:text-stone-100 hover:text-emerald-800 dark:hover:text-emerald-400 transition-colors"
+                      >
+                        {item.title}
+                      </button>
+
+                      {/* Type Pill Badge */}
+                      {syncInfo.isAuto ? (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                          <Link2 className="w-3 h-3 text-emerald-700 dark:text-emerald-400" />
+                          ซิงค์อัตโนมัติ ({syncInfo.sourceName})
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                          <Edit3 className="w-3 h-3 text-amber-700" />
+                          กดเช็กเองได้เลย
+                        </span>
+                      )}
+                    </div>
 
                     <div className="flex items-center gap-2">
                       {shortcut && (
@@ -209,6 +355,79 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   <p className="mt-1 text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
                     {item.description}
                   </p>
+
+                  {/* Auto-sync Notification Helper on Click */}
+                  {autoSyncTipId === item.id && syncInfo.isAuto && (
+                    <div className="mt-2.5 p-3 rounded-xl bg-amber-50/90 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex items-start justify-between gap-3 animate-fadeIn">
+                      <div className="flex items-start gap-2">
+                        <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <div>
+                          <strong>ข้อนี้เชื่อมต่อกับข้อมูลจริงโดยอัตโนมัติ:</strong>{' '}
+                          เกณฑ์การผ่าน: {syncInfo.conditionText} (ไม่ต้องกดติ๊กเอง)
+                        </div>
+                      </div>
+                      {syncInfo.targetTab && (
+                        <button
+                          onClick={() => syncInfo.targetTab && onNavigateToTab(syncInfo.targetTab)}
+                          className="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-semibold text-[11px] shrink-0 hover:bg-emerald-800 transition-colors"
+                        >
+                          ไปกรอกข้อมูล
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Real-time Status Card */}
+                  {syncInfo.isAuto ? (
+                    item.isCompleted ? (
+                      <div className="mt-2.5 text-xs flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-medium bg-emerald-100/70 dark:bg-emerald-950/60 px-3 py-2 rounded-xl border border-emerald-300/80 dark:border-emerald-800">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
+                        <span>ผ่านเกณฑ์เรียบร้อย: {syncInfo.detail}</span>
+                      </div>
+                    ) : (
+                      <div className="mt-2.5 text-xs flex items-center justify-between flex-wrap gap-2 text-stone-700 dark:text-stone-300 bg-stone-100/80 dark:bg-stone-800/80 px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700">
+                        <div className="flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                          <span>สถานะปัจจุบัน: {syncInfo.detail}</span>
+                        </div>
+                        {syncInfo.targetTab && (
+                          <button
+                            onClick={() => syncInfo.targetTab && onNavigateToTab(syncInfo.targetTab)}
+                            className="text-emerald-800 dark:text-emerald-400 hover:underline font-semibold flex items-center gap-1 text-[11px]"
+                          >
+                            <span>ไปกรอกข้อมูลเพื่อให้ผ่านเกณฑ์</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                    )
+                  ) : item.isCompleted ? (
+                    <div className="mt-2.5 text-xs flex items-center justify-between gap-2 text-emerald-800 dark:text-emerald-300 font-medium bg-emerald-100/70 dark:bg-emerald-950/60 px-3 py-2 rounded-xl border border-emerald-300/80 dark:border-emerald-800">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
+                        <span>คุณได้ตรวจสอบและติ๊กยืนยันความพร้อมเรียบร้อยแล้ว</span>
+                      </div>
+                      <button
+                        onClick={() => onToggleItem(item.id)}
+                        className="text-[11px] text-stone-500 hover:text-stone-700 underline"
+                      >
+                        ยกเลิกการติ๊ก
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mt-2.5 text-xs flex items-center justify-between gap-2 text-stone-600 dark:text-stone-400 bg-stone-100/60 dark:bg-stone-800/60 px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700">
+                      <div className="flex items-center gap-2">
+                        <Edit3 className="w-4 h-4 text-amber-600 shrink-0" />
+                        <span>ข้อนี้สามารถกดคลิกติ๊กเครื่องหมายได้ด้วยตนเองเมื่อพร้อม</span>
+                      </div>
+                      <button
+                        onClick={() => onToggleItem(item.id)}
+                        className="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-semibold text-[11px] shrink-0 hover:bg-emerald-800 transition-colors"
+                      >
+                        กดติ๊กข้อนี้
+                      </button>
+                    </div>
+                  )}
 
                   {/* Expandable Why & Tip */}
                   {isExpanded && (

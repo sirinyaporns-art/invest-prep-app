@@ -69,21 +69,35 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
       </div>
 
       {/* Interactive Result Card */}
-      <div className={`p-6 rounded-xl border transition-all ${getRiskColor(riskProfile.level)}`}>
+      <div
+        className={`p-6 rounded-xl border transition-all ${
+          answeredCount === 0
+            ? 'text-stone-700 dark:text-stone-300 bg-stone-50 dark:bg-stone-900/60 border-stone-200 dark:border-stone-800'
+            : getRiskColor(riskProfile.level)
+        }`}
+      >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Award className="w-5 h-5 shrink-0" />
               <span className="text-xs font-semibold uppercase tracking-wider">
-                ผลการประเมินความเสี่ยงของคุณ
+                {answeredCount === 0
+                  ? 'ยังไม่ได้ทำแบบประเมิน (0/10 ข้อ)'
+                  : answeredCount === totalQuestions
+                  ? 'ผลการประเมินความเสี่ยงที่สมบูรณ์'
+                  : `กำลังทำแบบประเมิน (${answeredCount}/${totalQuestions} ข้อ)`}
               </span>
-              <span className="text-xs font-mono">({riskProfile.titleEn})</span>
+              {answeredCount > 0 && <span className="text-xs font-mono">({riskProfile.titleEn})</span>}
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-              ระดับ {riskProfile.level}: {riskProfile.title}
+              {answeredCount === 0
+                ? 'กรุณาเลือกคำตอบ 10 ข้อด้านล่างเพื่อเริ่มการประเมิน'
+                : `ระดับ ${riskProfile.level}: ${riskProfile.title}`}
             </h3>
             <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-2xl leading-relaxed">
-              {riskProfile.description}
+              {answeredCount === 0
+                ? 'แบบทดสอบจะวัดอายุ ประสบการณ์ ฐานะการเงิน และจิตวิทยาต่อความเสี่ยง เพื่อให้คำแนะนำสัดส่วนพอร์ตที่ปลอดภัยและเหมาะสมที่สุดสำหรับคุณ'
+                : riskProfile.description}
             </p>
           </div>
 

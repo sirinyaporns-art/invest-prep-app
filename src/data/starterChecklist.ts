@@ -9,6 +9,8 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'เก็บในบัญชีออมทรัพย์ดอกเบี้ยสูง (e-Savings) หรือกองทุนรวมตลาดเงิน (Money Market Fund) ที่ถอนได้ใน 1 วันทำการ',
     category: 'foundation',
     isCompleted: false,
+    isAutoSynced: true,
+    syncSourceLabel: 'ซิงค์จาก: 01. ข้อมูลการเงิน (เงินสำรอง ≥ 3 เดือน)',
   },
   {
     id: 'clear-high-interest-debt',
@@ -18,6 +20,8 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'ใช้วิธี Debt Avalanche (โปะหนี้ดอกเบี้ยแพงสุดก่อน) หรือ Debt Snowball เพื่อปลดล็อกภาระเงินสดรายเดือน',
     category: 'foundation',
     isCompleted: false,
+    isAutoSynced: true,
+    syncSourceLabel: 'ซิงค์จาก: 01. ข้อมูลการเงิน (หนี้คงค้างเป็น 0 บาท)',
   },
   {
     id: 'basic-insurance',
@@ -27,6 +31,8 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'ตรวจสอบสวัสดิการของบริษัทหรือประกันสังคมก่อน แล้วเสริมด้วยประกันสุขภาพแบบมีความรับผิดส่วนแรก (Deductible) เพื่อประหยัดเบี้ย',
     category: 'foundation',
     isCompleted: false,
+    isAutoSynced: false,
+    syncSourceLabel: 'กดเช็กด้วยตนเอง (เมื่อมีประกันหรือสิทธิรักษาพยาบาล)',
   },
   {
     id: 'clear-goal-horizon',
@@ -36,6 +42,8 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'แยกกระปุกตามกรอบเวลา: ระยะสั้น (< 1 ปี), ระยะกลาง (1-5 ปี), ระยะยาว (> 5 ปี)',
     category: 'knowledge',
     isCompleted: false,
+    isAutoSynced: true,
+    syncSourceLabel: 'ซิงค์จาก: 03. เป้าหมายลงทุน (ระบุเป้าหมาย & ยอดเงิน)',
   },
   {
     id: 'tsi-suitability',
@@ -45,6 +53,8 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'ทำแบบทดสอบอย่างตรงไปตรงมา ไม่เลือกคำตอบที่ดูเท่ห์ แต่เลือกตามความรู้สึกจริงเมื่อเห็นเงินต้นติดลบ',
     category: 'knowledge',
     isCompleted: false,
+    isAutoSynced: true,
+    syncSourceLabel: 'ซิงค์จาก: 04. แบบทดสอบ TSI (ตอบครบ 10 ข้อ)',
   },
   {
     id: 'regulated-broker',
@@ -54,6 +64,8 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'ตรวจสอบรายชื่อผู้ประกอบธุรกิจหลักทรัพย์ที่ได้รับใบอนุญาตผ่านแอปพลิเคชัน SEC Check First หรือเว็บไซต์ sec.or.th',
     category: 'execution',
     isCompleted: false,
+    isAutoSynced: false,
+    syncSourceLabel: 'กดเช็กด้วยตนเอง (เมื่อเปิดบัญชีลงทุนกับ บล./บลจ. แล้ว)',
   },
   {
     id: 'dca-discipline',
@@ -63,5 +75,7 @@ export const INITIAL_CHECKLIST: ChecklistItem[] = [
     actionTip: 'ตั้งระบบหักบัญชีอัตโนมัติ (Auto DCA) ทันทีหลังเงินเดือนออก เพื่อ "ออมและลงทุนก่อน แล้วค่อยนำส่วนที่เหลือไปใช้จ่าย"',
     category: 'execution',
     isCompleted: false,
+    isAutoSynced: false,
+    syncSourceLabel: 'กดเช็กด้วยตนเอง (เมื่อตั้งระบบ DCA ตัดบัญชีรายเดือน)',
   },
 ];

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { PersonalFinance, InvestmentGoal, RiskProfile } from '../types/investor';
 import { Calculator, TrendingUp, DollarSign, PieChart, Sparkles, AlertCircle, CheckCircle2, ArrowRight } from 'lucide-react';
 
@@ -25,15 +25,27 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
   const actualNeeds = finance.monthlyExpenses + finance.monthlyDebtPayment;
   const actualCashflow = Math.max(0, income - actualNeeds);
   // Default recommend safe DCA: min between 20% of income and actual net cashflow
-  const defaultDCA = Math.max(1000, Math.min(actualCashflow, standardSavings || 5000));
+  const defaultDCA = income > 0 ? Math.max(500, Math.min(actualCashflow, standardSavings)) : 0;
 
   // DCA Simulator interactive states
-  const [initialCapital, setInitialCapital] = useState<number>(finance.currentInvestments || 10000);
+  const [initialCapital, setInitialCapital] = useState<number>(finance.currentInvestments || 0);
   const [monthlyDCA, setMonthlyDCA] = useState<number>(defaultDCA);
   const [returnRate, setReturnRate] = useState<number>(
     riskProfile.level === 1 ? 3 : riskProfile.level === 2 ? 4.5 : riskProfile.level === 3 ? 7 : riskProfile.level === 4 ? 9 : 12
   );
-  const [simulationYears, setSimulationYears] = useState<number>(goal.timeHorizonYears || 10);
+  const [simulationYears, setSimulationYears] = useState<number>(goal.timeHorizonYears || 5);
+
+  useEffect(() => {
+    setInitialCapital(finance.currentInvestments || 0);
+  }, [finance.currentInvestments]);
+
+  useEffect(() => {
+    if (income > 0) {
+      setMonthlyDCA(Math.max(500, Math.min(actualCashflow, standardSavings)));
+    } else {
+      setMonthlyDCA(0);
+    }
+  }, [income, actualCashflow, standardSavings]);
 
   // Future value calculation with compound interest
   const simulationResults = useMemo(() => {
