@@ -52,11 +52,195 @@
         }
       }
     }
+
+    // KNOWLEDGE HUB SUB-TAB SWITCHER
+    function setKnowledgeSubTab(subTab) {
+      const tabs = ['glossary', 'tax_legal', 'caution'];
+      tabs.forEach(t => {
+        const view = document.getElementById('k-subview-' + t);
+        const btn = document.getElementById('k-tab-btn-' + t);
+        if (view) {
+          if (t === subTab) {
+            view.classList.remove('hidden');
+          } else {
+            view.classList.add('hidden');
+          }
+        }
+        if (btn) {
+          if (t === subTab) {
+            btn.classList.add('bg-purple-50', 'border-purple-600', 'shadow-2xs', 'ring-2', 'ring-purple-600/20');
+            btn.classList.remove('bg-white', 'border-stone-200');
+          } else {
+            btn.classList.remove('bg-purple-50', 'border-purple-600', 'shadow-2xs', 'ring-2', 'ring-purple-600/20');
+            btn.classList.add('bg-white', 'border-stone-200');
+          }
+        }
+      });
+    }
+
+    // TAX CALCULATOR 1: DIVIDEND TAX CREDIT (ม.47 ทวิ)
+    function calculateDivTax() {
+      const divAmount = Number(document.getElementById('calc-div-amount').value) || 0;
+      const corpRate = Number(document.getElementById('calc-div-corp').value) || 0.20;
+      const personalRate = Number(document.getElementById('calc-div-personal').value) || 0.10;
+
+      const grossDiv = corpRate < 1 ? divAmount / (1 - corpRate) : divAmount;
+      const taxCredit = grossDiv * corpRate;
+      const taxBeforeCredit = grossDiv * personalRate;
+      const taxWithheld = divAmount * 0.10; // 10% withheld
+      const finalTaxDue = taxBeforeCredit - taxCredit;
+      const netBenefit = taxWithheld - finalTaxDue;
+
+      document.getElementById('calc-div-credit').innerText = '+฿' + Math.round(taxCredit).toLocaleString();
+      document.getElementById('calc-div-withheld').innerText = '฿' + Math.round(taxWithheld).toLocaleString();
+
+      const resLabel = document.getElementById('calc-div-result-label');
+      const resVal = document.getElementById('calc-div-result-val');
+      if (netBenefit >= 0) {
+        resLabel.innerText = 'ขอคืนภาษีได้สุทธิ:';
+        resLabel.className = 'text-purple-900';
+        resVal.innerText = '+฿' + Math.round(netBenefit).toLocaleString();
+        resVal.className = 'font-mono text-purple-800 text-sm';
+      } else {
+        resLabel.innerText = 'ต้องชำระภาษีเพิ่ม (ควรเลือก Final Tax 10%):';
+        resLabel.className = 'text-pink-900';
+        resVal.innerText = '-฿' + Math.round(Math.abs(netBenefit)).toLocaleString();
+        resVal.className = 'font-mono text-rose-700 text-sm';
+      }
+    }
+
+    // TAX CALCULATOR 2: TAX SAVING FUNDS (SSF, RMF, Thai ESG)
+    function calculateFundTax() {
+      const fundType = document.getElementById('calc-fund-type').value;
+      const amount = Number(document.getElementById('calc-fund-amount').value) || 0;
+      const bracket = Number(document.getElementById('calc-fund-bracket').value) || 0.15;
+
+      let maxCap = 300000;
+      if (fundType === 'ssf') maxCap = 200000;
+      if (fundType === 'rmf') maxCap = 500000;
+
+      const allowedDeduction = Math.min(amount, maxCap);
+      const taxSaved = allowedDeduction * bracket;
+      const netCost = amount - taxSaved;
+      const yieldPct = amount > 0 ? (taxSaved / amount) * 100 : 0;
+
+      document.getElementById('calc-fund-saved').innerText = '฿' + Math.round(taxSaved).toLocaleString();
+      document.getElementById('calc-fund-netcost').innerText = '฿' + Math.round(netCost).toLocaleString();
+      document.getElementById('calc-fund-yield').innerText = '+' + yieldPct.toFixed(1) + '%';
+    }
+
+    // TAX CALCULATOR 3: FOREIGN INVESTMENT TAX (ป.161/2566)
+    function calculateForeignTax() {
+      const gain = Number(document.getElementById('calc-foreign-gain').value) || 0;
+      const bracket = Number(document.getElementById('calc-foreign-bracket').value) || 0.20;
+      const credit = Number(document.getElementById('calc-foreign-credit').value) || 0;
+
+      const thaiTax = gain * bracket;
+      const allowedCredit = Math.min(credit, thaiTax);
+      const netPayable = Math.max(0, thaiTax - allowedCredit);
+
+      document.getElementById('calc-foreign-thai-tax').innerText = '฿' + Math.round(thaiTax).toLocaleString();
+      document.getElementById('calc-foreign-dta-credit').innerText = '-฿' + Math.round(allowedCredit).toLocaleString();
+      document.getElementById('calc-foreign-net-payable').innerText = '฿' + Math.round(netPayable).toLocaleString();
+    }
+
+
+    // KNOWLEDGE HUB SUB-TAB SWITCHER
+    function setKnowledgeSubTab(subTab) {
+      const tabs = ['glossary', 'tax_legal', 'caution'];
+      tabs.forEach(t => {
+        const view = document.getElementById('k-subview-' + t);
+        const btn = document.getElementById('k-tab-btn-' + t);
+        if (view) {
+          if (t === subTab) {
+            view.classList.remove('hidden');
+          } else {
+            view.classList.add('hidden');
+          }
+        }
+        if (btn) {
+          if (t === subTab) {
+            btn.classList.add('bg-purple-50', 'border-purple-600', 'shadow-2xs', 'ring-2', 'ring-purple-600/20');
+            btn.classList.remove('bg-white', 'border-stone-200');
+          } else {
+            btn.classList.remove('bg-purple-50', 'border-purple-600', 'shadow-2xs', 'ring-2', 'ring-purple-600/20');
+            btn.classList.add('bg-white', 'border-stone-200');
+          }
+        }
+      });
+    }
+
+    // TAX CALCULATOR 1: DIVIDEND TAX CREDIT (ม.47 ทวิ)
+    function calculateDivTax() {
+      const divAmount = Number(document.getElementById('calc-div-amount').value) || 0;
+      const corpRate = Number(document.getElementById('calc-div-corp').value) || 0.20;
+      const personalRate = Number(document.getElementById('calc-div-personal').value) || 0.10;
+
+      const grossDiv = corpRate < 1 ? divAmount / (1 - corpRate) : divAmount;
+      const taxCredit = grossDiv * corpRate;
+      const taxBeforeCredit = grossDiv * personalRate;
+      const taxWithheld = divAmount * 0.10; // 10% withheld
+      const finalTaxDue = taxBeforeCredit - taxCredit;
+      const netBenefit = taxWithheld - finalTaxDue;
+
+      document.getElementById('calc-div-credit').innerText = '+฿' + Math.round(taxCredit).toLocaleString();
+      document.getElementById('calc-div-withheld').innerText = '฿' + Math.round(taxWithheld).toLocaleString();
+
+      const resLabel = document.getElementById('calc-div-result-label');
+      const resVal = document.getElementById('calc-div-result-val');
+      if (netBenefit >= 0) {
+        resLabel.innerText = 'ขอคืนภาษีได้สุทธิ:';
+        resLabel.className = 'text-purple-900';
+        resVal.innerText = '+฿' + Math.round(netBenefit).toLocaleString();
+        resVal.className = 'font-mono text-purple-800 text-sm';
+      } else {
+        resLabel.innerText = 'ต้องชำระภาษีเพิ่ม (ควรเลือก Final Tax 10%):';
+        resLabel.className = 'text-pink-900';
+        resVal.innerText = '-฿' + Math.round(Math.abs(netBenefit)).toLocaleString();
+        resVal.className = 'font-mono text-rose-700 text-sm';
+      }
+    }
+
+    // TAX CALCULATOR 2: TAX SAVING FUNDS (SSF, RMF, Thai ESG)
+    function calculateFundTax() {
+      const fundType = document.getElementById('calc-fund-type').value;
+      const amount = Number(document.getElementById('calc-fund-amount').value) || 0;
+      const bracket = Number(document.getElementById('calc-fund-bracket').value) || 0.15;
+
+      let maxCap = 300000;
+      if (fundType === 'ssf') maxCap = 200000;
+      if (fundType === 'rmf') maxCap = 500000;
+
+      const allowedDeduction = Math.min(amount, maxCap);
+      const taxSaved = allowedDeduction * bracket;
+      const netCost = amount - taxSaved;
+      const yieldPct = amount > 0 ? (taxSaved / amount) * 100 : 0;
+
+      document.getElementById('calc-fund-saved').innerText = '฿' + Math.round(taxSaved).toLocaleString();
+      document.getElementById('calc-fund-netcost').innerText = '฿' + Math.round(netCost).toLocaleString();
+      document.getElementById('calc-fund-yield').innerText = '+' + yieldPct.toFixed(1) + '%';
+    }
+
+    // TAX CALCULATOR 3: FOREIGN INVESTMENT TAX (ป.161/2566)
+    function calculateForeignTax() {
+      const gain = Number(document.getElementById('calc-foreign-gain').value) || 0;
+      const bracket = Number(document.getElementById('calc-foreign-bracket').value) || 0.20;
+      const credit = Number(document.getElementById('calc-foreign-credit').value) || 0;
+
+      const thaiTax = gain * bracket;
+      const allowedCredit = Math.min(credit, thaiTax);
+      const netPayable = Math.max(0, thaiTax - allowedCredit);
+
+      document.getElementById('calc-foreign-thai-tax').innerText = '฿' + Math.round(thaiTax).toLocaleString();
+      document.getElementById('calc-foreign-dta-credit').innerText = '-฿' + Math.round(allowedCredit).toLocaleString();
+      document.getElementById('calc-foreign-net-payable').innerText = '฿' + Math.round(netPayable).toLocaleString();
+    }
+
   </script>
 
   <style>
     body {
-      font-family: 'Prompt', 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Prompt', 'Kanit', sans-serif; letter-spacing: -0.012em;
       background-color: #FAF8F5;
       color: #2D2825;
     }
@@ -86,39 +270,39 @@
     }
   </style>
 </head>
-<body class="bg-[#FAF8F5] text-stone-850 min-h-screen flex flex-col antialiased selection:bg-emerald-200 selection:text-emerald-900">
+<body class="bg-[#FAF8F5] text-stone-850 min-h-screen flex flex-col antialiased selection:bg-purple-200 selection:text-purple-900">
 
   <!-- TOP BAR & NAVIGATION -->
-  <header class="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-amber-900/10 shadow-xs">
+  <header class="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-pink-900/10 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Upper Header row -->
       <div class="h-16 flex items-center justify-between gap-4">
         <!-- Brand identity -->
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-900 text-amber-300 flex items-center justify-center font-bold text-lg shadow-sm border border-amber-400/30">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-700 via-fuchsia-600 to-pink-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
             IP
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-bold text-base tracking-tight text-emerald-900">InvestPrep</span>
-              <span class="text-[10px] uppercase font-mono tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold border border-emerald-300">
-                Single File Edition
+              <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-600 bg-clip-text text-transparent">InvestPrep</span>
+              <span class="text-[10px] uppercase font-mono tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-semibold border border-purple-200">
+                SET & ก.ล.ต.
               </span>
             </div>
-            <p class="text-xs text-stone-500 hidden sm:block">ระบบประเมินความพร้อมและวางแผนการลงทุนมือใหม่</p>
+            <p class="text-xs text-stone-500 hidden sm:block">Smart Wealth Technology · วางแผนพอร์ตการลงทุน</p>
           </div>
         </div>
 
         <!-- Action tools -->
         <div class="flex items-center gap-2 sm:gap-3">
           <!-- Readiness meter badge -->
-          <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-amber-900/10 text-xs">
+          <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-pink-900/10 text-xs">
             <span class="text-stone-500">ความพร้อมเบื้องต้น:</span>
-            <span id="header-readiness-percent" class="font-bold text-emerald-700">0%</span>
+            <span id="header-readiness-percent" class="font-bold text-purple-700">0%</span>
           </div>
 
-          <button onclick="openReportModal()" class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl shadow-xs transition-colors border border-amber-300/30">
-            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <button onclick="openReportModal()" class="inline-flex items-center gap-1.5 px-5 py-2 text-xs font-semibold text-white bg-black hover:bg-stone-800 active:scale-95 rounded-full shadow-xs transition-all">
+            <svg class="w-3.5 h-3.5 text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             <span>พิมพ์รายงานสรุป</span>
           </button>
 
@@ -134,7 +318,7 @@
                 <span>รีเซ็ตข้อมูลตัวอย่าง</span>
               </button>
               <button onclick="window.print(); toggleToolsMenu()" class="w-full px-3.5 py-2.5 text-left flex items-center gap-2 hover:bg-stone-50 text-stone-700">
-                <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                <svg class="w-4 h-4 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                 <span>พิมพ์หน้านี้ / บันทึก PDF</span>
               </button>
             </div>
@@ -143,10 +327,10 @@
       </div>
 
       <!-- GROUPED NAVIGATION BAR (Forest Green & Chestnut Earth Theme) -->
-      <div class="relative border-t border-amber-900/10 py-2">
+      <div class="relative border-t border-pink-900/10 py-2">
         <div id="tab-scroll-container" class="flex items-center gap-2 flex-wrap">
           <!-- 1. Home -->
-          <button onclick="switchTab('home')" id="tab-btn-home" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-emerald-950 bg-emerald-100 border border-emerald-300">
+          <button onclick="switchTab('home')" id="tab-btn-home" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-purple-950 bg-purple-100 border border-purple-300">
             <span>🏠 หน้าแรก</span>
           </button>
 
@@ -158,14 +342,14 @@
             </button>
             <div id="group-menu-self_assessment" class="group-dropdown-menu hidden absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
               <button onclick="switchTab('finance'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-6 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">01.1</span>
+                <span class="w-6 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">01.1</span>
                 <div>
                   <div class="font-semibold text-stone-900">ข้อมูลส่วนตัวและสถานะการเงิน</div>
                   <div class="text-[10px] text-stone-500">ตรวจกระแสเงินสด ภาระหนี้ DTI และเงินฉุกเฉิน</div>
                 </div>
               </button>
               <button onclick="switchTab('tsi'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-6 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">01.2</span>
+                <span class="w-6 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">01.2</span>
                 <div>
                   <div class="font-semibold text-stone-900">แบบประเมินความเสี่ยง TSI (10 ข้อ)</div>
                   <div class="text-[10px] text-stone-500">มาตรฐาน ก.ล.ต. จัดระดับความเสี่ยง 1-5</div>
@@ -182,14 +366,14 @@
             </button>
             <div id="group-menu-readiness" class="group-dropdown-menu hidden absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
               <button onclick="switchTab('checklist'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">02</span>
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">02</span>
                 <div>
                   <div class="font-semibold text-stone-900">เช็กลิสต์ความพร้อม 7 เสาหลัก</div>
                   <div class="text-[10px] text-stone-500">ซิงค์อัตโนมัติจากข้อมูลจริง</div>
                 </div>
               </button>
               <button onclick="switchTab('goal'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">03</span>
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">03</span>
                 <div>
                   <div class="font-semibold text-stone-900">กำหนดเป้าหมายการลงทุน</div>
                   <div class="text-[10px] text-stone-500">เป้าหมาย ยอดเงิน และกรอบเวลา</div>
@@ -206,21 +390,21 @@
             </button>
             <div id="group-menu-portfolio_plan" class="group-dropdown-menu hidden absolute left-0 mt-2 w-68 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
               <button onclick="switchTab('assets'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">04</span>
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">04</span>
                 <div>
                   <div class="font-semibold text-stone-900">คลังสินทรัพย์การลงทุน 9 ประเภท</div>
                   <div class="text-[10px] text-stone-500">เงินฝาก ตราสารหนี้ หุ้น กองทุน ทองคำ</div>
                 </div>
               </button>
               <button onclick="switchTab('portfolio'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">05</span>
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">05</span>
                 <div>
                   <div class="font-semibold text-stone-900">จัดสัดส่วนพอร์ตโฟลิโอ</div>
                   <div class="text-[10px] text-stone-500">Asset Allocation แนะนำเฉพาะบุคคล</div>
                 </div>
               </button>
               <button onclick="switchTab('budget'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
-                <span class="w-5 h-5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold flex items-center justify-center">06</span>
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">06</span>
                 <div>
                   <div class="font-semibold text-stone-900">จัดสรรเงิน 50/30/20 & DCA</div>
                   <div class="text-[10px] text-stone-500">จำลองพลังดอกเบี้ยทบต้น</div>
@@ -229,15 +413,65 @@
             </div>
           </div>
 
-          <!-- 5. Investment Glossary (New Dedicated Tab) -->
-          <button onclick="switchTab('glossary')" id="tab-btn-glossary" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
-            <span>📖 คลังคำศัพท์การลงทุน</span>
+          <!-- 5. Knowledge, Legal & Tax Hub Group Dropdown -->
+          <div class="relative">
+            <button onclick="toggleGroupMenu('knowledge_hub')" id="group-btn-knowledge_hub" class="group-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+              <span>📚 ความรู้ กฎหมาย & ภาษี</span>
+              <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="group-menu-knowledge_hub" class="group-dropdown-menu hidden absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
+              <button onclick="switchTab('knowledge_hub'); setKnowledgeSubTab('glossary'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">07.1</span>
+                <div>
+                  <div class="font-semibold text-stone-900">คลังคำศัพท์การลงทุน</div>
+                  <div class="text-[10px] text-stone-500">18 คำศัพท์มาตรฐาน ก.ล.ต./ธปท./SET</div>
+                </div>
+              </button>
+              <button onclick="switchTab('knowledge_hub'); setKnowledgeSubTab('tax_legal'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">07.2</span>
+                <div>
+                  <div class="font-semibold text-stone-900">กฎหมาย & คำนวณภาษีลงทุน</div>
+                  <div class="text-[10px] text-stone-500">เกณฑ์ภาษี 6 สินทรัพย์ & เครื่องคิดเลขภาษี</div>
+                </div>
+              </button>
+              <button onclick="switchTab('knowledge_hub'); setKnowledgeSubTab('caution'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">07.3</span>
+                <div>
+                  <div class="font-semibold text-stone-900">ข้อควรระวัง & มิจฉาชีพ</div>
+                  <div class="text-[10px] text-stone-500">Scam Red-Flags & สายด่วน 1207</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6. Providers Direct Tab Button -->
+          <button onclick="switchTab('providers')" id="tab-btn-providers" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+            <span>🏛️ แนะนำ บล. ทรีนีตี้</span>
           </button>
 
-          <!-- 6. Cautions -->
-          <button onclick="switchTab('caution')" id="tab-btn-caution" class="tab-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
-            <span>🛡️ ข้อควรระวัง & มิจฉาชีพ</span>
-          </button>
+          <!-- 7. More Group Dropdown (อื่น ๆ) -->
+          <div class="relative">
+            <button onclick="toggleGroupMenu('more')" id="group-btn-more" class="group-btn shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all text-stone-700 hover:bg-stone-100 border border-stone-200 bg-white">
+              <span>••• อื่น ๆ</span>
+              <svg class="w-3 h-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="group-menu-more" class="group-dropdown-menu hidden absolute left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-stone-200 py-1.5 z-50 text-xs">
+              <button onclick="switchTab('about'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-6 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">INFO</span>
+                <div>
+                  <div class="font-semibold text-stone-900">เกี่ยวกับโครงการ (Trinity Hackathon)</div>
+                  <div class="text-[10px] text-stone-500">ที่มาและแรงบันดาลใจจากเวทีแข่งขัน 2024</div>
+                </div>
+              </button>
+              <button onclick="switchTab('contact'); closeAllMenus()" class="w-full px-3.5 py-2 text-left hover:bg-stone-50 flex items-center gap-2">
+                <span class="w-6 h-5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-bold flex items-center justify-center">TEAM</span>
+                <div>
+                  <div class="font-semibold text-stone-900">ติดต่อพวกเรา & จุดประสงค์การพัฒนา</div>
+                  <div class="text-[10px] text-stone-500">ทีมผู้พัฒนา 3 คน และ 6 ฟังก์ชันหลัก</div>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -249,19 +483,19 @@
     <!-- TAB 0: WELCOME SECTION (หน้าแรก) -->
     <section id="tab-content-home" class="tab-panel space-y-10">
       <!-- HERO BANNER: Welcome to InvestPrep -->
-      <div class="rounded-3xl border border-amber-900/15 overflow-hidden bg-white shadow-xs p-6 sm:p-10 lg:p-12">
+      <div class="rounded-3xl border border-pink-900/15 overflow-hidden bg-white shadow-xs p-6 sm:p-10 lg:p-12">
         <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           <div class="space-y-4 max-w-2xl">
-            <div class="flex items-center gap-2 text-xs font-semibold text-emerald-800">
-              <span class="font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-300">INVESTPREP</span>
+            <div class="flex items-center gap-2 text-xs font-semibold text-purple-800">
+              <span class="font-mono bg-purple-100 text-purple-800 px-2 py-0.5 rounded border border-purple-300">INVESTPREP</span>
               <span>•</span>
-              <span class="text-amber-800">ระบบประเมินความพร้อมและวางแผนพอร์ตการลงทุน</span>
+              <span class="text-pink-800">ระบบประเมินความพร้อมและวางแผนพอร์ตการลงทุน</span>
             </div>
             <div class="space-y-2">
               <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">
-                Welcome to <span class="text-emerald-800">InvestPrep</span>
+                Welcome to <span class="text-purple-800">InvestPrep</span>
               </h1>
-              <p class="text-lg sm:text-xl font-bold text-amber-800">
+              <p class="text-lg sm:text-xl font-bold text-pink-800">
                 ตัวช่วยและแหล่งความรู้การลงทุนสำหรับคนทั่วไป
               </p>
             </div>
@@ -269,9 +503,9 @@
               ออกแบบขึ้นเพื่อเป็นเครื่องมือประเมินสุขภาพการเงิน ค้นหาระดับความเสี่ยงตามมาตรฐานสถาบัน TSI ตลาดหลักทรัพย์แห่งประเทศไทย และสำนักงาน ก.ล.ต. พร้อมจำลองพอร์ตและคำนวณการจัดสรรรายได้อย่างเป็นรูปธรรม ช่วยให้คนทั่วไปเริ่มต้นลงทุนได้อย่างมั่นใจ ไม่หลงทาง และไม่ตกเป็นเหยื่อมิจฉาชีพ
             </p>
             <div class="pt-2 flex flex-wrap items-center gap-3">
-              <button onclick="switchTab('finance')" class="px-6 py-3 text-xs sm:text-sm font-bold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-md flex items-center gap-2 border border-amber-300/40">
+              <button onclick="switchTab('finance')" class="px-6 py-3 text-xs sm:text-sm font-bold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-md flex items-center gap-2 border border-pink-300/40">
                 <span>เริ่มต้นใช้งาน (ถัดไป)</span>
-                <span class="text-amber-300">→</span>
+                <span class="text-pink-300">→</span>
               </button>
               <button onclick="openReportModal()" class="px-4 py-3 text-xs font-semibold text-stone-700 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors">
                 ดูตัวอย่างรายงานสรุป
@@ -280,26 +514,26 @@
           </div>
 
           <!-- Quick Summary Card -->
-          <div class="w-full lg:w-auto shrink-0 bg-[#FAF8F5] p-5 rounded-2xl border border-amber-900/10 space-y-3 min-w-[280px]">
+          <div class="w-full lg:w-auto shrink-0 bg-[#FAF8F5] p-5 rounded-2xl border border-pink-900/10 space-y-3 min-w-[280px]">
             <div class="text-xs font-semibold text-stone-700 flex items-center justify-between">
               <span>สถานะจำลองของคุณ</span>
-              <span id="hero-risk-badge" class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] font-mono">เสี่ยงปานกลาง (Level 3)</span>
+              <span id="hero-risk-badge" class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 text-[11px] font-mono">เสี่ยงปานกลาง (Level 3)</span>
             </div>
             <div class="space-y-2 text-xs text-stone-600 border-t border-stone-200 pt-2.5">
               <div class="flex justify-between">
                 <span>เช็กลิสต์ความพร้อม:</span>
-                <span id="hero-checklist-count" class="font-bold text-emerald-800">4 / 7 ข้อ</span>
+                <span id="hero-checklist-count" class="font-bold text-purple-800">4 / 7 ข้อ</span>
               </div>
               <div class="flex justify-between">
                 <span>เงินสำรองฉุกเฉิน:</span>
-                <span id="hero-emergency-months" class="font-bold text-emerald-800">4.5 เดือน (เพียงพอ)</span>
+                <span id="hero-emergency-months" class="font-bold text-purple-800">4.5 เดือน (เพียงพอ)</span>
               </div>
               <div class="flex justify-between">
                 <span>ภาระหนี้ต่อรายได้ (DTI):</span>
-                <span id="hero-dti-ratio" class="font-bold text-emerald-800">10.5% (ปลอดภัย)</span>
+                <span id="hero-dti-ratio" class="font-bold text-purple-800">10.5% (ปลอดภัย)</span>
               </div>
             </div>
-            <button onclick="switchTab('finance')" class="w-full py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-colors text-center">
+            <button onclick="switchTab('finance')" class="w-full py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-colors text-center">
               เริ่มตรวจข้อมูลการเงิน (STEP 01)
             </button>
           </div>
@@ -313,42 +547,42 @@
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 01</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 01</span>
             <h4 class="font-bold text-stone-900">ข้อมูลส่วนตัวและการเงิน</h4>
             <p class="text-stone-500">วิเคราะห์กระแสเงินสด ภาระหนี้ DTI และเงินสำรองฉุกเฉิน</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 02</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 02</span>
             <h4 class="font-bold text-stone-900">เช็กลิสต์มือใหม่ 7 เสาหลัก</h4>
             <p class="text-stone-500">วัดความพร้อมก่อนนำเงินก้อนไปเสี่ยงในตลาดจริง</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 03</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 03</span>
             <h4 class="font-bold text-stone-900">เป้าหมายการลงทุน</h4>
             <p class="text-stone-500">กำหนดเงินและระยะเวลาเพื่อเกษียณ ซื้อบ้าน หรืออิสรภาพ</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 04</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 04</span>
             <h4 class="font-bold text-stone-900">แบบประเมิน TSI 10 ข้อ</h4>
             <p class="text-stone-500">ประเมินระดับความเสี่ยงตามมาตรฐาน ก.ล.ต. ระดับ 1 ถึง 5</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 05</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 05</span>
             <h4 class="font-bold text-stone-900">คลังสินทรัพย์ลงทุน</h4>
             <p class="text-stone-500">ความรู้เกี่ยวกับ 9 สินทรัพย์ ตั้งแต่เงินฝาก พันธบัตร ถึงหุ้น</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 06</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 06</span>
             <h4 class="font-bold text-stone-900">จัดสัดส่วนพอร์ต</h4>
             <p class="text-stone-500">แผน Asset Allocation เฉพาะบุคคลตามความเสี่ยงและเวลา</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 07</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 07</span>
             <h4 class="font-bold text-stone-900">จัดสรรเงิน 50/30/20 & DCA</h4>
             <p class="text-stone-500">เครื่องคิดเลขจำลองพลังดอกเบี้ยทบต้นระยะยาว</p>
           </div>
           <div class="p-4 rounded-xl bg-white border border-stone-200 space-y-1.5">
-            <span class="font-mono text-emerald-800 font-bold">STEP 08</span>
+            <span class="font-mono text-purple-800 font-bold">STEP 08</span>
             <h4 class="font-bold text-stone-900">ข้อควรระวัง & ก.ล.ต.</h4>
             <p class="text-stone-500">เครื่องมือตรวจจับสัญญาณมิจฉาชีพ Scam Red-Flag Detector</p>
           </div>
@@ -356,12 +590,12 @@
       </div>
 
       <!-- Bottom Welcome Banner -->
-      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-emerald-800 to-emerald-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-purple-800 to-purple-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h3 class="text-base sm:text-lg font-bold">พร้อมเริ่มต้นก้าวแรกของคุณแล้วหรือยัง?</h3>
-          <p class="text-xs text-emerald-100">คลิกปุ่มถัดไปเพื่อเริ่มกรอกข้อมูลส่วนตัวและตรวจสุขภาพทางการเงิน</p>
+          <p class="text-xs text-purple-100">คลิกปุ่มถัดไปเพื่อเริ่มกรอกข้อมูลส่วนตัวและตรวจสุขภาพทางการเงิน</p>
         </div>
-        <button onclick="switchTab('finance')" class="px-5 py-3 text-xs font-bold text-emerald-950 bg-amber-300 hover:bg-amber-400 rounded-xl transition-all shadow-md shrink-0">
+        <button onclick="switchTab('finance')" class="px-5 py-3 text-xs font-bold text-purple-950 bg-pink-300 hover:bg-pink-400 rounded-xl transition-all shadow-md shrink-0">
           ถัดไป: ข้อมูลส่วนตัวและการเงิน →
         </button>
       </div>
@@ -371,9 +605,9 @@
     <section id="tab-content-finance" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 01</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 01</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">สำรวจตนเองก่อนเริ่มลงทุน</span>
+          <span class="text-pink-800 font-medium">สำรวจตนเองก่อนเริ่มลงทุน</span>
           <span>/</span>
           <span>ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
         </div>
@@ -385,7 +619,7 @@
 
       <!-- Sub-Tab Switcher: สำรวจตนเองก่อนเริ่มลงทุน -->
       <div class="flex items-center gap-2 border-b border-stone-200 pb-3">
-        <button onclick="switchTab('finance')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-800 text-white shadow-xs">
+        <button onclick="switchTab('finance')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-purple-800 text-white shadow-xs">
           <span>💳 ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
         </button>
         <button onclick="switchTab('tsi')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors">
@@ -398,29 +632,29 @@
         <!-- Metric 1: Monthly Cashflow -->
         <div class="p-5 rounded-xl border border-stone-200 bg-white shadow-xs space-y-1">
           <div class="text-[11px] font-semibold uppercase text-stone-400">กระแสเงินสดสุทธิ/เดือน</div>
-          <div id="metric-net-cashflow" class="text-xl sm:text-2xl font-bold text-emerald-800">฿15,000</div>
+          <div id="metric-net-cashflow" class="text-xl sm:text-2xl font-bold text-purple-800">฿15,000</div>
           <div class="text-xs text-stone-500">เงินคงเหลือเพื่อการออมและลงทุน</div>
         </div>
 
         <!-- Metric 2: DTI Ratio -->
         <div class="p-5 rounded-xl border border-stone-200 bg-white shadow-xs space-y-1">
           <div class="text-[11px] font-semibold uppercase text-stone-400">ภาระหนี้ต่อรายได้ (DTI)</div>
-          <div id="metric-dti" class="text-xl sm:text-2xl font-bold text-emerald-800">10.5%</div>
-          <div id="metric-dti-status" class="text-xs text-emerald-700 font-medium">ระดับปลอดภัย (&lt; 35%)</div>
+          <div id="metric-dti" class="text-xl sm:text-2xl font-bold text-purple-800">10.5%</div>
+          <div id="metric-dti-status" class="text-xs text-purple-700 font-medium">ระดับปลอดภัย (&lt; 35%)</div>
         </div>
 
         <!-- Metric 3: Emergency Fund Ratio -->
         <div class="p-5 rounded-xl border border-stone-200 bg-white shadow-xs space-y-1">
           <div class="text-[11px] font-semibold uppercase text-stone-400">เงินสำรองฉุกเฉิน</div>
-          <div id="metric-emergency-months" class="text-xl sm:text-2xl font-bold text-emerald-800">4.5 เดือน</div>
-          <div id="metric-emergency-status" class="text-xs text-emerald-700 font-medium">เพียงพอตามเกณฑ์ (3-6 เดือน)</div>
+          <div id="metric-emergency-months" class="text-xl sm:text-2xl font-bold text-purple-800">4.5 เดือน</div>
+          <div id="metric-emergency-status" class="text-xs text-purple-700 font-medium">เพียงพอตามเกณฑ์ (3-6 เดือน)</div>
         </div>
 
         <!-- Metric 4: Savings Ratio -->
         <div class="p-5 rounded-xl border border-stone-200 bg-white shadow-xs space-y-1">
           <div class="text-[11px] font-semibold uppercase text-stone-400">อัตราการออมต่อรายได้</div>
-          <div id="metric-savings-rate" class="text-xl sm:text-2xl font-bold text-emerald-800">39.5%</div>
-          <div class="text-xs text-emerald-700 font-medium">ยอดเยี่ยม (มากกว่าเกณฑ์ 20%)</div>
+          <div id="metric-savings-rate" class="text-xl sm:text-2xl font-bold text-purple-800">39.5%</div>
+          <div class="text-xs text-purple-700 font-medium">ยอดเยี่ยม (มากกว่าเกณฑ์ 20%)</div>
         </div>
       </div>
 
@@ -435,13 +669,13 @@
           <!-- Age -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">อายุของคุณ (ปี)</label>
-            <input type="number" id="input-age" value="" placeholder="เช่น 28" min="15" max="90" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-age" value="" placeholder="เช่น 28" min="15" max="90" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
 
           <!-- Gender -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">เพศ</label>
-            <select id="input-gender" onchange="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm bg-white">
+            <select id="input-gender" onchange="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm bg-white">
               <option value="" selected disabled>-- เลือกเพศ / ไม่ระบุ --</option>
               <option value="female">หญิง</option>
               <option value="male">ชาย</option>
@@ -452,43 +686,43 @@
           <!-- Occupation -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">อาชีพ / แหล่งที่มาของรายได้</label>
-            <input type="text" id="input-occupation" value="" placeholder="เช่น พนักงานบริษัทเอกชน, ข้าราชการ, ค้าขาย" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="text" id="input-occupation" value="" placeholder="เช่น พนักงานบริษัทเอกชน, ข้าราชการ, ค้าขาย" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
 
           <!-- Monthly Income -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">รายได้เฉลี่ยต่อเดือน (บาท)</label>
-            <input type="number" id="input-income" value="" placeholder="เช่น 35000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
+            <input type="number" id="input-income" value="" placeholder="เช่น 35000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm font-semibold">
           </div>
 
           <!-- Monthly Expenses -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">รายจ่ายจำเป็นและทั่วไปต่อเดือน (บาท)</label>
-            <input type="number" id="input-expenses" value="" placeholder="เช่น 18000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-expenses" value="" placeholder="เช่น 18000" min="0" step="1000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
 
           <!-- Monthly Debt Payment -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">ยอดผ่อนชำระหนี้สินต่อเดือน (บาท)</label>
-            <input type="number" id="input-debt-payment" value="" placeholder="เช่น 4000 (หากไม่มีใส่ 0)" min="0" step="500" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-debt-payment" value="" placeholder="เช่น 4000 (หากไม่มีใส่ 0)" min="0" step="500" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
 
           <!-- Total Outstanding Debt -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">ภาระหนี้สินคงค้างทั้งหมด (บาท)</label>
-            <input type="number" id="input-total-debt" value="" placeholder="เช่น 0 หรือ 35000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-total-debt" value="" placeholder="เช่น 0 หรือ 35000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
 
           <!-- Emergency Fund -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">เงินสำรองเผื่อฉุกเฉินปัจจุบัน (บาท)</label>
-            <input type="number" id="input-emergency" value="" placeholder="เช่น 50000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-emergency" value="" placeholder="เช่น 50000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
 
           <!-- Current Investments -->
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">มูลค่าพอร์ตลงทุนที่มีอยู่ปัจจุบัน (บาท)</label>
-            <input type="number" id="input-investments" value="" placeholder="เช่น 0 หรือ 30000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm">
+            <input type="number" id="input-investments" value="" placeholder="เช่น 0 หรือ 30000" min="0" step="5000" oninput="updateFinanceState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm">
           </div>
         </div>
       </div>
@@ -498,9 +732,9 @@
         <button onclick="switchTab('home')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: หน้าแรก (Welcome)
         </button>
-        <button onclick="switchTab('tsi')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+        <button onclick="switchTab('tsi')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
           <span>ถัดไป: ทำแบบประเมินความเสี่ยง TSI (ส่วนที่ 2)</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
@@ -509,9 +743,9 @@
     <section id="tab-content-checklist" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 02</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 02</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">เช็กลิสต์ความพร้อม</span>
+          <span class="text-pink-800 font-medium">เช็กลิสต์ความพร้อม</span>
           <span>/</span>
           <span>7 เสาหลักก่อนลงทุน</span>
         </div>
@@ -525,10 +759,10 @@
       <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-3">
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-stone-800 uppercase tracking-wider">คะแนนความพร้อมโดยรวม</span>
-          <span id="checklist-progress-text" class="text-sm font-bold text-emerald-800">4 / 7 ข้อ (57%)</span>
+          <span id="checklist-progress-text" class="text-sm font-bold text-purple-800">4 / 7 ข้อ (57%)</span>
         </div>
         <div class="w-full bg-stone-100 h-3 rounded-full overflow-hidden">
-          <div id="checklist-progress-bar" class="bg-gradient-to-r from-emerald-600 to-emerald-800 h-full transition-all duration-300" style="width: 57%;"></div>
+          <div id="checklist-progress-bar" class="bg-gradient-to-r from-purple-600 to-purple-800 h-full transition-all duration-300" style="width: 57%;"></div>
         </div>
         <p id="checklist-progress-desc" class="text-xs text-stone-500">
           ความพร้อมระดับปานกลาง: แนะนำให้จัดการเงินสำรองและปลดหนี้ดอกเบี้ยสูงก่อนเพิ่มเงินลงทุนก้อนใหญ่
@@ -545,9 +779,9 @@
         <button onclick="switchTab('finance')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: STEP 01 · ข้อมูลส่วนตัวและการเงิน
         </button>
-        <button onclick="switchTab('goal')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+        <button onclick="switchTab('goal')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
           <span>ถัดไป: STEP 03 · เป้าหมายการลงทุน</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
@@ -556,9 +790,9 @@
     <section id="tab-content-goal" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 03</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 03</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">เป้าหมายการลงทุน</span>
+          <span class="text-pink-800 font-medium">เป้าหมายการลงทุน</span>
           <span>/</span>
           <span>กำหนดเป้าหมายและระยะเวลา</span>
         </div>
@@ -582,19 +816,19 @@
             <!-- Target Amount -->
             <div class="space-y-1.5">
               <label class="block text-xs font-semibold text-stone-700">เป้าหมายจำนวนเงินที่ต้องการ (บาท)</label>
-              <input type="number" id="input-goal-target" value="" placeholder="เช่น 1000000" step="100000" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
+              <input type="number" id="input-goal-target" value="" placeholder="เช่น 1000000" step="100000" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm font-semibold">
             </div>
 
             <!-- Time Horizon -->
             <div class="space-y-1.5">
               <label class="block text-xs font-semibold text-stone-700">ระยะเวลาการลงทุน (ปี)</label>
-              <input type="number" id="input-goal-years" value="5" min="1" max="40" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm font-semibold">
+              <input type="number" id="input-goal-years" value="5" min="1" max="40" oninput="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm font-semibold">
             </div>
           </div>
 
           <div class="space-y-1.5">
             <label class="block text-xs font-semibold text-stone-700">ความสำคัญของเป้าหมายนี้</label>
-            <select id="input-goal-importance" onchange="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm bg-white">
+            <select id="input-goal-importance" onchange="updateGoalState()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-purple-700 text-sm bg-white">
               <option value="critical">สำคัญมากที่สุด (ห้ามสูญเงินต้น เช่น เงินเกษียณ/การศึกษาลูก)</option>
               <option value="important" selected>สำคัญปานกลาง (ยืดหยุ่นเวลาได้เล็กน้อย เช่น ซื้อบ้าน/ขยายธุรกิจ)</option>
               <option value="flexible">ยืดหยุ่นได้สูง (เน้นผลตอบแทนเติบโต เช่น ท่องเที่ยว/สร้างความมั่งคั่ง)</option>
@@ -612,11 +846,11 @@
             </div>
             <div>
               <span class="text-stone-400 block">คำแนะนำกลยุทธ์:</span>
-              <span id="goal-strategy-advice" class="font-medium text-emerald-800">
+              <span id="goal-strategy-advice" class="font-medium text-purple-800">
                 มีเวลาให้เงินเติบโต สามารถรับความผันผวนของหุ้นและกองทุนรวมดัชนีได้เต็มที่ เพื่อผลตอบแทนทบต้นชนะเงินเฟ้อ
               </span>
             </div>
-            <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">
+            <div class="p-3 rounded-xl bg-pink-50 border border-pink-200 text-pink-900">
               <span class="font-semibold block mb-0.5">สูตรวางแผนคร่าวๆ:</span>
               <span>เพื่อไปถึง ฿3,000,000 ใน 15 ปี ด้วยผลตอบแทนเฉลี่ย 7% ต่อปี ต้องออมประมาณเดือนละ ฿9,500</span>
             </div>
@@ -629,9 +863,9 @@
         <button onclick="switchTab('checklist')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: STEP 02 · เช็กลิสต์ความพร้อม
         </button>
-        <button onclick="switchTab('assets')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+        <button onclick="switchTab('assets')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
           <span>ถัดไป: STEP 04 · คลังสินทรัพย์ลงทุน</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
@@ -640,9 +874,9 @@
     <section id="tab-content-tsi" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 01</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 01</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">สำรวจตนเองก่อนเริ่มลงทุน</span>
+          <span class="text-pink-800 font-medium">สำรวจตนเองก่อนเริ่มลงทุน</span>
           <span>/</span>
           <span>ส่วนที่ 2: แบบประเมินความเสี่ยง TSI (10 ข้อ)</span>
         </div>
@@ -657,7 +891,7 @@
         <button onclick="switchTab('finance')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 transition-colors">
           <span>💳 ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
         </button>
-        <button onclick="switchTab('tsi')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-800 text-white shadow-xs">
+        <button onclick="switchTab('tsi')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-purple-800 text-white shadow-xs">
           <span>🎯 ส่วนที่ 2: แบบประเมินความเสี่ยง TSI (10 ข้อ)</span>
         </button>
       </div>
@@ -667,7 +901,7 @@
         <div class="space-y-1">
           <div class="text-xs font-bold uppercase tracking-wider text-stone-400">ระดับความเสี่ยงที่คุณยอมรับได้</div>
           <div class="flex items-center gap-3">
-            <span id="tsi-result-level-title" class="text-xl sm:text-2xl font-bold text-emerald-800">
+            <span id="tsi-result-level-title" class="text-xl sm:text-2xl font-bold text-purple-800">
               ระดับ 3 : เสี่ยงปานกลางค่อนข้างสูง (Medium-High Risk)
             </span>
           </div>
@@ -677,7 +911,7 @@
         </div>
         <div class="text-right shrink-0 bg-stone-50 px-5 py-3 rounded-xl border border-stone-200">
           <span class="text-xs text-stone-400 block">คะแนนรวม</span>
-          <span id="tsi-total-score" class="text-2xl font-extrabold text-emerald-800">28 / 40</span>
+          <span id="tsi-total-score" class="text-2xl font-extrabold text-purple-800">28 / 40</span>
           <span class="text-[11px] text-stone-500 block">คะแนน</span>
         </div>
       </div>
@@ -692,9 +926,9 @@
         <button onclick="switchTab('finance')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: ตรวจข้อมูลการเงิน (ส่วนที่ 1)
         </button>
-        <button onclick="switchTab('checklist')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+        <button onclick="switchTab('checklist')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
           <span>ถัดไป: STEP 02 · เช็กลิสต์ความพร้อม 7 เสาหลัก</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
@@ -703,9 +937,9 @@
     <section id="tab-content-assets" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 05</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 05</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">สินทรัพย์ลงทุน</span>
+          <span class="text-pink-800 font-medium">สินทรัพย์ลงทุน</span>
           <span>/</span>
           <span>คลังสินทรัพย์ 9 ประเภท</span>
         </div>
@@ -725,9 +959,9 @@
         <button onclick="switchTab('goal')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: STEP 03 · เป้าหมายการลงทุน
         </button>
-        <button onclick="switchTab('portfolio')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+        <button onclick="switchTab('portfolio')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
           <span>ถัดไป: STEP 05 · จัดสัดส่วนพอร์ต</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
@@ -736,9 +970,9 @@
     <section id="tab-content-portfolio" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 06</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 06</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">จัดสรรพอร์ต</span>
+          <span class="text-pink-800 font-medium">จัดสรรพอร์ต</span>
           <span>/</span>
           <span>สัดส่วนที่เหมาะสมเฉพาะบุคคล</span>
         </div>
@@ -752,12 +986,12 @@
       <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-xs space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-4">
           <div>
-            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider">กลยุทธ์พอร์ตที่แนะนำ</span>
+            <span class="text-xs font-bold text-pink-800 uppercase tracking-wider">กลยุทธ์พอร์ตที่แนะนำ</span>
             <h3 id="portfolio-strategy-title" class="text-lg sm:text-xl font-bold text-stone-900">
               พอร์ตสมดุลกระจายความเสี่ยง (Balanced Growth Portfolio)
             </h3>
           </div>
-          <div class="text-xs bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200 font-medium">
+          <div class="text-xs bg-purple-50 text-purple-800 px-3 py-1.5 rounded-xl border border-purple-200 font-medium">
             ผลตอบแทนคาดหวังเฉลี่ย: <strong>5.5% - 7.5% ต่อปี</strong>
           </div>
         </div>
@@ -795,9 +1029,9 @@
         <button onclick="switchTab('assets')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: STEP 05 · สินทรัพย์ลงทุน
         </button>
-        <button onclick="switchTab('budget')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
+        <button onclick="switchTab('budget')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
           <span>ถัดไป: STEP 07 · จัดสรรเงิน & DCA</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
@@ -806,9 +1040,9 @@
     <section id="tab-content-budget" class="tab-panel hidden space-y-8">
       <div class="border-b border-stone-200 pb-4">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 07</span>
+          <span class="font-mono text-purple-800 font-bold">STEP 07</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">จัดสรรเงินออม</span>
+          <span class="text-pink-800 font-medium">จัดสรรเงินออม</span>
           <span>/</span>
           <span>กฎ 50/30/20 และจำลอง DCA</span>
         </div>
@@ -830,14 +1064,14 @@
             <div id="budget-needs-val" class="text-lg font-bold text-stone-800">฿19,000</div>
             <p class="text-stone-500">ค่าเช่าบ้าน อาหาร เดินทาง หนี้สินจำเป็น</p>
           </div>
-          <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-1">
-            <span class="text-amber-800 font-bold uppercase">30% เพื่อความสุข (Wants)</span>
-            <div id="budget-wants-val" class="text-lg font-bold text-amber-900">฿11,400</div>
+          <div class="p-4 rounded-xl bg-pink-50/50 border border-pink-200 space-y-1">
+            <span class="text-pink-800 font-bold uppercase">30% เพื่อความสุข (Wants)</span>
+            <div id="budget-wants-val" class="text-lg font-bold text-pink-900">฿11,400</div>
             <p class="text-stone-500">ช้อปปิ้ง ท่องเที่ยว สังสรรค์ ทานข้าวนอกบ้าน</p>
           </div>
-          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
-            <span class="text-emerald-800 font-bold uppercase">20% เงินออมและลงทุน (Savings)</span>
-            <div id="budget-savings-val" class="text-lg font-bold text-emerald-800">฿7,600</div>
+          <div class="p-4 rounded-xl bg-purple-50 border border-purple-200 space-y-1">
+            <span class="text-purple-800 font-bold uppercase">20% เงินออมและลงทุน (Savings)</span>
+            <div id="budget-savings-val" class="text-lg font-bold text-purple-800">฿7,600</div>
             <p class="text-stone-500">เงินลงทุน DCA สม่ำเสมอทุกเดือน</p>
           </div>
         </div>
@@ -854,7 +1088,7 @@
           </div>
           <div class="space-y-1">
             <label class="text-xs font-semibold text-stone-700">เงินลงทุน DCA ต่อเดือน (บาท)</label>
-            <input type="number" id="sim-monthly" value="0" placeholder="เช่น 3000" step="500" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-emerald-800">
+            <input type="number" id="sim-monthly" value="0" placeholder="เช่น 3000" step="500" oninput="calculateDCA()" class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs font-semibold text-purple-800">
           </div>
           <div class="space-y-1">
             <label class="text-xs font-semibold text-stone-700">ผลตอบแทนเฉลี่ยคาดหวัง (% ต่อปี)</label>
@@ -867,18 +1101,18 @@
         </div>
 
         <!-- Simulation Result Highlights -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-xl bg-[#FAF8F5] border border-amber-900/10 text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-xl bg-[#FAF8F5] border border-pink-900/10 text-center">
           <div>
             <span class="text-xs text-stone-500">เงินต้นสะสมทั้งหมด</span>
             <div id="sim-res-principal" class="text-lg font-bold text-stone-800">฿1,290,000</div>
           </div>
           <div>
             <span class="text-xs text-stone-500">กำไรทบต้น (Compound Gain)</span>
-            <div id="sim-res-gain" class="text-lg font-bold text-emerald-800">฿1,023,124</div>
+            <div id="sim-res-gain" class="text-lg font-bold text-purple-800">฿1,023,124</div>
           </div>
           <div>
             <span class="text-xs text-stone-500">มูลค่าพอร์ตปลายทาง</span>
-            <div id="sim-res-total" class="text-xl sm:text-2xl font-extrabold text-emerald-900">฿2,313,124</div>
+            <div id="sim-res-total" class="text-xl sm:text-2xl font-extrabold text-purple-900">฿2,313,124</div>
           </div>
         </div>
       </div>
@@ -888,164 +1122,771 @@
         <button onclick="switchTab('portfolio')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
           ← ย้อนกลับ: STEP 05 · จัดสัดส่วนพอร์ต
         </button>
-        <button onclick="switchTab('glossary')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: คลังคำศัพท์การลงทุน (ก.ล.ต./ธปท./SET)</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        <button onclick="switchTab('providers')" id="nav-btn-providers" class="nav-tab px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors">
+            ผู้ให้บริการที่แนะนำ
+          </button>
+          <button onclick="switchTab('knowledge_hub')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-800 hover:bg-purple-900 rounded-xl transition-all shadow-xs">
+          <span>ถัดไป: ศูนย์ความรู้ กฎหมาย & ภาษีการลงทุน</span>
+          <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </div>
     </section>
 
-    <!-- TAB: INVESTMENT GLOSSARY SECTION (คลังคำศัพท์การลงทุน) -->
-    <section id="tab-content-glossary" class="tab-panel hidden space-y-8">
-      <div class="border-b border-stone-200 pb-4">
+    <!-- TAB 07: KNOWLEDGE, LEGAL & TAXATION HUB (ศูนย์ความรู้ กฎหมาย & ภาษีการลงทุน) -->
+    <section id="tab-content-knowledge_hub" class="tab-panel hidden space-y-8">
+      <!-- Hub Overarching Header -->
+      <div class="border-b border-stone-200 pb-5">
         <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">KNOWLEDGE HUB</span>
+          <span class="font-mono text-purple-800 font-bold">KNOWLEDGE & REGULATORY HUB</span>
           <span>/</span>
-          <span class="text-amber-800 font-medium">คลังความรู้การลงทุน</span>
+          <span class="text-pink-800 font-medium">ศูนย์ความรู้ กฎหมาย & ภาษีการลงทุน</span>
           <span>/</span>
           <span>มาตรฐาน 3 หน่วยงานกำกับดูแลไทย</span>
         </div>
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 class="text-xl sm:text-2xl font-bold text-stone-900">คลังคำศัพท์ที่ควรรู้เกี่ยวกับการลงทุน</h2>
-            <p class="text-xs sm:text-sm text-stone-600 mt-1">
-              รวบรวมคำศัพท์สำคัญที่มือใหม่ต้องเข้าใจ โดยอ้างอิงมาตรฐานจาก <strong>สำนักงาน ก.ล.ต.</strong>, <strong>ธนาคารแห่งประเทศไทย (ธปท.)</strong> และ <strong>ตลาดหลักทรัพย์แห่งประเทศไทย (SET)</strong>
+            <h2 class="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
+              ศูนย์ความรู้ กฎหมาย & ภาษีการลงทุน
+            </h2>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1 max-w-3xl leading-relaxed">
+              รวบรวมคลังคำศัพท์ กฎหมายคุ้มครองสิทธิผู้ลงทุน เกณฑ์ภาษีพร้อมเครื่องคิดเลขคำนวณภาษี และเกราะป้องกันมิจฉาชีพ ตามมาตรฐาน <strong>สำนักงาน ก.ล.ต.</strong>, <strong>ธนาคารแห่งประเทศไทย (ธปท.)</strong> และ <strong>ตลาดหลักทรัพย์แห่งประเทศไทย (SET)</strong> ไว้ครบถ้วนในหมวดเดียว
             </p>
           </div>
-          <span class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-300 self-start md:self-auto">
-            18 คำศัพท์มาตรฐานทางการ
-          </span>
+        </div>
+
+        <!-- 3 Category Sub-Tab Switcher -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
+          <button onclick="setKnowledgeSubTab('glossary')" id="k-tab-btn-glossary" class="p-3.5 rounded-2xl border text-left transition-all flex items-center justify-between bg-purple-50 border-purple-600 shadow-2xs ring-2 ring-purple-600/20">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold bg-purple-800 text-white">
+                📖
+              </div>
+              <div>
+                <div class="font-bold text-xs sm:text-sm text-stone-900">1. คลังคำศัพท์การลงทุน</div>
+                <div class="text-[11px] text-stone-500">18 คำศัพท์มาตรฐาน ค้นหา & ตัวกรอง</div>
+              </div>
+            </div>
+          </button>
+
+          <button onclick="setKnowledgeSubTab('tax_legal')" id="k-tab-btn-tax_legal" class="p-3.5 rounded-2xl border text-left transition-all flex items-center justify-between bg-white border-stone-200 hover:border-purple-300">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold bg-stone-100 text-stone-700">
+                ⚖️
+              </div>
+              <div>
+                <div class="font-bold text-xs sm:text-sm text-stone-900">2. กฎหมาย & คำนวณภาษีลงทุน</div>
+                <div class="text-[11px] text-stone-500">เกณฑ์ภาษี 6 สินทรัพย์ + เครื่องคิดเลขภาษี</div>
+              </div>
+            </div>
+          </button>
+
+          <button onclick="setKnowledgeSubTab('caution')" id="k-tab-btn-caution" class="p-3.5 rounded-2xl border text-left transition-all flex items-center justify-between bg-white border-stone-200 hover:border-purple-300">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold bg-stone-100 text-stone-700">
+                🛡️
+              </div>
+              <div>
+                <div class="font-bold text-xs sm:text-sm text-stone-900">3. ข้อควรระวัง & มิจฉาชีพ</div>
+                <div class="text-[11px] text-stone-500">Scam Red-Flag Detector & สายด่วน 1207</div>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
 
-      <!-- 3 Authority Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-        <div onclick="filterGlossarySource('sec')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-emerald-500 cursor-pointer space-y-1.5 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-emerald-900 text-sm">สำนักงาน ก.ล.ต.</span>
-            <span class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">SEC Thailand</span>
+      <!-- SUB-VIEW 1: GLOSSARY -->
+      <div id="k-subview-glossary" class="space-y-6">
+        <!-- 3 Authority Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div onclick="filterGlossarySource('sec')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-purple-500 cursor-pointer space-y-1.5 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-purple-900 text-sm">สำนักงาน ก.ล.ต.</span>
+              <span class="text-[10px] font-mono text-purple-700 bg-purple-50 px-2 py-0.5 rounded">SEC Thailand</span>
+            </div>
+            <p class="text-stone-500">กำกับดูแลตลาดทุน ปกป้องสิทธิผู้ลงทุน และปราบปรามมิจฉาชีพหลอกลงทุน</p>
           </div>
-          <p class="text-stone-500">กำกับดูแลตลาดทุน ปกป้องสิทธิผู้ลงทุน และปราบปรามมิจฉาชีพหลอกลงทุน</p>
-        </div>
-        <div onclick="filterGlossarySource('bot')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-amber-500 cursor-pointer space-y-1.5 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-amber-900 text-sm">ธนาคารแห่งประเทศไทย</span>
-            <span class="text-[10px] font-mono text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Bank of Thailand</span>
+          <div onclick="filterGlossarySource('bot')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-pink-500 cursor-pointer space-y-1.5 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-pink-900 text-sm">ธนาคารแห่งประเทศไทย</span>
+              <span class="text-[10px] font-mono text-pink-700 bg-pink-50 px-2 py-0.5 rounded">Bank of Thailand</span>
+            </div>
+            <p class="text-stone-500">ดูแลเสถียรภาพระบบการเงิน อัตราดอกเบี้ยนโยบาย เงินเฟ้อ และภาระหนี้ DTI</p>
           </div>
-          <p class="text-stone-500">ดูแลเสถียรภาพระบบการเงิน อัตราดอกเบี้ยนโยบาย เงินเฟ้อ และภาระหนี้ DTI</p>
-        </div>
-        <div onclick="filterGlossarySource('set')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-teal-500 cursor-pointer space-y-1.5 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-teal-900 text-sm">ตลาดหลักทรัพย์แห่งประเทศไทย</span>
-            <span class="text-[10px] font-mono text-teal-700 bg-teal-50 px-2 py-0.5 rounded">SET Thailand</span>
+          <div onclick="filterGlossarySource('set')" class="glossary-source-card p-4 rounded-xl border border-stone-200 bg-white hover:border-fuchsia-500 cursor-pointer space-y-1.5 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-fuchsia-900 text-sm">ตลาดหลักทรัพย์แห่งประเทศไทย</span>
+              <span class="text-[10px] font-mono text-fuchsia-700 bg-fuchsia-50 px-2 py-0.5 rounded">SET Thailand</span>
+            </div>
+            <p class="text-stone-500">ศูนย์กลางซื้อขายหุ้น กองทุนรวม ETF ดัชนีตลาด และหลักสูตรสถาบัน TSI</p>
           </div>
-          <p class="text-stone-500">ศูนย์กลางซื้อขายหุ้น กองทุนรวม ETF ดัชนีตลาด และหลักสูตรสถาบัน TSI</p>
+        </div>
+
+        <!-- Search & Filters Bar -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs space-y-3">
+          <div class="relative">
+            <input type="text" id="glossary-search-input" oninput="handleGlossarySearch()" placeholder="ค้นหาคำศัพท์ภาษาไทย หรือภาษาอังกฤษ เช่น DCA, NAV, เงินเฟ้อ, P/E, ก.ล.ต., DTI, บัญชีม้า..." class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-purple-700">
+          </div>
+          <div class="flex items-center gap-2 flex-wrap text-xs pt-1">
+            <span class="text-stone-400 font-medium">หน่วยงาน:</span>
+            <button onclick="filterGlossarySource('all')" id="g-src-all" class="g-src-btn px-2.5 py-1 rounded-lg font-semibold bg-purple-800 text-white">ทั้งหมด</button>
+            <button onclick="filterGlossarySource('sec')" id="g-src-sec" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">สำนักงาน ก.ล.ต.</button>
+            <button onclick="filterGlossarySource('bot')" id="g-src-bot" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">ธนาคารแห่งประเทศไทย</button>
+            <button onclick="filterGlossarySource('set')" id="g-src-set" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">ตลาดหลักทรัพย์ฯ</button>
+          </div>
+        </div>
+
+        <!-- Glossary Terms Grid Container -->
+        <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Rendered via JS -->
         </div>
       </div>
 
-      <!-- Search & Filters Bar -->
-      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-xs space-y-3">
-        <div class="relative">
-          <input type="text" id="glossary-search-input" oninput="handleGlossarySearch()" placeholder="ค้นหาคำศัพท์ภาษาไทย หรือภาษาอังกฤษ เช่น DCA, NAV, เงินเฟ้อ, P/E, ก.ล.ต., DTI, บัญชีม้า..." class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700">
+      <!-- SUB-VIEW 2: TAX & LEGAL -->
+      <div id="k-subview-tax_legal" class="hidden space-y-8">
+        <!-- Asset Tax Rules Grid (6 Asset Classes) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+              <span>เกณฑ์ภาษีการลงทุนตามประเภทสินทรัพย์ (อ้างอิงกรมสรรพากร & ก.ล.ต.)</span>
+            </h3>
+            <span class="text-xs text-stone-500 font-mono">6 หมวดสินทรัพย์</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+            <!-- 1. Thai Stocks -->
+            <div class="p-4 rounded-2xl bg-white border border-stone-200 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm text-stone-900">1. หุ้นไทยในตลาดหลักทรัพย์ (SET/mai)</span>
+                <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-bold">SET</span>
+              </div>
+              <div class="space-y-1 text-stone-600">
+                <p>• <strong>กำไรส่วนต่างราคา (Capital Gain):</strong> ได้รับการยกเว้นภาษีเงินได้บุคคลธรรมดา 100%</p>
+                <p>• <strong>เงินปันผล (Dividend):</strong> ถูกหักภาษี ณ ที่จ่าย 10% สามารถเลือกเป็น Final Tax หรือนำมารวมคำนวณเพื่อขอ <strong>เครดิตภาษีเงินปันผล (ม.47 ทวิ)</strong> ได้</p>
+              </div>
+            </div>
+
+            <!-- 2. Mutual Funds & Tax Savers -->
+            <div class="p-4 rounded-2xl bg-white border border-stone-200 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm text-stone-900">2. กองทุนรวมทั่วไป & กองทุนลดหย่อน</span>
+                <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-bold">SSF/RMF/Thai ESG</span>
+              </div>
+              <div class="space-y-1 text-stone-600">
+                <p>• <strong>กำไรขายคืนหน่วยลงทุน:</strong> ยกเว้นภาษี</p>
+                <p>• <strong>กองทุนลดหย่อนภาษี:</strong> Thai ESG ลดหย่อนได้สูงสุด 300,000 บาท (ถือ 5 ปีวันชนวัน), SSF ลดหย่อนได้ 30% ไม่เกิน 200,000 บาท (ถือ 10 ปี), RMF ไม่เกิน 500,000 บาท (ถือถึงอายุ 55 ปี)</p>
+              </div>
+            </div>
+
+            <!-- 3. Bonds -->
+            <div class="p-4 rounded-2xl bg-white border border-stone-200 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm text-stone-900">3. หุ้นกู้เอกชน & พันธบัตรรัฐบาล</span>
+                <span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-bold">Bonds</span>
+              </div>
+              <div class="space-y-1 text-stone-600">
+                <p>• <strong>ดอกเบี้ยและคูปอง:</strong> หักภาษี ณ ที่จ่าย 15% สามารถเลือกเป็น Final Tax ได้โดยไม่ต้องยื่นรวมปลายปี</p>
+                <p>• <strong>Capital Gain จากการขายในตลาดรอง:</strong> เสียภาษีหัก ณ ที่จ่าย 15%</p>
+              </div>
+            </div>
+
+            <!-- 4. Foreign Stocks (Por 161/2566) -->
+            <div class="p-4 rounded-2xl bg-white border border-stone-200 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm text-stone-900">4. หุ้นและ ETF ต่างประเทศ (ป.161/2566)</span>
+                <span class="px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-bold">คำสั่ง ป.161</span>
+              </div>
+              <div class="space-y-1 text-stone-600">
+                <p>• <strong>ผู้อยู่ในไทยเกิน 180 วัน:</strong> หากมีเงินได้จากสินทรัพย์ในต่างประเทศ และนำเงินได้นั้นกลับเข้าประเทศไทยในปีภาษีใด ต้องนำมารวมคำนวณภาษีเงินได้บุคคลธรรมดาในปีนั้น</p>
+                <p>• <strong>อนุสัญญาภาษีซ้อน (DTA):</strong> สามารถนำภาษีที่จ่ายในต่างประเทศมาเคลมเครดิตภาษีในไทยได้ตามเงื่อนไขอนุสัญญา</p>
+              </div>
+            </div>
+
+            <!-- 5. Crypto -->
+            <div class="p-4 rounded-2xl bg-white border border-stone-200 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm text-stone-900">5. สินทรัพย์ดิจิทัล (Crypto / Token)</span>
+                <span class="px-1.5 py-0.5 rounded bg-pink-100 text-pink-800 text-[10px] font-bold">พ.ร.ก. 2561</span>
+              </div>
+              <div class="space-y-1 text-stone-600">
+                <p>• <strong>กำไรจากการซื้อขาย:</strong> หักภาษี ณ ที่จ่าย 15% และต้องนำมารวมคำนวณภาษีเงินได้ประจำปี</p>
+                <p>• <strong>สิทธิหักกลบผลขาดทุน:</strong> สามารถนำผลขาดทุนมาหักกลบกำไรได้เฉพาะการซื้อขายผ่านศูนย์ซื้อขายที่ได้รับใบอนุญาต ก.ล.ต. (Licensed Exchanges) ในปีภาษีเดียวกัน</p>
+              </div>
+            </div>
+
+            <!-- 6. REITs -->
+            <div class="p-4 rounded-2xl bg-white border border-stone-200 space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm text-stone-900">6. กองทรัสต์อสังหาริมทรัพย์ (REITs / IFF)</span>
+                <span class="px-1.5 py-0.5 rounded bg-pink-100 text-pink-800 text-[10px] font-bold">Property</span>
+              </div>
+              <div class="space-y-1 text-stone-600">
+                <p>• <strong>เงินปันผลจากค่าเช่า:</strong> หัก ณ ที่จ่าย 10% สามารถเลือกเป็น Final Tax ได้</p>
+                <p>• <strong>กำไรส่วนต่างราคาในตลาดหลักทรัพย์:</strong> ได้รับการยกเว้นภาษีเงินได้บุคคลธรรมดา</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="flex items-center gap-2 flex-wrap text-xs pt-1">
-          <span class="text-stone-400 font-medium">หน่วยงาน:</span>
-          <button onclick="filterGlossarySource('all')" id="g-src-all" class="g-src-btn px-2.5 py-1 rounded-lg font-semibold bg-emerald-800 text-white">ทั้งหมด</button>
-          <button onclick="filterGlossarySource('sec')" id="g-src-sec" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">สำนักงาน ก.ล.ต.</button>
-          <button onclick="filterGlossarySource('bot')" id="g-src-bot" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">ธนาคารแห่งประเทศไทย</button>
-          <button onclick="filterGlossarySource('set')" id="g-src-set" class="g-src-btn px-2.5 py-1 rounded-lg text-stone-600 hover:bg-stone-100 bg-stone-50 border border-stone-200">ตลาดหลักทรัพย์ฯ</button>
+
+        <!-- 3 Interactive Investment Tax Calculators -->
+        <div class="space-y-6 pt-4 border-t border-stone-200">
+          <div>
+            <h3 class="text-lg font-bold text-stone-900">ระบบจำลองคำนวณภาษีจากการลงทุน (Interactive Tax Calculators)</h3>
+            <p class="text-xs text-stone-500">เลือกโปรแกรมคำนวณที่ตรงกับความต้องการของคุณเพื่อวางแผนประหยัดภาษีอย่างถูกต้องตามกฎหมาย</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Calculator 1: Dividend Tax Credit -->
+            <div class="p-5 rounded-2xl bg-white border border-stone-200 space-y-4 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-purple-800">1. เครดิตภาษีเงินปันผล (ม.47 ทวิ)</span>
+                  <span class="text-[10px] font-mono text-stone-400">หุ้นไทย</span>
+                </div>
+                <div class="space-y-2 text-xs">
+                  <div>
+                    <label class="block text-stone-500 mb-1">เงินปันผลสุทธิที่ได้รับ (บาท)</label>
+                    <input type="number" id="calc-div-amount" value="" placeholder="เช่น 30000 (กรุณากรอกยอด)" oninput="calculateDivTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300 font-mono">
+                  </div>
+                  <div>
+                    <label class="block text-stone-500 mb-1">อัตราภาษีนิติบุคคลของบริษัท (ทั่วไป 20%)</label>
+                    <select id="calc-div-corp" onchange="calculateDivTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300">
+                      <option value="0.20">20% (บริษัททั่วไปใน SET)</option>
+                      <option value="0.25">25% (บางกลุ่มธุรกิจ)</option>
+                      <option value="0.15">15% (SMEs)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-stone-500 mb-1">ฐานภาษีบุคคลธรรมดาของคุณ</label>
+                    <select id="calc-div-personal" onchange="calculateDivTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300">
+                      <option value="0">0% (รายได้สุทธิไม่เกิน 150,000)</option>
+                      <option value="0.05">5% (150,001 - 300,000)</option>
+                      <option value="0.10" selected>10% (300,001 - 500,000)</option>
+                      <option value="0.15">15% (500,001 - 750,000)</option>
+                      <option value="0.20">20% (750,001 - 1,000,000)</option>
+                      <option value="0.25">25% (1,000,001 - 2,000,000)</option>
+                      <option value="0.30">30% (2,000,001 - 5,000,000)</option>
+                      <option value="0.35">35% (มากกว่า 5,000,000)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-purple-50/80 border border-purple-200 text-xs space-y-1.5 mt-2">
+                <div class="flex justify-between">
+                  <span class="text-stone-600">เครดิตภาษีที่ได้รับ:</span>
+                  <span id="calc-div-credit" class="font-bold font-mono text-purple-800">+฿0</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-stone-600">ภาษีหัก ณ ที่จ่าย 10%:</span>
+                  <span id="calc-div-withheld" class="font-mono text-stone-700">฿0</span>
+                </div>
+                <div class="flex justify-between border-t border-purple-200 pt-1.5 font-bold">
+                  <span id="calc-div-result-label" class="text-purple-900">ขอคืนภาษีได้สุทธิ:</span>
+                  <span id="calc-div-result-val" class="font-mono text-purple-800 text-sm">฿0 (รอการกรอก)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculator 2: Tax Saving Funds (SSF/RMF/Thai ESG) -->
+            <div class="p-5 rounded-2xl bg-white border border-stone-200 space-y-4 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-pink-800">2. สิทธิลดหย่อนกองทุนภาษี</span>
+                  <span class="text-[10px] font-mono text-stone-400">SSF/RMF/Thai ESG</span>
+                </div>
+                <div class="space-y-2 text-xs">
+                  <div>
+                    <label class="block text-stone-500 mb-1">ประเภทกองทุน</label>
+                    <select id="calc-fund-type" onchange="calculateFundTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300">
+                      <option value="thaiesg">Thai ESG (ลดหย่อนได้สูงสุด 300,000)</option>
+                      <option value="ssf">SSF (สูงสุด 30% ไม่เกิน 200,000)</option>
+                      <option value="rmf">RMF (สูงสุด 30% รวมไม่เกิน 500,000)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-stone-500 mb-1">จำนวนเงินที่ลงทุน (บาท)</label>
+                    <input type="number" id="calc-fund-amount" value="" placeholder="เช่น 50000 (กรุณากรอกยอด)" oninput="calculateFundTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300 font-mono">
+                  </div>
+                  <div>
+                    <label class="block text-stone-500 mb-1">ฐานภาษีสูงสุดของคุณ</label>
+                    <select id="calc-fund-bracket" onchange="calculateFundTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300">
+                      <option value="0.05">5% (เงินได้สุทธิ 150,001 - 300,000)</option>
+                      <option value="0.10">10% (เงินได้สุทธิ 300,001 - 500,000)</option>
+                      <option value="0.15" selected>15% (เงินได้สุทธิ 500,001 - 750,000)</option>
+                      <option value="0.20">20% (เงินได้สุทธิ 750,001 - 1,000,000)</option>
+                      <option value="0.25">25% (เงินได้สุทธิ 1,000,001 - 2,000,000)</option>
+                      <option value="0.30">30% (เงินได้สุทธิ 2,000,001 - 5,000,000)</option>
+                      <option value="0.35">35% (มากกว่า 5,000,000)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-pink-50/80 border border-pink-200 text-xs space-y-1.5 mt-2">
+                <div class="flex justify-between">
+                  <span class="text-stone-600">ภาษีที่ประหยัดได้:</span>
+                  <span id="calc-fund-saved" class="font-bold font-mono text-pink-800 text-sm">฿0</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-stone-600">ต้นทุนเงินลงทุนจริง:</span>
+                  <span id="calc-fund-netcost" class="font-mono text-stone-700">฿0</span>
+                </div>
+                <div class="flex justify-between border-t border-pink-200 pt-1.5 font-bold">
+                  <span class="text-pink-900">ผลตอบแทนทันทีจากภาษี:</span>
+                  <span id="calc-fund-yield" class="font-mono text-pink-800">0.0%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculator 3: Foreign Investment Tax (Por 161/2566) -->
+            <div class="p-5 rounded-2xl bg-white border border-stone-200 space-y-4 shadow-2xs flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs text-indigo-800">3. ประมาณการภาษีหุ้นนอก (ป.161)</span>
+                  <span class="text-[10px] font-mono text-stone-400">ป.161/2566</span>
+                </div>
+                <div class="space-y-2 text-xs">
+                  <div>
+                    <label class="block text-stone-500 mb-1">กำไรที่นำกลับเข้าไทยในปีนี้ (บาท)</label>
+                    <input type="number" id="calc-foreign-gain" value="" placeholder="เช่น 100000 (กรุณากรอกยอด)" oninput="calculateForeignTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300 font-mono">
+                  </div>
+                  <div>
+                    <label class="block text-stone-500 mb-1">ฐานภาษีเงินได้บุคคลธรรมดาในไทย</label>
+                    <select id="calc-foreign-bracket" onchange="calculateForeignTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300">
+                      <option value="0.05">5%</option>
+                      <option value="0.10">10%</option>
+                      <option value="0.15">15%</option>
+                      <option value="0.20" selected>20%</option>
+                      <option value="0.25">25%</option>
+                      <option value="0.30">30%</option>
+                      <option value="0.35">35%</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-stone-500 mb-1">ภาษีที่จ่ายในต่างประเทศแล้ว (เครดิต DTA)</label>
+                    <input type="number" id="calc-foreign-credit" value="" placeholder="เช่น 0 หรือยอดภาษีที่หัก" oninput="calculateForeignTax()" class="w-full px-3 py-2 rounded-xl border border-stone-300 font-mono">
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-indigo-50/80 border border-indigo-200 text-xs space-y-1.5 mt-2">
+                <div class="flex justify-between">
+                  <span class="text-stone-600">ภาษีในไทยก่อนเครดิต:</span>
+                  <span id="calc-foreign-thai-tax" class="font-mono text-stone-700">฿20,000</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-stone-600">หักเครดิตภาษีต่างประเทศ:</span>
+                  <span id="calc-foreign-dta-credit" class="font-mono text-stone-700">-฿0</span>
+                </div>
+                <div class="flex justify-between border-t border-indigo-200 pt-1.5 font-bold">
+                  <span class="text-indigo-900">ภาษีที่ต้องชำระเพิ่มเติมในไทย:</span>
+                  <span id="calc-foreign-net-payable" class="font-mono text-indigo-800 text-sm">฿20,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Key Statutory Protections -->
+        <div class="space-y-3 pt-4 border-t border-stone-200">
+          <h3 class="text-lg font-bold text-stone-900">5 กฎหมายสำคัญคุ้มครองผู้ลงทุนในประเทศไทย</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-white border border-stone-200 space-y-1">
+              <span class="font-bold text-purple-900 block">1. พ.ร.บ. หลักทรัพย์และตลาดหลักทรัพย์ พ.ศ. 2535</span>
+              <p class="text-stone-600">กฎหมายแม่บทกำกับตลาดทุน บังคับให้บริษัทจดทะเบียนเปิดเผยข้อมูลอย่างโปร่งใส และลงโทษการใช้ข้อมูลภายใน (Insider Trading)</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white border border-stone-200 space-y-1">
+              <span class="font-bold text-pink-900 block">2. พ.ร.บ. สถาบันคุ้มครองเงินฝาก พ.ศ. 2551 (DPA)</span>
+              <p class="text-stone-600">คุ้มครองเงินฝากในสถาบันการเงินที่อยู่ภายใต้การกำกับดูแล วงเงิน 1 ล้านบาท ต่อ 1 รายผู้ฝาก ต่อ 1 สถาบันการเงิน</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white border border-stone-200 space-y-1">
+              <span class="font-bold text-fuchsia-900 block">3. กฎหมายควบคุมการแลกเปลี่ยนเงิน ธปท.</span>
+              <p class="text-stone-600">กำกับการโอนเงินตราต่างประเทศเพื่อการลงทุนผ่านตัวแทนที่ได้รับอนุญาต เพื่อรักษาเสถียรภาพค่าเงินบาท</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white border border-stone-200 space-y-1">
+              <span class="font-bold text-rose-900 block">4. พ.ร.ก. มาตรการป้องกันและปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. 2566</span>
+              <p class="text-stone-600">ลงโทษผู้เปิดหรือยินยอมให้ใช้ "บัญชีม้า" และ "ซิมม้า" โทษจำคุกสูงสุด 3 ปี หรือปรับสูงสุด 300,000 บาท หรือทั้งจำทั้งปรับ</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Glossary Terms Container -->
-      <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Rendered via JS -->
-      </div>
-
-      <!-- Navigation buttons -->
-      <div class="flex items-center justify-between pt-4 border-t border-stone-200">
-        <button onclick="switchTab('budget')" class="text-xs font-semibold text-stone-600 hover:text-stone-900">
-          ← ย้อนกลับ: STEP 06 · จัดสรรเงิน 50/30/20 & DCA
-        </button>
-        <button onclick="switchTab('caution')" class="flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-800 hover:bg-emerald-900 rounded-xl transition-all shadow-xs">
-          <span>ถัดไป: ข้อควรระวัง & มิจฉาชีพ</span>
-          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </button>
-      </div>
-    </section>
-
-    <!-- TAB 8: CAUTION & WARNINGS SECTION -->
-    <section id="tab-content-caution" class="tab-panel hidden space-y-8">
-      <div class="border-b border-stone-200 pb-4">
-        <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
-          <span class="font-mono text-emerald-800 font-bold">STEP 08</span>
-          <span>/</span>
-          <span class="text-amber-800 font-medium">ข้อควรระวัง</span>
-          <span>/</span>
-          <span>เกราะป้องกันความเสี่ยง & คำเตือน ก.ล.ต.</span>
-        </div>
-        <h2 class="text-xl sm:text-2xl font-bold text-stone-900">8. ข้อควรระวังและคำเตือนสำคัญสำหรับการลงทุน (Investment Cautions)</h2>
-        <p class="text-xs sm:text-sm text-stone-600 mt-1">
-          ความเสี่ยงที่ร้ายแรงที่สุดคือการสูญเสียเงินต้นทั้งหมดจากการหลงเชื่อคำชักชวนที่ไม่ถูกต้อง
-        </p>
-      </div>
-
-      <!-- Regulatory Notice -->
-      <div class="p-5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-950 space-y-2">
-        <div class="flex items-center gap-2 font-bold text-rose-900 text-xs uppercase tracking-wide">
-          <span>คำเตือนสำคัญจากสำนักงาน ก.ล.ต. (SEC Thailand)</span>
-        </div>
-        <p class="text-xs leading-relaxed text-rose-900/90">
-          "การลงทุนมีความเสี่ยง ผู้ลงทุนควรทำความเข้าใจลักษณะสินค้า เงื่อนไขผลตอบแทน และความเสี่ยงก่อนตัดสินใจลงทุน"
-          อย่าหลงเชื่อบุคคลหรือเพจที่การันตีผลตอบแทนสูงผิดปกติ หรือชักชวนให้โอนเงินเข้าบัญชีส่วนบุคคล
-        </p>
-      </div>
-
-      <!-- Scam Red-Flag Inspector -->
-      <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-xs space-y-4">
-        <h3 class="text-base font-bold text-stone-900">ระบบตรวจสอบสัญญาณอันตรายมิจฉาชีพ (Scam Red-Flag Detector)</h3>
-        <p class="text-xs text-stone-500">ติ๊กข้อความที่คุณพบบ่อยในข้อเสนอการลงทุน หากมีแม้แต่ข้อเดียว ให้สันนิษฐานว่าเป็นมิจฉาชีพ 100%</p>
-        
-        <div class="space-y-2.5 text-xs">
-          <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
-            <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
-            <span>การันตีผลตอบแทนแน่นอน 10-30% ต่อเดือน ไม่มีวันขาดทุน</span>
-          </label>
-          <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
-            <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
-            <span>ให้โอนเงินเข้า "บัญชีบุคคลธรรมดา" อ้างว่าเป็นตัวแทนบริษัทหรือแอดมิน</span>
-          </label>
-          <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
-            <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
-            <span>มีโปรโมชันแนะนำเพื่อนแล้วได้ค่าคอมมิชชันเป็นทอดๆ คล้ายแชร์ลูกโซ่</span>
-          </label>
-          <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
-            <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
-            <span>เมื่อต้องการถอนเงิน จะมีเงื่อนไขให้โอนเงินเพิ่มเป็นค่าธรรมเนียมหรือภาษีก่อนเสมอ</span>
-          </label>
+      <!-- SUB-VIEW 3: CAUTION & WARNINGS -->
+      <div id="k-subview-caution" class="hidden space-y-8">
+        <!-- Regulatory Notice -->
+        <div class="p-5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-950 space-y-2">
+          <div class="flex items-center gap-2 font-bold text-rose-900 text-xs uppercase tracking-wide">
+            <span>คำเตือนสำคัญจากสำนักงาน ก.ล.ต. (SEC Thailand)</span>
+          </div>
+          <p class="text-xs leading-relaxed text-rose-900/90">
+            "การลงทุนมีความเสี่ยง ผู้ลงทุนควรทำความเข้าใจลักษณะสินค้า เงื่อนไขผลตอบแทน และความเสี่ยงก่อนตัดสินใจลงทุน"
+            อย่าหลงเชื่อบุคคลหรือเพจที่การันตีผลตอบแทนสูงผิดปกติ หรือชักชวนให้โอนเงินเข้าบัญชีส่วนบุคคล ตรวจสอบรายชื่อผู้ประกอบธุรกิจที่ได้รับอนุญาตผ่านแอป SEC Check First เสมอ
+          </p>
         </div>
 
-        <div id="scam-alert-box" class="hidden p-4 rounded-xl bg-rose-100 border border-rose-300 text-rose-900 text-xs font-semibold">
-          ⚠️ ตรวจพบสัญญาณอันตราย! ข้อเสนอที่มีลักษณะดังกล่าวเข้าข่ายหลอกลวง ห้ามโอนเงินโดยเด็ดขาด และตรวจสอบผ่านแอป SEC Check First ทันที
+        <!-- Scam Red-Flag Inspector -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-xs space-y-4">
+          <h3 class="text-base font-bold text-stone-900">ระบบตรวจสอบสัญญาณอันตรายมิจฉาชีพ (Scam Red-Flag Detector)</h3>
+          <p class="text-xs text-stone-500">ติ๊กข้อความที่คุณพบบ่อยในข้อเสนอการลงทุน หากมีแม้แต่ข้อเดียว ให้สันนิษฐานว่าเป็นมิจฉาชีพ 100%</p>
+          
+          <div class="space-y-2.5 text-xs">
+            <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
+              <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
+              <span>การันตีผลตอบแทนแน่นอน 10-30% ต่อเดือน ไม่มีวันขาดทุน</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
+              <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
+              <span>ให้โอนเงินเข้า "บัญชีบุคคลธรรมดา" อ้างว่าเป็นตัวแทนบริษัทหรือแอดมิน</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
+              <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
+              <span>มีโปรโมชันแนะนำเพื่อนแล้วได้ค่าคอมมิชชันเป็นทอดๆ คล้ายแชร์ลูกโซ่</span>
+            </label>
+            <label class="flex items-start gap-3 p-3 rounded-xl border border-stone-200 hover:bg-stone-50 cursor-pointer">
+              <input type="checkbox" onchange="checkScamFlags()" class="scam-flag-input mt-0.5 rounded text-rose-600 focus:ring-rose-500">
+              <span>เมื่อต้องการถอนเงิน จะมีเงื่อนไขให้โอนเงินเพิ่มเป็นค่าธรรมเนียมหรือภาษีก่อนเสมอ</span>
+            </label>
+          </div>
+
+          <div id="scam-alert-box" class="hidden p-4 rounded-xl bg-rose-100 border border-rose-300 text-rose-900 text-xs font-semibold">
+            ⚠️ ตรวจพบสัญญาณอันตราย! ข้อเสนอที่มีลักษณะดังกล่าวเข้าข่ายหลอกลวง ห้ามโอนเงินโดยเด็ดขาด และตรวจสอบผ่านแอป SEC Check First หรือโทรสายด่วน 1207 ทันที
+          </div>
+        </div>
+
+        <!-- Hotlines and Official Channels -->
+        <div class="p-5 rounded-2xl bg-stone-50 border border-stone-200 text-xs space-y-2">
+          <span class="font-bold text-stone-800">ช่องทางติดต่อและตรวจสอบทางการ:</span>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+            <div class="p-3 rounded-xl bg-white border border-stone-200">
+              <span class="font-bold text-purple-800 block">สายด่วน ก.ล.ต. 1207</span>
+              <span class="text-stone-500 text-[11px]">แจ้งเบาะแสมิจฉาชีพและหลอกลงทุน</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-stone-200">
+              <span class="font-bold text-pink-800 block">ศูนย์คุ้มครองผู้ใช้บริการทางการเงิน (ศคง. 1213)</span>
+              <span class="text-stone-500 text-[11px]">ธนาคารแห่งประเทศไทย</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-stone-200">
+              <span class="font-bold text-fuchsia-800 block">SET Contact Center 02-009-9999</span>
+              <span class="text-stone-500 text-[11px]">ตลาดหลักทรัพย์แห่งประเทศไทย</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Finish & Open Report Banner -->
-      <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-800 to-emerald-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-purple-800 to-purple-950 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 class="text-base sm:text-lg font-bold">คุณได้ประเมินและสำรวจข้อมูลครบทั้ง 8 ขั้นตอนแล้ว</h3>
-          <p class="text-xs text-emerald-200 mt-0.5">เปิดดูรายงานฉบับเต็มเพื่อสรุปพอร์ตและพิมพ์เป็นเอกสาร PDF สำหรับใช้วางแผนการเงินจริง</p>
+          <h3 class="text-base sm:text-lg font-bold">คุณได้ประเมินและสำรวจข้อมูลครบทุกหมวดแล้ว</h3>
+          <p class="text-xs text-purple-200 mt-0.5">เปิดดูรายงานฉบับเต็มเพื่อสรุปพอร์ตและพิมพ์เป็นเอกสาร PDF สำหรับใช้วางแผนการเงินจริง</p>
         </div>
-        <button onclick="openReportModal()" class="px-5 py-3 text-xs font-bold text-emerald-950 bg-amber-300 hover:bg-amber-400 rounded-xl shadow-md transition-all shrink-0">
+        <button onclick="openReportModal()" class="px-5 py-3 text-xs font-bold text-purple-950 bg-pink-300 hover:bg-pink-400 rounded-xl shadow-md transition-all shrink-0">
           เปิดดูและพิมพ์รายงานสรุปฉบับเต็ม
         </button>
       </div>
     </section>
 
-  </main>
+  
+    <!-- TAB 8: RECOMMENDED INVESTMENT PROVIDERS (แนะนำผู้ให้บริการเกี่ยวกับการลงทุน) -->
+    <section id="tab-content-providers" class="tab-panel hidden space-y-10 animate-fadeIn pb-12">
+      <!-- Header -->
+      <div class="space-y-3 border-b border-slate-200 pb-6">
+        <div class="flex items-center gap-2 text-xs font-semibold">
+          <span class="font-mono text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-md border border-purple-200">
+            STEP 08
+          </span>
+          <span class="text-slate-300">/</span>
+          <span class="text-fuchsia-700">ก้าวสู่การลงทุนจริง</span>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-600">ผู้ให้บริการที่ได้รับใบอนุญาต ก.ล.ต.</span>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              แนะนำผู้ให้บริการเกี่ยวกับการลงทุน
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed mt-1">
+              หลังจากที่คุณได้สำรวจตนเอง ทำแบบประเมิน TSI และจัดสัดส่วนพอร์ตโฟลิโอเรียบร้อยแล้ว ก้าวสำคัญต่อไปคือการเลือกเปิดบัญชีกับ <strong>ผู้ให้บริการทางการเงินที่ได้รับใบอนุญาตถูกต้องตามกฎหมายจากสำนักงาน ก.ล.ต.</strong> เพื่อให้เงินลงทุนของคุณปลอดภัยและได้รับการคุ้มครอง
+            </p>
+          </div>
+          <span class="px-3.5 py-2 rounded-xl bg-purple-50 border border-purple-200 text-xs font-bold text-purple-800 flex items-center gap-1.5 self-start md:self-auto">
+            ✓ ก.ล.ต. & SET Approved
+          </span>
+        </div>
+      </div>
+
+      <!-- Trinity Securities Sole Provider Hero Card -->
+      <div class="rounded-3xl border border-purple-200 bg-white p-6 sm:p-10 shadow-sm relative overflow-hidden space-y-6">
+        <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-500"></div>
+        
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <span class="text-xs font-mono font-bold tracking-wider px-3.5 py-1 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
+            ผู้ให้บริการที่แนะนำอย่างเป็นทางการ
+          </span>
+          <span class="text-xs font-semibold text-fuchsia-700 bg-fuchsia-50 px-3 py-1 rounded-full border border-fuchsia-200">
+            ✓ สมาชิกตลาดหลักทรัพย์ฯ หมายเลข 22 (SET No. 22)
+          </span>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+            บริษัทหลักทรัพย์ ทรีนีตี้ จำกัด (Trinity Securities)
+          </h3>
+          <div class="text-xs font-mono text-purple-700 font-semibold">
+            Trinity Securities Company Limited · สถาบันการเงินที่ได้รับใบอนุญาต ก.ล.ต.
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed pt-1">
+            บริษัทหลักทรัพย์ชั้นนำที่ให้บริการทางการเงินและการลงทุนครบวงจร ด้วยบทวิเคราะห์คุณภาพสูง (Trinity Research) บริการกองทุนรวมแบบเปิด (Open Architecture) ตลาดตราสารหนี้/หุ้นกู้ และที่ปรึกษาการเงินส่วนบุคคล (Private Wealth Management)
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1">
+          <span class="font-bold text-slate-900 block">การรับรองทางกฎหมายและใบอนุญาต:</span>
+          <p class="text-[11px] leading-relaxed">
+            ใบอนุญาตประกอบธุรกิจหลักทรัพย์แบบ ก เลขที่ 0014/2544 จากกระทรวงการคลัง ภายใต้การกำกับดูแลของสำนักงาน ก.ล.ต. และตลาดหลักทรัพย์แห่งประเทศไทย
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">จุดเด่นและบริการหลัก 6 ประการ:</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-slate-700">
+            <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100">
+              <span class="font-bold text-purple-900 block mb-1">1. หุ้นไทย & TFEX:</span>
+              <span>ส่งคำสั่งผ่านระบบ Streaming และ Trinity Smart Wealth</span>
+            </div>
+            <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100">
+              <span class="font-bold text-purple-900 block mb-1">2. กองทุนรวมครบทุกค่าย:</span>
+              <span>Open Architecture เปิดบัญชีเดียวซื้อได้หลากหลาย บลจ.</span>
+            </div>
+            <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100">
+              <span class="font-bold text-purple-900 block mb-1">3. หุ้นกู้และตราสารหนี้:</span>
+              <span>จองซื้อพันธบัตรและหุ้นกู้เอกชนคุณภาพสูง สร้างดอกเบี้ยสม่ำเสมอ</span>
+            </div>
+            <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100">
+              <span class="font-bold text-purple-900 block mb-1">4. บทวิเคราะห์ Trinity Research:</span>
+              <span>เจาะลึกปัจจัยพื้นฐานและเทคนิคอลระดับรางวัล</span>
+            </div>
+            <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100">
+              <span class="font-bold text-purple-900 block mb-1">5. มีผู้แนะนำ IC ดูแล:</span>
+              <span>มีผู้แนะนำการลงทุนที่ได้รับใบอนุญาต ก.ล.ต. คอยให้คำปรึกษา</span>
+            </div>
+            <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100">
+              <span class="font-bold text-purple-900 block mb-1">6. e-Open Account:</span>
+              <span>เปิดบัญชีออนไลน์ยืนยันตัวตนผ่าน NDID สะดวก ปลอดภัย</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-3">
+          <a href="https://www.trinitythai.com/" target="_blank" rel="noreferrer noopener" class="w-full sm:flex-1 py-3 px-6 rounded-full bg-slate-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all">
+            <span>เข้าสู่เว็บไซต์ทางการ บล. ทรีนีตี้ (trinitythai.com)</span>
+            <span class="text-fuchsia-400">↗</span>
+          </a>
+          <a href="https://www.sec.or.th/TH/Pages/MarketData/SEC-Check-First.aspx" target="_blank" rel="noreferrer noopener" class="py-3 px-5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap">
+            <span>เช็กใบอนุญาตใน SEC Check First</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Safety Guide -->
+      <div class="rounded-3xl border border-purple-200 bg-gradient-to-br from-purple-50/50 via-white to-fuchsia-50/40 p-6 sm:p-8 space-y-4 shadow-xs">
+        <h3 class="text-base sm:text-lg font-bold text-slate-900">
+          4 กฎเหล็กป้องกันมิจฉาชีพหลอกเปิดบัญชีและหลอกลงทุน (เกณฑ์ ก.ล.ต.)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-white border border-purple-100 space-y-1">
+            <div class="font-bold text-purple-700">01. ตรวจสอบใน SEC Check First</div>
+            <p class="text-slate-500">เช็กรายชื่อบริษัทและผู้แนะนำว่าได้รับอนุญาตจริง</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-purple-100 space-y-1">
+            <div class="font-bold text-purple-700">02. บัญชีรับโอนเป็นชื่อ บล. เท่านั้น</div>
+            <p class="text-slate-500">ห้ามโอนเข้าบัญชีบุคคลธรรมดาไม่ว่าจะอ้างอะไรก็ตาม</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-purple-100 space-y-1">
+            <div class="font-bold text-purple-700">03. ไม่การันตีผลตอบแทนเกินจริง</div>
+            <p class="text-slate-500">หากบอกได้กำไรวันละ 2-5% สันนิษฐานว่าโกง 100%</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-purple-100 space-y-1">
+            <div class="font-bold text-purple-700">04. เข้าช่องทางทางการ</div>
+            <p class="text-slate-500">เข้าเว็บโดยตรง หรือโหลดแอปผ่าน App Store / Play Store</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 9: ABOUT PROJECT (เกี่ยวกับโครงการ Trinity Hackathon) -->
+    <section id="tab-content-about" class="tab-panel hidden space-y-8 animate-fadeIn pb-12">
+      <div class="space-y-3 border-b border-slate-200 pb-6">
+        <div class="flex items-center gap-2 text-xs font-semibold">
+          <span class="font-mono text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-md border border-purple-200">
+            INFO
+          </span>
+          <span class="text-slate-300">/</span>
+          <span class="text-fuchsia-700">เมนูอื่น ๆ</span>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-600">เกี่ยวกับโครงการ (Trinity Hackathon)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          เกี่ยวกับโครงการ InvestPrep
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
+          จุดเริ่มต้นของแนวคิดนวัตกรรมการเงินจากเวทีการแข่งขัน Trinity Hackathon สู่ Web Application เพื่อคนไทยทุกคน
+        </p>
+      </div>
+
+      <div class="rounded-3xl border border-purple-200 bg-white p-6 sm:p-10 shadow-sm relative overflow-hidden space-y-6">
+        <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-500"></div>
+        <div class="space-y-2">
+          <span class="text-xs font-mono font-bold tracking-wider px-3 py-1 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
+            PROJECT ORIGIN & INSPIRATION
+          </span>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+            "ไอเดียของคุณ อาจเป็นจุดเริ่มต้นของนวัตกรรมการเงินครั้งใหม่!"
+          </h3>
+          <p class="text-sm sm:text-base font-semibold text-fuchsia-600">
+            โครงการแข่งขัน Trinity Hackathon โดยกลุ่มบริษัทหลักทรัพย์ ทรีนีตี้ (Trinity Securities Group)
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
+          <h4 class="font-bold text-slate-900 text-sm">💡 สรุปที่มาและความสำคัญของโครงการ (โดยย่อ):</h4>
+          <p>
+            โครงการ <strong>Trinity Hackathon</strong> เป็นเวทีแข่งขันประชันไอเดียและพัฒนานวัตกรรมทางการเงิน (FinTech Innovation) ที่จัดขึ้นโดยกลุ่มบริษัทหลักทรัพย์ ทรีนีตี้ เพื่อเปิดโอกาสให้นิสิต นักศึกษา และบุคคลทั่วไปที่มีความมุ่งมั่น มาร่วมระดมสมองและสร้างสรรค์โซลูชันแก้ไขปัญหาการเงินการลงทุนจริงในสังคมไทย
+          </p>
+          <p>
+            จากโจทย์ความท้าทายดังกล่าว ทีมงานได้นำแนวคิดมาต่อยอดเป็น <strong>"InvestPrep"</strong> แพลตฟอร์มที่ทำหน้าที่เป็นทั้งเครื่องมือสำรวจตนเองและคู่มือความรู้การลงทุนเบื้องต้น โดยเชื่อมโยงข้อมูลทางวิชาการและเกณฑ์กำกับดูแลของ <strong>ก.ล.ต., ธปท. และตลาดหลักทรัพย์ฯ</strong> มาสรุปเป็น 8 ขั้นตอนง่ายๆ เพื่อให้คนทั่วไปสามารถเริ่มต้นลงทุนได้อย่างมีภูมิคุ้มกัน ปลอดภัย และไม่ตกเป็นเหยื่อมิจฉาชีพ
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
+          <div class="space-y-1">
+            <span class="font-bold text-purple-900 block">แหล่งข้อมูลอ้างอิงทางการของโครงการ:</span>
+            <span class="text-[11px] text-slate-600 block break-all">Facebook Post: Trinity Securities Group - Trinity Hackathon</span>
+          </div>
+          <a href="https://www.facebook.com/Trinitysecuritiesgroup/posts/-%E0%B9%84%E0%B8%AD%E0%B9%80%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93-%E0%B8%AD%E0%B8%B2%E0%B8%88%E0%B9%80%E0%B8%9B%E0%B9%87%E0%B8%99%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B9%80%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1%E0%B8%95%E0%B9%89%E0%B8%99%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%99%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88trinity-hackathon-202/1614385950727654/" target="_blank" rel="noreferrer noopener" class="px-5 py-2.5 rounded-full bg-slate-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all shrink-0">
+            <span>เปิดดูโพสต์โครงการบน Facebook ↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 10: CONTACT US & OBJECTIVES (ติดต่อพวกเรา & จุดประสงค์การพัฒนา) -->
+    <section id="tab-content-contact" class="tab-panel hidden space-y-10 animate-fadeIn pb-12">
+      <div class="space-y-3 border-b border-slate-200 pb-6">
+        <div class="flex items-center gap-2 text-xs font-semibold">
+          <span class="font-mono text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-md border border-purple-200">
+            TEAM
+          </span>
+          <span class="text-slate-300">/</span>
+          <span class="text-fuchsia-700">เมนูอื่น ๆ</span>
+          <span class="text-slate-300">/</span>
+          <span class="text-slate-600">ติดต่อพวกเรา & จุดประสงค์การพัฒนา</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          ติดต่อพวกเรา & จุดประสงค์ในการพัฒนา
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
+          ทีมงานผู้พัฒนา 3 คน ปัญหาที่พบในการลงทุนของคนทั่วไป ทางออก และ 6 จุดเด่นหลักของ InvestPrep
+        </p>
+      </div>
+
+      <!-- Team Members -->
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900">ทีมผู้พัฒนา (Project Developers)</h3>
+          <p class="text-xs text-slate-500">คณะผู้จัดทำโครงการ InvestPrep</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="p-6 rounded-3xl border border-slate-200 bg-white space-y-3 shadow-xs">
+            <span class="text-[10px] font-mono text-purple-600 font-bold block">DEVELOPER 01</span>
+            <h4 class="font-extrabold text-base text-slate-900">Sirinyaporn SRASRIPHO</h4>
+            <div class="p-2 rounded-xl bg-purple-50 text-purple-900 font-semibold text-xs border border-purple-200">
+              Business Research & Product Developer
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              วิเคราะห์โมเดลธุรกิจ งานวิจัยความต้องการผู้ใช้ เกณฑ์มาตรฐานทางการเงิน ก.ล.ต./SET/TSI และออกแบบฟังก์ชันผลิตภัณฑ์
+            </p>
+          </div>
+          <div class="p-6 rounded-3xl border border-slate-200 bg-white space-y-3 shadow-xs">
+            <span class="text-[10px] font-mono text-fuchsia-600 font-bold block">DEVELOPER 02</span>
+            <h4 class="font-extrabold text-base text-slate-900">Natthapong YIMYUEAN</h4>
+            <div class="p-2 rounded-xl bg-fuchsia-50 text-fuchsia-900 font-semibold text-xs border border-fuchsia-200">
+              Developer
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              พัฒนาสถาปัตยกรรมระบบเว็บแอปพลิเคชัน Frontend Logic ระบบคำนวณภาษี และระบบวิเคราะห์พอร์ตโฟลิโออัตโนมัติ
+            </p>
+          </div>
+          <div class="p-6 rounded-3xl border border-slate-200 bg-white space-y-3 shadow-xs">
+            <span class="text-[10px] font-mono text-pink-600 font-bold block">DEVELOPER 03</span>
+            <h4 class="font-extrabold text-base text-slate-900">Ratirom YENMADAN</h4>
+            <div class="p-2 rounded-xl bg-pink-50 text-pink-900 font-semibold text-xs border border-pink-200">
+              Designer
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              ออกแบบประสบการณ์ผู้ใช้ (UX) ส่วนต่อประสาน (UI) กราฟฟิกข้อมูลเวกเตอร์ และระบบธีมสีม่วง-ชมพูที่เข้าถึงง่ายสำหรับคนทั่วไป
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem vs Solution -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="p-6 sm:p-8 rounded-3xl border border-pink-200 bg-gradient-to-br from-pink-50/50 via-white to-pink-50/30 space-y-3 shadow-xs">
+          <span class="text-[10px] font-mono font-bold uppercase text-pink-700 tracking-wider">PROBLEM STATEMENT</span>
+          <h4 class="text-base sm:text-lg font-extrabold text-slate-900">ปัญหาในปัจจุบัน</h4>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            ภาวะค่าครองชีพสูงทำให้คนขาดสภาพคล่องและเกิดกระแส FOMO เลือกลงทุนตามโซเชียลโดยขาดความรู้ความเข้าใจในตัวสินทรัพย์ ปัจจัยพื้นฐาน และระดับความเสี่ยง รวมทั้งเรื่องภาษีจากการลงทุนที่มีความซับซ้อน นำไปสู่การจัดสรรเงินที่ผิดพลาดและสูญเสียเงินลงทุนอย่างรุนแรง
+          </p>
+        </div>
+        <div class="p-6 sm:p-8 rounded-3xl border border-purple-200 bg-gradient-to-br from-purple-50/60 via-white to-fuchsia-50/40 space-y-3 shadow-xs">
+          <span class="text-[10px] font-mono font-bold uppercase text-purple-700 tracking-wider">OUR SOLUTION</span>
+          <h4 class="text-base sm:text-lg font-extrabold text-slate-900">ทางออก: InvestPrep</h4>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            แพลตฟอร์มเตรียมความพร้อมและเสริมสร้างความรู้ด้านการลงทุนที่ถูกต้อง น่าเชื่อถือ ในรูปแบบที่เข้าใจง่าย อิงตามมาตรฐานเกณฑ์ประเมินของ <strong>ก.ล.ต., ธปท. และตลาดหลักทรัพย์แห่งประเทศไทย (SET/TSI)</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- 6 Highlights -->
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900">6 ฟังก์ชันและจุดเด่นหลักของ InvestPrep</h3>
+          <p class="text-xs text-slate-500">โครงสร้างระบบเพื่อสร้างภูมิคุ้มกันและวินัยทางการเงินอย่างยั่งยืน</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-1.5">
+            <span class="font-bold text-purple-700 block">01. การวางแผนและกำหนดเป้าหมาย</span>
+            <p class="text-slate-500">ช่วยผู้ใช้กำหนดเป้าหมาย ระยะเวลา และประเมินสภาพคล่องด้วยเงินสำรองฉุกเฉิน</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-1.5">
+            <span class="font-bold text-purple-700 block">02. วิเคราะห์ตามสัดส่วนรายได้</span>
+            <p class="text-slate-500">วางแผนสัดส่วนการลงทุนให้เหมาะสมกับฐานะและระดับความเสี่ยงตามมาตรฐาน TSI</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-1.5">
+            <span class="font-bold text-purple-700 block">03. ประเมินความเหมาะสมของสินทรัพย์</span>
+            <p class="text-slate-500">แนะนำสัดส่วนสินทรัพย์หลากหลายประเภทอย่างมีหลักการ เพื่อลดความเสี่ยงจากการทุ่มลงจุดเดียว</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-1.5">
+            <span class="font-bold text-purple-700 block">04. สรุปผลและรายงานการวางแผน</span>
+            <p class="text-slate-500">แสดงภาพรวมแผนการลงทุนในรูปแบบที่เข้าใจง่าย พร้อมระบบพิมพ์รายงานสรุป</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-1.5">
+            <span class="font-bold text-purple-700 block">05. การเชื่อมต่อกับพันธมิตรที่น่าเชื่อถือ</span>
+            <p class="text-slate-500">สร้างความมั่นใจด้วยการเชื่อมโยงไปยัง บล. ทรีนีตี้ ที่ได้รับใบอนุญาต ก.ล.ต. อย่างถูกต้อง</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white border border-slate-200 space-y-1.5">
+            <span class="font-bold text-purple-700 block">06. คำนวณเงินได้และกฎหมายภาษี</span>
+            <p class="text-slate-500">สรุปภาระภาษีแยกตามประเภทสินทรัพย์ พร้อมเครื่องมือคำนวณเครดิตภาษีและลดหย่อน</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    </main>
 
   <!-- FOOTER -->
-  <footer class="border-t border-amber-900/10 bg-white py-8 mt-12 transition-colors">
+  <footer class="border-t border-pink-900/10 bg-white py-8 mt-12 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-stone-500">
         <div>
@@ -1053,21 +1894,35 @@
             InvestPrep · ระบบประเมินความพร้อมการลงทุนสำหรับมือใหม่ (Single File Standalone Edition)
           </span>
           <p class="mt-0.5 text-stone-500">
-            ออกแบบตามเกณฑ์ประเมิน TSI และสำนักงาน ก.ล.ต. ไฟล์นี้ทำงานได้ 100% ออฟไลน์โดยไม่ต้องใช้เซิร์ฟเวอร์
+            ออกแบบตามเกณฑ์ประเมิน TSI และสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์ (ก.ล.ต.)
           </p>
         </div>
         <div class="flex items-center gap-4 flex-wrap">
-          <a href="https://www.set.or.th/th/education-research/education/tsi" target="_blank" rel="noreferrer" class="hover:text-emerald-800 transition-colors">
-            สถาบัน TSI ตลาดหลักทรัพย์ฯ
+          <button onclick="switchTab('providers')" class="hover:text-purple-800 transition-colors font-semibold text-fuchsia-700">
+            แนะนำ บล. ทรีนีตี้ (Trinity)
+          </button>
+          <button onclick="switchTab('about')" class="hover:text-purple-800 transition-colors">
+            เกี่ยวกับโครงการ
+          </button>
+          <button onclick="switchTab('contact')" class="hover:text-purple-800 transition-colors">
+            ติดต่อพวกเรา
+          </button>
+          <a href="https://www.set.or.th" target="_blank" rel="noreferrer" class="hover:text-purple-800 transition-colors">
+            ตลาดหลักทรัพย์แห่งประเทศไทย (SET)
           </a>
-          <a href="https://www.sec.or.th" target="_blank" rel="noreferrer" class="hover:text-emerald-800 transition-colors">
+          <a href="https://www.sec.or.th" target="_blank" rel="noreferrer" class="hover:text-purple-800 transition-colors">
             สำนักงาน ก.ล.ต. (SEC)
           </a>
-          <button onclick="openReportModal()" class="hover:text-emerald-800 transition-colors font-medium">
+          <button onclick="openReportModal()" class="hover:text-purple-800 transition-colors font-medium">
             พิมพ์รายงานสรุป
           </button>
         </div>
       </div>
+      <div class="pt-3 border-t border-stone-200 text-[11px] text-stone-400 leading-relaxed">
+        ข้อจำกัดความรับผิดชอบ (Disclaimer): ข้อมูลและผลการประเมินในหน้านี้จัดทำขึ้นเพื่อการศึกษาและการเตรียมความพร้อมเบื้องต้นสำหรับผู้เริ่มต้นลงทุนเท่านั้น มิได้ถือเป็นคำชี้ชวน คำแนะนำ หรือการเสนอขายหลักทรัพย์ใดๆ ทั้งสิ้น การลงทุนมีความเสี่ยง ผู้ลงทุนควรศึกษาข้อมูลและหนังสือชี้ชวนอย่างละเอียดก่อนตัดสินใจลงทุนทุกครั้ง
+      </div>
+    </div>
+  </footer>
       <div class="pt-3 border-t border-stone-200 text-[11px] text-stone-400 leading-relaxed">
         ข้อจำกัดความรับผิดชอบ (Disclaimer): ข้อมูลและผลการประเมินในหน้านี้จัดทำขึ้นเพื่อการศึกษาและการเตรียมความพร้อมเบื้องต้นสำหรับผู้เริ่มต้นลงทุนเท่านั้น มิได้ถือเป็นคำชี้ชวน คำแนะนำ หรือการเสนอขายหลักทรัพย์ใดๆ ทั้งสิ้น การลงทุนมีความเสี่ยง ผู้ลงทุนควรศึกษาข้อมูลและหนังสือชี้ชวนอย่างละเอียดก่อนตัดสินใจลงทุนทุกครั้ง
       </div>
@@ -1080,7 +1935,7 @@
       <!-- Modal Header -->
       <div class="p-4 sm:p-6 border-b border-stone-200 flex items-center justify-between shrink-0 bg-[#FAF8F5]">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-800 flex items-center justify-center text-amber-300 shadow-xs">
+          <div class="w-9 h-9 rounded-xl bg-purple-800 flex items-center justify-center text-pink-300 shadow-xs">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           </div>
           <div>
@@ -1088,7 +1943,7 @@
               <h3 class="text-base sm:text-lg font-bold text-stone-900 leading-tight">
                 รายงานสรุปความพร้อมและแผนพอร์ตการลงทุน
               </h3>
-              <span class="text-[10px] font-mono tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold border border-emerald-300">
+              <span class="text-[10px] font-mono tracking-wider px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-semibold border border-purple-300">
                 SUMMARY REPORT
               </span>
             </div>
@@ -1097,8 +1952,8 @@
         </div>
 
         <div class="flex items-center gap-2 no-print">
-          <button onclick="window.print()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white transition-colors">
-            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          <button onclick="window.print()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-800 hover:bg-purple-900 text-white transition-colors">
+            <svg class="w-4 h-4 text-pink-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
             <span>พิมพ์ / PDF</span>
           </button>
           <button onclick="closeReportModal()" class="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 transition-colors">
@@ -1117,7 +1972,7 @@
           </div>
           <div>
             <span class="text-stone-400 block text-[11px]">รายได้สุทธิต่อเดือน</span>
-            <span id="rep-income" class="font-bold text-emerald-800 text-sm">฿38,000</span>
+            <span id="rep-income" class="font-bold text-purple-800 text-sm">฿38,000</span>
           </div>
           <div>
             <span class="text-stone-400 block text-[11px]">เงินสำรองฉุกเฉิน</span>
@@ -1125,7 +1980,7 @@
           </div>
           <div>
             <span class="text-stone-400 block text-[11px]">อัตราภาระหนี้ (DTI)</span>
-            <span id="rep-dti" class="font-bold text-emerald-800 text-sm">10.5% (ปลอดภัย)</span>
+            <span id="rep-dti" class="font-bold text-purple-800 text-sm">10.5% (ปลอดภัย)</span>
           </div>
         </div>
 
@@ -1133,7 +1988,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="p-4 rounded-xl border border-stone-200 bg-white space-y-2">
             <span class="font-bold uppercase tracking-wider text-stone-400 block text-[11px]">ผลประเมินความเสี่ยง TSI</span>
-            <div id="rep-tsi-title" class="text-base font-bold text-emerald-800">ระดับ 3: เสี่ยงปานกลางค่อนข้างสูง</div>
+            <div id="rep-tsi-title" class="text-base font-bold text-purple-800">ระดับ 3: เสี่ยงปานกลางค่อนข้างสูง</div>
             <p id="rep-tsi-desc" class="text-stone-600">คะแนน 28/40 สัดส่วนหุ้นไม่เกิน 50% กระจายในตราสารหนี้และกองทุนรวม</p>
           </div>
           <div class="p-4 rounded-xl border border-stone-200 bg-white space-y-2">
@@ -1146,33 +2001,20 @@
         <!-- Section 3: Recommended Asset Allocation -->
         <div class="p-4 rounded-xl border border-stone-200 bg-white space-y-3">
           <span class="font-bold uppercase tracking-wider text-stone-400 block text-[11px]">สัดส่วนพอร์ตโฟลิโอที่แนะนำ</span>
-          <div class="space-y-2">
-            <div class="flex justify-between items-center py-1 border-b border-stone-100">
-              <span class="font-medium text-stone-800">หุ้นกู้เอกชน / กองทุนตราสารหนี้</span>
-              <span class="font-bold text-stone-900">40%</span>
-            </div>
-            <div class="flex justify-between items-center py-1 border-b border-stone-100">
-              <span class="font-medium text-stone-800">กองทุนดัชนีหุ้นต่างประเทศ (Global Equity ETFs)</span>
-              <span class="font-bold text-stone-900">30%</span>
-            </div>
-            <div class="flex justify-between items-center py-1 border-b border-stone-100">
-              <span class="font-medium text-stone-800">หุ้นไทยขนาดใหญ่ / SET50 Index</span>
-              <span class="font-bold text-stone-900">15%</span>
-            </div>
-            <div class="flex justify-between items-center py-1 border-b border-stone-100">
-              <span class="font-medium text-stone-800">กองทุนอสังหาริมทรัพย์และรีทส์ (REITs)</span>
-              <span class="font-bold text-stone-900">10%</span>
-            </div>
-            <div class="flex justify-between items-center py-1">
-              <span class="font-medium text-stone-800">ทองคำแท่ง / กองทุนรวมทองคำ (Gold)</span>
-              <span class="font-bold text-stone-900">5%</span>
-            </div>
+          <div id="rep-allocation-list" class="space-y-2">
+            <!-- Dynamic slices populated via JS -->
           </div>
         </div>
 
-        <!-- Section 4: Regulatory Disclaimer -->
-        <div class="p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-[11px] text-rose-900 leading-relaxed">
-          <strong>คำเตือน ก.ล.ต.:</strong> การลงทุนมีความเสี่ยง ผู้ลงทุนควรทำความเข้าใจลักษณะสินค้า เงื่อนไขผลตอบแทน และความเสี่ยงก่อนตัดสินใจลงทุน ผลการดำเนินงานในอดีตมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต เอกสารนี้จัดทำขึ้นเพื่อการวางแผนเบื้องต้นเท่านั้น
+        <!-- Section 4: Regulatory Disclaimer & Official Links -->
+        <div class="p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-[11px] text-rose-900 leading-relaxed space-y-1">
+          <div><strong>คำเตือน ก.ล.ต.:</strong> การลงทุนมีความเสี่ยง ผู้ลงทุนควรทำความเข้าใจลักษณะสินค้า เงื่อนไขผลตอบแทน และความเสี่ยงก่อนตัดสินใจลงทุน ผลการดำเนินงานในอดีตมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต เอกสารนี้จัดทำขึ้นเพื่อการวางแผนเบื้องต้นเท่านั้น</div>
+          <div class="text-[10px] text-stone-500 pt-1 border-t border-rose-200 flex gap-3">
+            <span>แหล่งข้อมูลทางการ:</span>
+            <a href="https://www.set.or.th" target="_blank" class="text-purple-800 hover:underline">ตลาดหลักทรัพย์แห่งประเทศไทย (SET)</a>
+            <span>•</span>
+            <a href="https://www.sec.or.th" target="_blank" class="text-purple-800 hover:underline">สำนักงาน ก.ล.ต.</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1275,13 +2117,13 @@
 
       // Reset all group buttons
       document.querySelectorAll('.group-btn').forEach(btn => {
-        btn.classList.remove('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+        btn.classList.remove('bg-purple-50', 'border-purple-600', 'text-purple-950', 'ring-2', 'ring-purple-600/20');
         btn.classList.add('bg-white', 'border-stone-200', 'text-stone-700');
       });
 
       // Reset direct tab buttons
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+        btn.classList.remove('text-purple-950', 'bg-purple-100', 'border-purple-300');
         btn.classList.add('text-stone-700', 'bg-white', 'border-stone-200');
       });
 
@@ -1289,37 +2131,55 @@
       if (tabId === 'home') {
         const homeBtn = document.getElementById('tab-btn-home');
         if (homeBtn) {
-          homeBtn.classList.add('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+          homeBtn.classList.add('text-purple-950', 'bg-purple-100', 'border-purple-300');
           homeBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
-      } else if (tabId === 'glossary') {
+      } else if (tabId === 'knowledge_hub' || tabId === 'glossary' || tabId === 'caution') {
+        tabId = 'knowledge_hub';
+        const groupBtn = document.getElementById('group-btn-knowledge_hub');
+        if (groupBtn) {
+          groupBtn.classList.add('bg-purple-50', 'border-purple-600', 'text-purple-950', 'ring-2', 'ring-purple-600/20');
+          groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
         const glossaryBtn = document.getElementById('tab-btn-glossary');
         if (glossaryBtn) {
-          glossaryBtn.classList.add('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+          glossaryBtn.classList.add('text-purple-950', 'bg-purple-100', 'border-purple-300');
           glossaryBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
       } else if (tabId === 'caution') {
         const cautionBtn = document.getElementById('tab-btn-caution');
         if (cautionBtn) {
-          cautionBtn.classList.add('text-emerald-950', 'bg-emerald-100', 'border-emerald-300');
+          cautionBtn.classList.add('text-purple-950', 'bg-purple-100', 'border-purple-300');
           cautionBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
       } else if (['finance', 'tsi'].includes(tabId)) {
         const groupBtn = document.getElementById('group-btn-self_assessment');
         if (groupBtn) {
-          groupBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+          groupBtn.classList.add('bg-purple-50', 'border-purple-600', 'text-purple-950', 'ring-2', 'ring-purple-600/20');
           groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
       } else if (['checklist', 'goal'].includes(tabId)) {
         const groupBtn = document.getElementById('group-btn-readiness');
         if (groupBtn) {
-          groupBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+          groupBtn.classList.add('bg-purple-50', 'border-purple-600', 'text-purple-950', 'ring-2', 'ring-purple-600/20');
           groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
       } else if (['assets', 'portfolio', 'budget'].includes(tabId)) {
         const groupBtn = document.getElementById('group-btn-portfolio_plan');
         if (groupBtn) {
-          groupBtn.classList.add('bg-emerald-50', 'border-emerald-600', 'text-emerald-950', 'ring-2', 'ring-emerald-600/20');
+          groupBtn.classList.add('bg-purple-50', 'border-purple-600', 'text-purple-950', 'ring-2', 'ring-purple-600/20');
+          groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
+      } else if (tabId === 'providers') {
+        const provBtn = document.getElementById('tab-btn-providers');
+        if (provBtn) {
+          provBtn.classList.add('text-purple-950', 'bg-purple-100', 'border-purple-300');
+          provBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
+        }
+      } else if (['about', 'contact'].includes(tabId)) {
+        const groupBtn = document.getElementById('group-btn-more');
+        if (groupBtn) {
+          groupBtn.classList.add('bg-purple-50', 'border-purple-600', 'text-purple-950', 'ring-2', 'ring-purple-600/20');
           groupBtn.classList.remove('bg-white', 'border-stone-200', 'text-stone-700');
         }
       }
@@ -1418,31 +2278,31 @@
         if (item.done) doneCount++;
         const card = document.createElement('div');
         card.className = `p-4 sm:p-5 rounded-2xl border transition-all flex items-start gap-4 ${
-          item.done ? 'bg-emerald-50/50 border-emerald-300' : 'bg-white border-stone-200 hover:border-stone-300'
+          item.done ? 'bg-purple-50/50 border-purple-300' : 'bg-white border-stone-200 hover:border-stone-300'
         }`;
         
         const badgeHtml = item.isAuto
-          ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">🔗 ซิงค์อัตโนมัติ (${item.source})</span>`
-          : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200">✍️ กดเช็กเองได้เลย</span>`;
+          ? `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-50 text-purple-800 border border-purple-200">🔗 ซิงค์อัตโนมัติ (${item.source})</span>`
+          : `<span class="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded bg-pink-50 text-pink-800 border border-pink-200">✍️ กดเช็กเองได้เลย</span>`;
 
         card.innerHTML = `
           <button type="button" onclick="toggleChecklistItem(${index})" class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 cursor-pointer ${
-            item.done ? 'bg-emerald-800 text-white font-bold' : 'border-2 border-stone-300 bg-white hover:border-emerald-600'
+            item.done ? 'bg-purple-800 text-white font-bold' : 'border-2 border-stone-300 bg-white hover:border-purple-600'
           }" title="${item.isAuto ? 'ซิงค์จากข้อมูลอัตโนมัติ' : 'คลิกเพื่อติ๊กยืนยัน'}">
             ${item.done ? '✓' : ''}
           </button>
           <div class="space-y-1.5 flex-1 min-w-0">
             <div class="flex items-center justify-between gap-2 flex-wrap">
-              <h4 class="text-xs sm:text-sm font-bold ${item.done ? 'text-emerald-950' : 'text-stone-800'}">${item.title}</h4>
+              <h4 class="text-xs sm:text-sm font-bold ${item.done ? 'text-purple-950' : 'text-stone-800'}">${item.title}</h4>
               ${badgeHtml}
             </div>
             <p class="text-xs text-stone-500 leading-relaxed">${item.desc}</p>
             ${item.isAuto ? `
               <div class="pt-1 text-[11px] flex items-center justify-between gap-2">
-                <span class="${item.done ? 'text-emerald-800 font-semibold' : 'text-amber-800'}">
+                <span class="${item.done ? 'text-purple-800 font-semibold' : 'text-pink-800'}">
                   ${item.done ? '✓ ผ่านเกณฑ์ตามข้อมูลที่กรอกเรียบร้อย' : '⏳ รอการกรอกข้อมูลให้ครบถ้วนตามเกณฑ์'}
                 </span>
-                <button type="button" onclick="switchTab('${item.targetTab}')" class="text-emerald-800 hover:underline font-semibold">
+                <button type="button" onclick="switchTab('${item.targetTab}')" class="text-purple-800 hover:underline font-semibold">
                   ไปหน้ากรอกข้อมูล →
                 </button>
               </div>
@@ -1479,7 +2339,7 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `p-4 rounded-xl border text-left transition-all ${
-          isSelected ? 'bg-emerald-50 border-emerald-700 ring-1 ring-emerald-700' : 'bg-white border-stone-200 hover:border-stone-300'
+          isSelected ? 'bg-purple-50 border-purple-700 ring-1 ring-purple-700' : 'bg-white border-stone-200 hover:border-stone-300'
         }`;
         btn.onclick = () => {
           state.goal.purpose = opt.id;
@@ -1489,7 +2349,7 @@
           saveToStorage();
         };
         btn.innerHTML = `
-          <div class="font-bold text-xs ${isSelected ? 'text-emerald-950' : 'text-stone-800'}">${opt.title}</div>
+          <div class="font-bold text-xs ${isSelected ? 'text-purple-950' : 'text-stone-800'}">${opt.title}</div>
           <div class="text-[11px] text-stone-500 mt-1">${opt.desc}</div>
         `;
         container.appendChild(btn);
@@ -1523,9 +2383,9 @@
           const isChecked = state.tsiAnswers[q.id] === optIdx;
           optionsHtml += `
             <label class="flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-              isChecked ? 'bg-emerald-50 border-emerald-600 font-semibold text-emerald-950' : 'bg-stone-50/50 border-stone-200 hover:bg-stone-100 text-stone-700'
+              isChecked ? 'bg-purple-50 border-purple-600 font-semibold text-purple-950' : 'bg-stone-50/50 border-stone-200 hover:bg-stone-100 text-stone-700'
             }">
-              <input type="radio" name="tsi-q-${q.id}" value="${optIdx}" ${isChecked ? 'checked' : ''} onchange="selectTsiAnswer(${q.id}, ${optIdx})" class="mt-0.5 text-emerald-800 focus:ring-emerald-700">
+              <input type="radio" name="tsi-q-${q.id}" value="${optIdx}" ${isChecked ? 'checked' : ''} onchange="selectTsiAnswer(${q.id}, ${optIdx})" class="mt-0.5 text-purple-800 focus:ring-purple-700">
               <span class="text-xs">${opt.text} <span class="text-[10px] text-stone-400 font-normal">(${opt.pts} คะแนน)</span></span>
             </label>
           `;
@@ -1602,14 +2462,14 @@
         card.innerHTML = `
           <div class="flex items-start justify-between gap-2">
             <h4 class="text-xs sm:text-sm font-bold text-stone-900">${item.name}</h4>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 shrink-0 font-semibold">
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-pink-50 text-pink-800 border border-pink-200 shrink-0 font-semibold">
               ${item.risk}
             </span>
           </div>
           <p class="text-xs text-stone-500 leading-relaxed">${item.desc}</p>
           <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
             <span class="text-stone-400">ผลตอบแทนเฉลี่ย:</span>
-            <span class="font-bold text-emerald-800">${item.returnRate}</span>
+            <span class="font-bold text-purple-800">${item.returnRate}</span>
           </div>
         `;
         container.appendChild(card);
@@ -1617,17 +2477,126 @@
     }
 
     // PORTFOLIO ALLOCATION ENGINE
+    // DYNAMIC MULTI-FACTOR PORTFOLIO ENGINE (TSI + Goal + Finance + Checklist)
+    function calculateDynamicAllocation() {
+      // 1. TSI Risk Level
+      let level = 3;
+      if (state.tsiScore) {
+        if (state.tsiScore <= 15) level = 1;
+        else if (state.tsiScore <= 21) level = 2;
+        else if (state.tsiScore <= 29) level = 3;
+        else if (state.tsiScore <= 36) level = 4;
+        else level = 5;
+      }
+
+      const horizon = Number(state.goal.timeHorizonYears) || 5;
+      const purpose = state.goal.purpose || '';
+      
+      const monthlyOutflow = state.finance.monthlyExpenses + state.finance.monthlyDebtPayment;
+      const emergencyMonths = monthlyOutflow > 0 ? (state.finance.emergencyFund / monthlyOutflow) : 0;
+      const dti = state.finance.monthlyIncome > 0 ? (state.finance.monthlyDebtPayment / state.finance.monthlyIncome) * 100 : 0;
+      
+      const hasEmergencyDeficit = state.finance.monthlyExpenses > 0 && emergencyMonths < 3;
+      const hasHighDti = dti > 35;
+
+      // Rule A: Ultra short horizon <= 1 year
+      if (horizon <= 1 && horizon > 0) {
+        return [
+          { name: 'เงินฝากดอกเบี้ยสูง (e-Savings)', pct: 60, color: 'bg-sky-500', tools: 'Dime! Save, KKP Start Saving, LHB You', role: 'เงินที่ต้องใช้ใน 1 ปีห้ามขาดทุนเด็ดขาด ต้องเก็บในบัญชีคุ้มครองเงินต้น' },
+          { name: 'กองทุนรวมตลาดเงิน / ตราสารหนี้ระยะสั้น', pct: 40, color: 'bg-blue-600', tools: 'K-MONEY, SCBTMF, T-CASH', role: 'สร้างผลตอบแทนชนะเงินฝากทั่วไปโดยแทบไม่มีความเสี่ยงต่อเงินต้น' }
+        ];
+      }
+
+      // Rule B: Emergency Deficit or High Debt -> Transition Buffer Portfolio
+      if (hasEmergencyDeficit || hasHighDti) {
+        if (level <= 2) {
+          return [
+            { name: 'เงินฝากสภาพคล่องพิเศษ (Emergency Reserve Buffer)', pct: 45, color: 'bg-sky-500', tools: 'e-Savings ธนาคารพาณิชย์ (1.5 - 3.0%)', role: 'เพิ่มสภาพคล่องฉุกเฉินเป็นอันดับแรกเนื่องจากเงินสำรองต่ำกว่า 3 เดือน' },
+            { name: 'พันธบัตรรัฐบาล & กองทุนตราสารหนี้ระยะสั้น', pct: 45, color: 'bg-blue-600', tools: 'K-TREASURY, SCBFP, วอลเล็ต สบม.', role: 'รักษาเงินต้นและรับผลตอบแทนสม่ำเสมอ ลดความตึงตัวของกระแสเงินสด' },
+            { name: 'กองทุนดัชนีหุ้นไทยปันผลสูง', pct: 10, color: 'bg-purple-600', tools: 'TISCOHD, SCBSETEQ', role: 'คงสัดส่วนหุ้นเพียง 10% เพื่อไม่ให้กระทบสภาพคล่อง' }
+          ];
+        } else {
+          return [
+            { name: 'เงินฝากสภาพคล่องเสริม (Emergency Buffer)', pct: 30, color: 'bg-sky-500', tools: 'e-Savings, กองทุนตลาดเงิน', role: 'ปรับเพิ่มสภาพคล่องพิเศษเพื่อชดเชยเงินสำรองที่ยังต่ำกว่าเกณฑ์ความปลอดภัย' },
+            { name: 'ตราสารหนี้ระยะกลางและพันธบัตร', pct: 40, color: 'bg-blue-600', tools: 'K-FIXED, SCBFIXED', role: 'ลดความผันผวนโดยรวม และเป็นเสาค้ำจุนพอร์ตในช่วงที่ยังมีภาระหนี้' },
+            { name: 'กองทุนดัชนีหุ้นโลก (S&P 500 / All-World)', pct: 20, color: 'bg-indigo-600', tools: 'SCBS&P500, K-WORLDX', role: 'ลดสัดส่วนหุ้นลงจากเกณฑ์ TSI เพื่อป้องกันการถูกบีบให้ขายหุ้นขาดทุนยามฉุกเฉิน' },
+            { name: 'ทองคำแท่ง / สินทรัพย์ทางเลือก', pct: 10, color: 'bg-pink-500', tools: 'K-GOLD, SCBGOLD', role: 'กระจายความเสี่ยงข้ามสินทรัพย์และป้องกันเงินเฟ้อ' }
+          ];
+        }
+      }
+
+      // Rule C: House purchase goal (horizon <= 5 years)
+      if (purpose === 'house' && horizon <= 5) {
+        return [
+          { name: 'เงินฝากดอกเบี้ยสูงและกองทุนตลาดเงิน', pct: 25, color: 'bg-sky-500', tools: 'e-Savings, K-MONEY', role: 'เตรียมพร้อมสำหรับค่าธรรมเนียมการโอนและเงินดาวน์บ้าน' },
+          { name: 'ตราสารหนี้ระยะกลางและพันธบัตรคุณภาพสูง', pct: 55, color: 'bg-blue-600', tools: 'K-FIXED, พันธบัตรออมทรัพย์รัฐบาล', role: 'ผลตอบแทนมั่นคง เงินต้นไม่ผันผวน เหมาะกับเป้าหมายซื้อบ้านใน 3-5 ปี' },
+          { name: 'กองทุนดัชนีหุ้นไทยปันผลสูง / หุ้นโลกเสี่ยงต่ำ', pct: 15, color: 'bg-purple-600', tools: 'TISCOHD, SCBDV', role: 'จำกัดสัดส่วนหุ้นไม่เกิน 15% เพื่อไม่ให้เงินดาวน์บ้านลดลงหากเกิดวิกฤต' },
+          { name: 'ทองคำแท่ง / กองทุนทองคำ', pct: 5, color: 'bg-pink-500', tools: 'K-GOLD', role: 'ป้องกันความเสี่ยงค่าเงินและเงินเฟ้อ' }
+        ];
+      }
+
+      // Rule D: Passive income goal
+      if (purpose === 'passive_income') {
+        return [
+          { name: 'เงินฝากและกองทุนตลาดเงิน', pct: 10, color: 'bg-sky-500', tools: 'e-Savings, SCBTMF', role: 'สภาพคล่องหมุนเวียนรับกระแสเงินสด' },
+          { name: 'ตราสารหนี้ภาคเอกชนคุณภาพดี & พันธบัตร', pct: 30, color: 'bg-blue-600', tools: 'K-CBOND, SCBFIXED, พันธบัตรออมทรัพย์', role: 'รับคูปองดอกเบี้ยสม่ำเสมอเข้าบัญชี' },
+          { name: 'กองทรัสต์อสังหาริมทรัพย์และโครงสร้างพื้นฐาน (REITs)', pct: 25, color: 'bg-pink-500', tools: 'CPNREIT, WHART, DIF, 3BBIF', role: 'จ่ายเงินปันผลจากค่าเช่าศูนย์การค้า คลังสินค้า เสาโทรคมนาคม (เฉลี่ย 6-9% ต่อปี)' },
+          { name: 'กองทุนดัชนีหุ้นไทยปันผลสูง (High Dividend)', pct: 20, color: 'bg-purple-600', tools: 'TISCOHD, SCBSETEQ', role: 'คัดหุ้น 30 ตัวที่มีประวัติจ่ายปันผลต่อเนื่องสม่ำเสมอ ได้สิทธิเครดิตภาษีเงินปันผล' },
+          { name: 'กองทุนหุ้นโลกปันผล / Global Dividend', pct: 15, color: 'bg-indigo-600', tools: 'KF-GDIV, PRINCIPAL VNEQ', role: 'รับกระแสเงินสดปันผลในรูปสกุลเงินสากล' }
+        ];
+      }
+
+      // Rule E: Default TSI Allocations
+      if (level === 1) {
+        return [
+          { name: 'เงินฝากออมทรัพย์ดอกเบี้ยสูง (e-Savings)', pct: 50, color: 'bg-sky-500', tools: 'Dime! Save, KKP Start Saving, LHB You', role: 'ความเสี่ยงต่ำที่สุด คุ้มครองเงินต้น 100% ภายใต้สถาบันคุ้มครองเงินฝาก' },
+          { name: 'พันธบัตรรัฐบาล & กองทุนตราสารหนี้ภาครัฐ', pct: 45, color: 'bg-blue-600', tools: 'K-TREASURY, SCBFP, วอลเล็ต สบม.', role: 'รับดอกเบี้ยสม่ำเสมอ ความน่าเชื่อถือสูงสุดระดับ AAA' },
+          { name: 'กองทุนรวมผสมความเสี่ยงต่ำ', pct: 5, color: 'bg-purple-600', tools: 'กองทุนรวม Conservative Allocation', role: 'กระจายลงทุนเล็กน้อยเพื่อเรียนรู้จังหวะตลาด' }
+        ];
+      }
+      if (level === 2) {
+        return [
+          { name: 'เงินฝากและกองทุนตลาดเงิน', pct: 20, color: 'bg-sky-500', tools: 'e-Savings, K-MONEY, SCBTMF', role: 'รักษาสภาพคล่องสำรองยามจำเป็น ถอนได้ T+1' },
+          { name: 'ตราสารหนี้และพันธบัตรคุณภาพดี', pct: 60, color: 'bg-blue-600', tools: 'K-FIXED, SCBFIXED, พันธบัตรออมทรัพย์รัฐบาล', role: 'แกนหลักสร้างกระแสผลตอบแทนสม่ำเสมอ ผันผวนต่ำ' },
+          { name: 'กองทุนดัชนีหุ้นไทยปันผลสูง', pct: 15, color: 'bg-purple-600', tools: 'TISCOHD, SCBSETEQ', role: 'รับเงินปันผลต่อเนื่องและโอกาสเติบโตชนะเงินเฟ้อ' },
+          { name: 'กองทรัสต์อสังหาริมทรัพย์ (REITs)', pct: 5, color: 'bg-pink-500', tools: 'CPNREIT, WHART, กองทุน K-GPROP', role: 'กระจายความเสี่ยงไปในสินทรัพย์ที่สร้างค่าเช่า' }
+        ];
+      }
+      if (level === 4) {
+        return [
+          { name: 'เงินสด / กองทุนตลาดเงิน', pct: 10, color: 'bg-sky-500', tools: 'e-Savings, กองทุนตลาดเงิน', role: 'สำรองสภาพคล่องเพื่อรอจังหวะสะสมหุ้นราคาถูก' },
+          { name: 'ตราสารหนี้ / พันธบัตร', pct: 15, color: 'bg-blue-600', tools: 'K-FIXED, SCBFIXED', role: 'ตัวดูดซับแรงกระแทกเมื่อเกิดวิกฤตเศรษฐกิจ' },
+          { name: 'กองทุน ETF สหรัฐฯ & หุ้นโลก (S&P500 / All-World)', pct: 40, color: 'bg-indigo-600', tools: 'SCBS&P500, ONE-UGG, K-USA, DR NDX01', role: 'เครื่องยนต์หลักในการเร่งการเติบโตของเงินทุนระยะยาว' },
+          { name: 'หุ้นไทยเติบโตและปันผล', pct: 20, color: 'bg-purple-600', tools: 'SCBSET50, กองทุนหุ้นไทยเติบโต, TISCOHD', role: 'โอกาสรับปันผลสม่ำเสมอและสิทธิประโยชน์ทางภาษี' },
+          { name: 'ทองคำ / REITs อสังหาริมทรัพย์', pct: 15, color: 'bg-pink-500', tools: 'K-GOLD, CPNREIT, WHART', role: 'กระจายความเสี่ยงข้ามกลุ่มสินทรัพย์' }
+        ];
+      }
+      if (level === 5) {
+        return [
+          { name: 'เงินสดสำรองรอซื้อ', pct: 5, color: 'bg-sky-500', tools: 'e-Savings, บัญชีออมทรัพย์ดอกเบี้ยสูง', role: 'กระสุนสำรองเพื่อช้อนซื้อเวลาตลาดตื่นตระหนก' },
+          { name: 'หุ้นต่างประเทศ & เมกะเทรนด์โลก (AI, Cloud, Semis)', pct: 50, color: 'bg-indigo-600', tools: 'SCBS&P500, K-CLOUDN, ONE-UGG, DRx AAPL80X', role: 'มุ่งเน้นผลตอบแทนสูงสุดจากนวัตกรรมพลิกโลก' },
+          { name: 'หุ้นไทยเติบโต & บลูชิพ', pct: 20, color: 'bg-purple-600', tools: 'SCBSET50, หุ้นรายตัวพื้นฐานแกร่ง', role: 'สร้างสมดุลด้วยธุรกิจที่มีกระแสเงินสดในประเทศ' },
+          { name: 'ทองคำและสินค้าโภคภัณฑ์', pct: 15, color: 'bg-pink-500', tools: 'K-GOLD, SCBGOLD', role: 'สร้างภูมิคุ้มกันต่อวิกฤตการเงินและภูมิรัฐศาสตร์' },
+          { name: 'สินทรัพย์ดิจิทัล / ทางเลือก', pct: 10, color: 'bg-pink-500', tools: 'Bitcoin, Ethereum (ผ่านศูนย์ซื้อขาย ก.ล.ต.)', role: 'เงินเสี่ยงสูงเพื่อโอกาสผลตอบแทนก้าวกระโดด' }
+        ];
+      }
+
+      // Level 3 Balanced
+      return [
+        { name: 'เงินสดและตราสารหนี้สภาพคล่อง', pct: 15, color: 'bg-sky-500', tools: 'e-Savings, กองทุนรวมตลาดเงิน', role: 'กันชนลดความผันผวนและรอจังหวะซื้อเมื่อตลาดปรับฐาน' },
+        { name: 'ตราสารหนี้และพันธบัตรรัฐบาล', pct: 35, color: 'bg-blue-600', tools: 'K-CBOND, SCBFP, กองทุนตราสารหนี้ระยะกลาง', role: 'สร้างสมดุลความมั่นคงให้กับพอร์ตโฟลิโอ' },
+        { name: 'กองทุนดัชนีหุ้นไทย (SET50 / SET100)', pct: 20, color: 'bg-purple-600', tools: 'SCBSET50, TDEX, B-FUTURE', role: 'หุ้นผู้นำกลุ่มธุรกิจหลักในประเทศ' },
+        { name: 'กองทุนดัชนีหุ้นโลก / S&P 500', pct: 20, color: 'bg-indigo-600', tools: 'SCBS&P500, K-WORLDX, B-BHARAT', role: 'เกาะกระแสเศรษฐกิจและเทคโนโลยีชั้นนำของโลก' },
+        { name: 'ทองคำแท่ง / REITs', pct: 10, color: 'bg-pink-500', tools: 'K-GOLD, CPNREIT', role: 'ลดความผันผวนของพอร์ตและป้องกันเงินเฟ้อ' }
+      ];
+    }
+
     function updatePortfolioRecommendation() {
       const bar = document.getElementById('portfolio-stacked-bar');
       const table = document.getElementById('portfolio-table-body');
-      
-      const allocations = [
-        { name: 'ตราสารหนี้ & พันธบัตร', pct: 40, color: 'bg-emerald-800', tools: 'หุ้นกู้เอกชน A+, กองทุนตราสารหนี้', role: 'สร้างกระแสเงินสดและลดความผันผวน' },
-        { name: 'หุ้นต่างประเทศ (Global ETFs)', pct: 30, color: 'bg-emerald-600', tools: 'S&P 500, MSCI World, All-Country World', role: 'สร้างการเติบโตระยะยาวทั่วโลก' },
-        { name: 'หุ้นไทยขนาดใหญ่ (SET50)', pct: 15, color: 'bg-amber-700', tools: 'กองทุนดัชนี SET50, หุ้นปันผลชั้นนำ', role: 'รับเงินปันผลสม่ำเสมอ' },
-        { name: 'อสังหาริมทรัพย์และรีทส์ (REITs)', pct: 10, color: 'bg-amber-500', tools: 'กองทุนรวม CPNREIT, IMPACT, กองทุน Global REITs', role: 'กระแสเงินสดค่าเช่า ชนะเงินเฟ้อ' },
-        { name: 'ทองคำแท่ง (Gold)', pct: 5, color: 'bg-yellow-400', tools: 'กองทุนรวมทองคำ, ทองคำแท่งแท้ 96.5%', role: 'เกราะป้องกันวิกฤตและค่าเงิน' },
-      ];
+      if (!bar || !table) return;
+
+      const allocations = calculateDynamicAllocation();
 
       bar.innerHTML = '';
       table.innerHTML = '';
@@ -1645,7 +2614,7 @@
         const row = document.createElement('tr');
         row.innerHTML = `
           <td class="py-2.5 px-3 font-semibold text-stone-900">${item.name}</td>
-          <td class="py-2.5 px-3 font-bold text-emerald-800">${item.pct}%</td>
+          <td class="py-2.5 px-3 font-bold text-purple-800">${item.pct}%</td>
           <td class="py-2.5 px-3 text-stone-600">${item.tools}</td>
           <td class="py-2.5 px-3 text-stone-500">${item.role}</td>
         `;
@@ -1696,18 +2665,65 @@
 
     // REPORT MODAL CONTROLLER
     function openReportModal() {
-      // Sync latest values
-      document.getElementById('rep-profile').innerText = `${state.finance.age} ปี (${state.finance.occupation})`;
-      document.getElementById('rep-income').innerText = '฿' + state.finance.monthlyIncome.toLocaleString();
+      // Sync latest profile & finance values
+      const ageStr = state.finance.age > 0 ? `${state.finance.age} ปี` : 'ไม่ระบุอายุ';
+      const occStr = state.finance.occupation || 'ไม่ระบุอาชีพ';
+      document.getElementById('rep-profile').innerText = `${ageStr} (${occStr})`;
+      document.getElementById('rep-income').innerText = '฿' + (state.finance.monthlyIncome || 0).toLocaleString();
       
-      const totalOutflow = state.finance.monthlyExpenses + state.finance.monthlyDebtPayment;
+      const totalOutflow = (state.finance.monthlyExpenses || 0) + (state.finance.monthlyDebtPayment || 0);
       const emergencyMonths = totalOutflow > 0 ? (state.finance.emergencyFund / totalOutflow).toFixed(1) : '0';
-      document.getElementById('rep-emergency').innerText = `฿${state.finance.emergencyFund.toLocaleString()} (${emergencyMonths} เดือน)`;
+      document.getElementById('rep-emergency').innerText = `฿${(state.finance.emergencyFund || 0).toLocaleString()} (${emergencyMonths} เดือน)`;
 
       const dti = state.finance.monthlyIncome > 0 ? Math.round((state.finance.monthlyDebtPayment / state.finance.monthlyIncome) * 100) : 0;
       document.getElementById('rep-dti').innerText = `${dti}% (${dti <= 35 ? 'ปลอดภัย' : 'ระวังภาระหนี้'})`;
 
-      document.getElementById('rep-goal-desc').innerText = `เป้าหมาย ฿${state.goal.targetAmount.toLocaleString()} ภายในระยะเวลา ${state.goal.timeHorizonYears} ปี`;
+      // 4. FIX GOAL MATCHING: Sync goal title & description accurately
+      const goalTitles = {
+        retirement: 'วางแผนเกษียณสุขใจ (Retirement)',
+        house: 'ดาวน์หรือซื้อบ้าน / คอนโด (Real Estate)',
+        financial_freedom: 'อิสรภาพทางการเงิน (FIRE Movement)',
+        passive_income: 'สร้างกระแสเงินสดปันผล (Passive Income)',
+        education: 'ทุนการศึกษาตนเองหรือบุตรหลาน (Education)',
+        milestone: 'กองทุนเป้าหมายสำคัญตามช่วงวัย (Life Milestone)',
+        custom: state.goal.customPurpose || 'เป้าหมายเฉพาะบุคคล'
+      };
+      const resolvedGoalTitle = goalTitles[state.goal.purpose] || state.goal.customPurpose || (state.goal.targetAmount > 0 ? 'เป้าหมายทางการเงิน' : 'ยังไม่ได้ระบุเป้าหมาย');
+      document.getElementById('rep-goal-title').innerText = resolvedGoalTitle;
+      document.getElementById('rep-goal-desc').innerText = `เป้าหมาย ฿${(state.goal.targetAmount || 0).toLocaleString()} ภายในระยะเวลา ${state.goal.timeHorizonYears || 5} ปี`;
+
+      // Sync TSI Profile in Report
+      let tsiLevel = 3;
+      let tsiLevelTitle = 'ระดับ 3: เสี่ยงปานกลางค่อนข้างสูง';
+      let tsiDesc = 'สัดส่วนหุ้นไม่เกิน 50% กระจายในตราสารหนี้และกองทุนรวม';
+      if (state.tsiScore) {
+        if (state.tsiScore <= 15) { tsiLevel = 1; tsiLevelTitle = 'ระดับ 1: เสี่ยงต่ำ'; tsiDesc = 'เน้นรักษาเงินต้น พันธบัตรและเงินฝากเป็นหลัก'; }
+        else if (state.tsiScore <= 21) { tsiLevel = 2; tsiLevelTitle = 'ระดับ 2: เสี่ยงปานกลางค่อนข้างต่ำ'; tsiDesc = 'เน้นตราสารหนี้ หุ้นกู้คุณภาพดี หุ้นไม่เกิน 20%'; }
+        else if (state.tsiScore <= 29) { tsiLevel = 3; tsiLevelTitle = 'ระดับ 3: เสี่ยงปานกลางค่อนข้างสูง'; tsiDesc = 'สัดส่วนหุ้นไม่เกิน 50% กระจายในตราสารหนี้และกองทุนรวม'; }
+        else if (state.tsiScore <= 36) { tsiLevel = 4; tsiLevelTitle = 'ระดับ 4: เสี่ยงสูง'; tsiDesc = 'สัดส่วนหุ้นไม่เกิน 70% เน้นการเติบโตของเงินทุนระยะยาว'; }
+        else { tsiLevel = 5; tsiLevelTitle = 'ระดับ 5: เสี่ยงสูงมาก'; tsiDesc = 'สัดส่วนหุ้นเกิน 70% และสินทรัพย์ทางเลือกเพื่อผลตอบแทนสูงสุด'; }
+      }
+      document.getElementById('rep-tsi-title').innerText = `${tsiLevelTitle} (${state.tsiScore || 28}/40)`;
+      document.getElementById('rep-tsi-desc').innerText = tsiDesc;
+
+      // Populate Dynamic Recommended Allocation in Report Modal
+      const repList = document.getElementById('rep-allocation-list');
+      if (repList) {
+        const allocs = calculateDynamicAllocation();
+        repList.innerHTML = '';
+        allocs.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center py-1.5 border-b border-stone-100 last:border-b-0 text-xs';
+          div.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full ${item.color}"></span>
+              <span class="font-medium text-stone-800">${item.name}</span>
+            </div>
+            <span class="font-bold font-mono text-stone-900">${item.pct}%</span>
+          `;
+          repList.appendChild(div);
+        });
+      }
 
       document.getElementById('report-modal').classList.remove('hidden');
     }
@@ -1771,12 +2787,12 @@
     function filterGlossarySource(src) {
       currentGlossarySource = src;
       document.querySelectorAll('.g-src-btn').forEach(btn => {
-        btn.classList.remove('bg-emerald-800', 'text-white');
+        btn.classList.remove('bg-purple-800', 'text-white');
         btn.classList.add('text-stone-600', 'bg-stone-50');
       });
       const activeBtn = document.getElementById(`g-src-${src}`);
       if (activeBtn) {
-        activeBtn.classList.add('bg-emerald-800', 'text-white');
+        activeBtn.classList.add('bg-purple-800', 'text-white');
         activeBtn.classList.remove('text-stone-600', 'bg-stone-50');
       }
       renderGlossary();
@@ -1813,9 +2829,9 @@
       }
 
       filtered.forEach(item => {
-        const badgeColor = item.src === 'sec' ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :
-                           item.src === 'bot' ? 'bg-amber-100 text-amber-800 border-amber-300' :
-                           'bg-teal-100 text-teal-800 border-teal-300';
+        const badgeColor = item.src === 'sec' ? 'bg-purple-100 text-purple-800 border-purple-300' :
+                           item.src === 'bot' ? 'bg-pink-100 text-pink-800 border-pink-300' :
+                           'bg-fuchsia-100 text-fuchsia-800 border-fuchsia-300';
         const card = document.createElement('div');
         card.className = 'bg-white p-5 rounded-2xl border border-stone-200 shadow-xs flex flex-col justify-between space-y-3';
         card.innerHTML = `
@@ -1823,7 +2839,7 @@
             <div class="flex items-start justify-between gap-2">
               <div>
                 <h3 class="font-bold text-sm sm:text-base text-stone-900">${item.th}</h3>
-                <span class="font-mono text-xs text-amber-800 font-semibold">${item.en}</span>
+                <span class="font-mono text-xs text-pink-800 font-semibold">${item.en}</span>
               </div>
               <span class="text-[10px] font-semibold px-2 py-0.5 rounded border shrink-0 ${badgeColor}">
                 ${item.srcName}
@@ -1831,16 +2847,16 @@
             </div>
             <p class="text-xs text-stone-600 leading-relaxed">${item.def}</p>
             <div class="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs space-y-1">
-              <span class="font-semibold text-emerald-800 block text-[11px]">ตัวอย่างจริง:</span>
+              <span class="font-semibold text-purple-800 block text-[11px]">ตัวอย่างจริง:</span>
               <p class="text-stone-700 text-[11px]">${item.example}</p>
             </div>
-            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs space-y-1">
-              <span class="font-semibold text-amber-900 block text-[11px]">💡 ข้อคิดสำหรับมือใหม่:</span>
-              <p class="text-amber-950 text-[11px]">${item.tip}</p>
+            <div class="p-3 rounded-xl bg-pink-50/70 border border-pink-200 text-xs space-y-1">
+              <span class="font-semibold text-pink-900 block text-[11px]">💡 ข้อคิดสำหรับมือใหม่:</span>
+              <p class="text-pink-950 text-[11px]">${item.tip}</p>
             </div>
           </div>
           <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-[11px]">
-            <a href="${item.srcUrl}" target="_blank" rel="noreferrer" class="text-emerald-700 hover:underline font-semibold flex items-center gap-1">
+            <a href="${item.srcUrl}" target="_blank" rel="noreferrer" class="text-purple-700 hover:underline font-semibold flex items-center gap-1">
               <span>แหล่งข้อมูลทางการ</span>
               <span>↗</span>
             </a>
@@ -1881,5 +2897,7 @@
       renderGlossary();
     });
   </script>
+  <!-- Bottom Vibrant Accent Bar (matching reference photo) -->
+  <div id="bottom-accent-strip" class="w-full h-3 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-500 shrink-0"></div>
 </body>
 </html>

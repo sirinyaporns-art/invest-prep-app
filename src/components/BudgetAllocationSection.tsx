@@ -96,18 +96,18 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Clean Minimalist Header */}
-      <div className="space-y-2 border-b border-stone-200/80 dark:border-slate-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-          <span className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold tracking-wider">STEP 07</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
-          <span className="font-medium text-[11px] text-amber-800 dark:text-amber-300 tracking-wider">จัดสรรเงินออม</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
+      <div className="space-y-2 border-b border-slate-200/80 dark:border-slate-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-mono text-purple-700 dark:text-purple-400 font-bold font-semibold tracking-wider">STEP 07</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
+          <span className="font-medium text-[11px] text-fuchsia-800 dark:text-pink-300 tracking-wider">จัดสรรเงินออม</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
           <span>การจัดสรรรายได้ & เครื่องคิดเลข DCA ทบต้น</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
           การประเมินเงินลงทุนและการจัดสรรรายได้
         </h2>
-        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-3xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
           ความลับของความมั่งคั่งไม่ได้อยู่ที่เงินก้อนโตในวันแรก แต่อยู่ที่วินัยในการจัดสรรรายได้แบ่งเก็บลงทุนอย่างสม่ำเสมอทุกเดือน (DCA) ให้พลังของดอกเบี้ยทบต้น (Compound Interest) ทำงานแทนคุณ
         </p>
       </div>
@@ -116,7 +116,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
       <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <PieChart className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            <PieChart className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">
               การจัดสรรรายได้ตามกฎ 50 / 30 / 20
             </h3>
@@ -168,22 +168,22 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
           </div>
 
           {/* 20% Savings & Invest */}
-          <div className="p-4 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800">
-            <div className="flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-300 mb-1">
+          <div className="p-4 rounded-lg bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800">
+            <div className="flex items-center justify-between text-xs text-purple-800 dark:text-purple-300 mb-1">
               <span className="font-semibold">20% เงินออมและลงทุน (Save & Invest)</span>
               <span>เป้าหมาย</span>
             </div>
-            <div className="text-lg font-bold font-mono text-emerald-600 dark:text-emerald-400">
+            <div className="text-lg font-bold font-mono text-purple-600 dark:text-purple-400">
               {standardSavings.toLocaleString()} <span className="text-xs font-normal text-slate-500">บาท</span>
             </div>
-            <div className="mt-2 text-xs text-emerald-900 dark:text-emerald-300 space-y-1">
+            <div className="mt-2 text-xs text-purple-900 dark:text-purple-300 space-y-1">
               <div className="flex justify-between">
                 <span>กระแสเงินสดเหลือจริง:</span>
                 <span className="font-mono font-semibold">
                   {actualCashflow.toLocaleString()} บาท
                 </span>
               </div>
-              <p className="text-[11px] text-emerald-700 dark:text-emerald-400 leading-tight">
+              <p className="text-[11px] text-purple-700 dark:text-purple-400 leading-tight">
                 นี่คือ "เงินลงทุนที่ปลอดภัยต่อเดือน" ที่ควรตั้งตัดบัญชีอัตโนมัติ (DCA) ทันทีในวันเงินเดือนออก
               </p>
             </div>
@@ -195,7 +195,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
       <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Calculator className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <Calculator className="w-5 h-5 text-purple-600 dark:text-purple-400" />
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">
               เครื่องคิดเลขจำลองการลงทุน DCA & ดอกเบี้ยทบต้น (Compound Interest)
             </h3>
@@ -216,7 +216,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
               step={1000}
               value={initialCapital}
               onChange={(e) => setInitialCapital(Math.max(0, Number(e.target.value) || 0))}
-              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -231,7 +231,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
               step={500}
               value={monthlyDCA}
               onChange={(e) => setMonthlyDCA(Math.max(0, Number(e.target.value) || 0))}
-              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -247,7 +247,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
               step={0.5}
               value={returnRate}
               onChange={(e) => setReturnRate(Number(e.target.value) || 0)}
-              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
@@ -262,19 +262,19 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
               max={40}
               value={simulationYears}
               onChange={(e) => setSimulationYears(Math.max(1, Number(e.target.value) || 1))}
-              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 text-sm font-mono tabular-nums rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
         </div>
 
         {/* Results Banner */}
-        <div className="p-5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/30 dark:bg-indigo-950/20">
+        <div className="p-5 rounded-xl border border-purple-200 dark:border-purple-900/60 bg-purple-50/30 dark:bg-purple-950/20">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div>
               <span className="text-xs text-slate-500 dark:text-slate-400 block mb-1">
                 มูลค่าพอร์ตในอีก {simulationYears} ปีข้างหน้า
               </span>
-              <div className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-indigo-700 dark:text-indigo-300">
+              <div className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-purple-700 dark:text-purple-300">
                 {simulationResults.finalValue.toLocaleString()} <span className="text-sm font-normal text-slate-500">บาท</span>
               </div>
             </div>
@@ -292,7 +292,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
               <span className="text-xs text-slate-500 dark:text-slate-400 block mb-1">
                 กำไรจากผลตอบแทนทบต้น (Gains)
               </span>
-              <div className="text-xl sm:text-2xl font-bold font-mono tabular-nums text-emerald-600 dark:text-emerald-400">
+              <div className="text-xl sm:text-2xl font-bold font-mono tabular-nums text-purple-600 dark:text-purple-400">
                 +{simulationResults.totalGains.toLocaleString()} <span className="text-sm font-normal text-slate-500">บาท</span>
               </div>
             </div>
@@ -300,11 +300,11 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
 
           {/* Goal Comparison Indicator */}
           {goal.targetAmount > 0 && (
-            <div className="mt-5 pt-4 border-t border-indigo-100 dark:border-indigo-900/40 flex items-start gap-3">
+            <div className="mt-5 pt-4 border-t border-purple-100 dark:border-purple-900/40 flex items-start gap-3">
               {simulationResults.isGoalReached ? (
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
               ) : (
-                <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                <AlertCircle className="w-5 h-5 text-pink-500 shrink-0 mt-0.5" />
               )}
               <div className="text-xs">
                 <span className="font-semibold text-slate-900 dark:text-white block">
@@ -347,7 +347,7 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
                     <td className="py-2 px-3 text-right text-slate-600 dark:text-slate-400">
                       {row.principal.toLocaleString()}
                     </td>
-                    <td className="py-2 px-3 text-right text-emerald-600 dark:text-emerald-400">
+                    <td className="py-2 px-3 text-right text-purple-600 dark:text-purple-400">
                       +{row.interestEarned.toLocaleString()}
                     </td>
                     <td className="py-2 px-3 text-right font-bold text-slate-900 dark:text-white">
@@ -362,22 +362,22 @@ export const BudgetAllocationSection: React.FC<BudgetAllocationSectionProps> = (
       </div>
 
       {/* Navigation Banner: Prev to Portfolio, Next to Caution */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl border border-stone-200/80 dark:border-slate-800 bg-[#FCFCFD] dark:bg-[#131A24]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-[#FCFCFD] dark:bg-[#131A24]">
         <button
           onClick={() => onNavigateToTab('portfolio')}
-          className="flex items-center gap-2 text-xs font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"
+          className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
         >
           <span>← ย้อนกลับ: 06. จัดสัดส่วนพอร์ต</span>
         </button>
 
         <div className="flex items-center justify-between sm:justify-end gap-3">
-          <span className="text-xs text-stone-400 font-mono hidden md:inline">STEP 08 · ข้อควรระวัง & คำเตือน</span>
+          <span className="text-xs text-slate-400 font-mono hidden md:inline">STEP 08 · ข้อควรระวัง & คำเตือน</span>
           <button
             onClick={() => onNavigateToTab('caution')}
-            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl transition-all shadow-xs border border-amber-300/40 hover:shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-purple-700 hover:bg-purple-800 rounded-xl transition-all shadow-xs border border-pink-300/40 hover:shadow-sm"
           >
             <span>ไปที่ข้อควรระวัง & คำเตือน</span>
-            <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
+            <ArrowRight className="w-3.5 h-3.5 text-pink-300" />
           </button>
         </div>
       </div>

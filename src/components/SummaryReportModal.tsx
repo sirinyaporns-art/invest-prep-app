@@ -41,25 +41,49 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
     window.print();
   };
 
+  const getGoalTitle = () => {
+    if (!goal.purpose && !goal.customPurpose) {
+      return 'ยังไม่ได้ระบุเป้าหมาย (ค่าเริ่มต้น)';
+    }
+    switch (goal.purpose) {
+      case 'retirement':
+        return 'วางแผนเกษียณสุขใจ (Retirement)';
+      case 'house':
+        return 'ดาวน์หรือซื้อบ้าน / คอนโด (Real Estate)';
+      case 'financial_freedom':
+        return 'อิสรภาพทางการเงิน (FIRE Movement)';
+      case 'passive_income':
+        return 'สร้างกระแสเงินสดปันผล (Passive Income)';
+      case 'education':
+        return 'ทุนการศึกษาตนเองหรือบุตรหลาน (Education)';
+      case 'milestone':
+        return 'กองทุนเป้าหมายสำคัญตามช่วงวัย (Life Milestone)';
+      case 'custom':
+        return goal.customPurpose || 'เป้าหมายเฉพาะบุคคล';
+      default:
+        return goal.customPurpose || goal.purpose || 'เป้าหมายเฉพาะบุคคล';
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm overflow-y-auto">
       <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 my-8 overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Top Header */}
-        <div className="p-4 sm:p-6 border-b border-stone-200/80 dark:border-slate-800 flex items-center justify-between shrink-0 bg-[#FCFCFD] dark:bg-[#111827]">
+        <div className="p-4 sm:p-6 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between shrink-0 bg-[#FCFCFD] dark:bg-[#111827]">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-emerald-700 flex items-center justify-center text-amber-300 shadow-xs border border-amber-300/50">
-              <FileText className="w-4 h-4 text-amber-300" />
+            <div className="w-9 h-9 rounded-xl bg-purple-700 flex items-center justify-center text-pink-300 shadow-xs border border-pink-300/50">
+              <FileText className="w-4 h-4 text-pink-300" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 leading-tight">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">
                   รายงานสรุปความพร้อมและแผนพอร์ตการลงทุน
                 </h3>
-                <span className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                <span className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 rounded bg-purple-50 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
                   SUMMARY REPORT
                 </span>
               </div>
-              <span className="text-xs text-stone-500 dark:text-stone-400">
+              <span className="text-xs text-slate-500 dark:text-slate-400">
                 Personalized Investment Readiness & Portfolio Plan
               </span>
             </div>
@@ -88,13 +112,13 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
             <div>
               <span className="text-[11px] text-slate-500 block">คะแนนความพร้อมพื้นฐาน</span>
-              <span className="text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
+              <span className="text-xl font-bold font-mono text-purple-600 dark:text-purple-400">
                 {readinessPct}% ({completedChecklistCount}/{checklist.length})
               </span>
             </div>
             <div>
               <span className="text-[11px] text-slate-500 block">ระดับความเสี่ยง TSI</span>
-              <span className="text-xl font-bold font-mono text-indigo-600 dark:text-indigo-400">
+              <span className="text-xl font-bold font-mono text-purple-600 dark:text-purple-400">
                 ระดับ {riskProfile.level} ({tsiScore}/40)
               </span>
             </div>
@@ -115,14 +139,14 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
           {/* Section 1: Personal & Financial Profile */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Wallet className="w-4 h-4 text-emerald-600" />
+              <Wallet className="w-4 h-4 text-purple-600" />
               <span>1. สรุปข้อมูลส่วนตัวและสุขภาพการเงิน</span>
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs">
               <div>
                 <span className="text-slate-500 block">อายุ / เพศ / อาชีพ</span>
                 <span className="font-semibold text-slate-900 dark:text-white">
-                  {finance.age} ปี · {finance.gender === 'male' ? 'ชาย' : finance.gender === 'female' ? 'หญิง' : 'อื่นๆ'} · {finance.occupation}
+                  {finance.age > 0 ? `${finance.age} ปี` : 'ไม่ระบุ'} · {finance.gender === 'male' ? 'ชาย' : finance.gender === 'female' ? 'หญิง' : 'อื่นๆ'} · {finance.occupation || 'ไม่ระบุ'}
                 </span>
               </div>
               <div>
@@ -139,7 +163,7 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
               </div>
               <div>
                 <span className="text-slate-500 block">กระแสเงินสดคงเหลือสุทธิ</span>
-                <span className="font-semibold font-mono tabular-nums text-emerald-600 dark:text-emerald-400">
+                <span className="font-semibold font-mono tabular-nums text-purple-600 dark:text-purple-400">
                   {monthlyCashflow >= 0 ? '+' : ''}{monthlyCashflow.toLocaleString()} บาท/เดือน
                 </span>
               </div>
@@ -149,26 +173,14 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
           {/* Section 2: Investment Goals */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Target className="w-4 h-4 text-indigo-600" />
-              <span>2. วัตถุประสงค์และเป้าหมายการลงทุน</span>
+              <Target className="w-4 h-4 text-purple-600" />
+              <span>2. วัตถุประสงค์และเป้าหมายการลงทุนที่เลือก</span>
             </h4>
             <div className="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 text-xs space-y-1.5">
               <div className="flex justify-between items-center">
-                <span className="text-slate-500">วัตถุประสงค์หลัก:</span>
+                <span className="text-slate-500">วัตถุประสงค์ที่เลือก:</span>
                 <span className="font-semibold text-slate-900 dark:text-white">
-                  {goal.purpose === 'retirement'
-                    ? 'วางแผนเกษียณสุขใจ'
-                    : goal.purpose === 'house'
-                    ? 'ดาวน์หรือซื้อบ้าน/คอนโด'
-                    : goal.purpose === 'financial_freedom'
-                    ? 'อิสรภาพทางการเงิน (FIRE)'
-                    : goal.purpose === 'passive_income'
-                    ? 'สร้างกระแสเงินสดปันผล'
-                    : goal.purpose === 'education'
-                    ? 'ทุนการศึกษา'
-                    : goal.purpose === 'milestone'
-                    ? 'เป้าหมายสำคัญตามช่วงวัย'
-                    : goal.customPurpose || 'เป้าหมายเฉพาะบุคคล'}
+                  {getGoalTitle()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -178,7 +190,7 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-500">ความสำคัญ / ความทนทานต่อการแกว่งตัว:</span>
+                <span className="text-slate-500">ระดับความสำคัญ / ความทนทานต่อการแกว่งตัว:</span>
                 <span className="text-slate-700 dark:text-slate-300">
                   {goal.importanceLevel === 'essential' ? 'จำเป็นสูงสุด' : goal.importanceLevel === 'important' ? 'สำคัญมาก' : 'ยืดหยุ่นได้'} · รับการแกว่งตัวได้ระดับ {goal.downsideTolerance}
                 </span>
@@ -189,7 +201,7 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
           {/* Section 3: TSI Profile & Portfolio Blueprint */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-amber-500" />
+              <Award className="w-4 h-4 text-pink-500" />
               <span>3. ผลการประเมิน TSI และสัดส่วนพอร์ตที่แนะนำ</span>
             </h4>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4">
@@ -238,7 +250,7 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
           {/* Section 4: Interested Assets */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-emerald-700" />
+              <Layers className="w-4 h-4 text-purple-700" />
               <span>4. สินทรัพย์ที่ผู้ลงทุนให้ความสนใจ</span>
             </h4>
             <div className="flex flex-wrap gap-2 text-xs">
@@ -260,7 +272,28 @@ export const SummaryReportModal: React.FC<SummaryReportModalProps> = ({
         </div>
 
         {/* Modal Bottom Footer */}
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-3 shrink-0 bg-slate-50 dark:bg-slate-800/60">
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 bg-slate-50 dark:bg-slate-800/60 text-xs">
+          <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400">
+            <span>แหล่งข้อมูลอ้างอิงทางการ:</span>
+            <a
+              href="https://www.set.or.th"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-purple-700 dark:text-purple-400 hover:underline font-medium"
+            >
+              ตลาดหลักทรัพย์แห่งประเทศไทย (SET)
+            </a>
+            <span>•</span>
+            <a
+              href="https://www.sec.or.th"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-purple-700 dark:text-purple-400 hover:underline font-medium"
+            >
+              สำนักงาน ก.ล.ต.
+            </a>
+          </div>
+
           <button
             onClick={onClose}
             className="px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"

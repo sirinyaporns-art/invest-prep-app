@@ -22,18 +22,18 @@ export const CautionSection: React.FC<CautionSectionProps> = ({ onOpenReport }) 
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Clean Minimalist Header */}
-      <div className="space-y-2 border-b border-stone-200/80 dark:border-slate-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-          <span className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold tracking-wider">STEP 08</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
-          <span className="font-medium text-[11px] text-amber-800 dark:text-amber-300 tracking-wider">ข้อควรระวัง</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
+      <div className="space-y-2 border-b border-slate-200/80 dark:border-slate-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-mono text-purple-700 dark:text-purple-400 font-bold font-semibold tracking-wider">STEP 08</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
+          <span className="font-medium text-[11px] text-fuchsia-800 dark:text-pink-300 tracking-wider">ข้อควรระวัง</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
           <span>เกราะป้องกันความเสี่ยง & คำเตือน ก.ล.ต.</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
           ข้อควรระวังและคำเตือนสำคัญสำหรับการลงทุน (Investment Cautions)
         </h2>
-        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-3xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
           ความเสี่ยงที่น่ากลัวที่สุดไม่ใช่ราคาหุ้นตกชั่วคราว แต่คือ "การสูญเสียเงินต้นทั้งหมด" จากการหลงเชื่อผลตอบแทนการันตีสูง หรือการลงทุนด้วยเงินร้อนที่ไม่พร้อมเสีย โปรดอ่านและทำความเข้าใจข้อควรระวังเหล่านี้
         </p>
       </div>
@@ -77,8 +77,8 @@ export const CautionSection: React.FC<CautionSectionProps> = ({ onOpenReport }) 
                   caution.level === 'critical'
                     ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-400'
                     : caution.level === 'warning'
-                    ? 'bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400'
-                    : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
+                    ? 'bg-fuchsia-100 dark:bg-fuchsia-950 text-fuchsia-700 dark:text-fuchsia-400 font-semibold'
+                    : 'bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300'
                 }`}
               >
                 {caution.level}
@@ -93,7 +93,7 @@ export const CautionSection: React.FC<CautionSectionProps> = ({ onOpenReport }) 
               {caution.detail}
             </p>
 
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-400">
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-1.5 text-xs text-purple-700 dark:text-purple-400">
               <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
               <span>{caution.checklistVerification}</span>
             </div>
@@ -102,10 +102,10 @@ export const CautionSection: React.FC<CautionSectionProps> = ({ onOpenReport }) 
       </div>
 
       {/* Interactive Scam Red-Flags Detector */}
-      <div className="p-6 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/10 space-y-5">
+      <div className="p-6 rounded-xl border border-pink-200 dark:border-fuchsia-900/60 bg-fuchsia-50/20 dark:bg-fuchsia-950/10 space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <BadgeAlert className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <BadgeAlert className="w-5 h-5 text-fuchsia-600 dark:text-pink-400" />
             <h3 className="text-base font-semibold text-slate-900 dark:text-white">
               เครื่องมือตรวจจับสัญญาณอันตราย: "แชร์ลูกโซ่ & มิจฉาชีพหลอกลงทุน"
             </h3>
@@ -178,9 +178,9 @@ export const CautionSection: React.FC<CautionSectionProps> = ({ onOpenReport }) 
 
         <button
           onClick={onOpenReport}
-          className="flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl transition-all shrink-0 shadow-xs border border-amber-300/40 hover:shadow-sm"
+          className="flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-purple-700 hover:bg-purple-800 rounded-xl transition-all shrink-0 shadow-xs border border-pink-300/40 hover:shadow-sm"
         >
-          <FileCheck className="w-4 h-4 text-amber-300" />
+          <FileCheck className="w-4 h-4 text-pink-300" />
           <span>ดูสรุปรายงานความพร้อมฉบับเต็ม</span>
         </button>
       </div>

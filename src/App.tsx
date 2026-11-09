@@ -11,8 +11,11 @@ import { PortfolioAllocationSection } from './components/PortfolioAllocationSect
 import { BudgetAllocationSection } from './components/BudgetAllocationSection';
 import { InvestmentGlossarySection } from './components/InvestmentGlossarySection';
 import { CautionSection } from './components/CautionSection';
+import { KnowledgeAndLegalHubSection } from './components/KnowledgeAndLegalHubSection';
+import { RecommendedBrokersSection } from './components/RecommendedBrokersSection';
 import { SummaryReportModal } from './components/SummaryReportModal';
 import { GitHubModal } from './components/GitHubModal';
+import { AboutAndContactSection } from './components/AboutAndContactSection';
 
 import { INITIAL_CHECKLIST } from './data/starterChecklist';
 import { TSI_QUESTIONS, calculateTSIRisk } from './data/tsiQuestions';
@@ -266,6 +269,7 @@ export default function App() {
               goal={goal}
               finance={finance}
               assets={assets}
+              checklist={checklist}
               onNavigateToTab={setActiveTab}
             />
           )}
@@ -279,12 +283,26 @@ export default function App() {
             />
           )}
 
-          {activeTab === 'glossary' && (
-            <InvestmentGlossarySection onNavigateToTab={setActiveTab} />
+          {(activeTab === 'knowledge_hub' || activeTab === 'glossary' || activeTab === 'tax_legal' || activeTab === 'caution') && (
+            <KnowledgeAndLegalHubSection
+              initialSubTab={activeTab === 'tax_legal' ? 'tax_legal' : activeTab === 'caution' ? 'caution' : 'glossary'}
+              onOpenReport={() => setIsReportOpen(true)}
+              onNavigateToTab={setActiveTab}
+            />
           )}
 
-          {activeTab === 'caution' && (
-            <CautionSection onOpenReport={() => setIsReportOpen(true)} />
+          {activeTab === 'providers' && (
+            <RecommendedBrokersSection
+              onNavigateToTab={setActiveTab}
+              onOpenReport={() => setIsReportOpen(true)}
+            />
+          )}
+
+          {(activeTab === 'about' || activeTab === 'contact') && (
+            <AboutAndContactSection
+              initialSubTab={activeTab === 'contact' ? 'contact' : 'about'}
+              onNavigateToTab={setActiveTab}
+            />
           )}
         </div>
       </main>
@@ -302,25 +320,52 @@ export default function App() {
               </p>
             </div>
             <div className="flex items-center gap-4 flex-wrap">
+              <button
+                onClick={() => {
+                  setActiveTab('providers');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-purple-600 transition-colors font-semibold text-fuchsia-600 dark:text-fuchsia-400"
+              >
+                ผู้ให้บริการที่แนะนำ (บล. ทรีนีตี้)
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('about');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-purple-600 transition-colors font-medium text-slate-600 dark:text-slate-300"
+              >
+                เกี่ยวกับโครงการ
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('contact');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-purple-600 transition-colors font-medium text-slate-600 dark:text-slate-300"
+              >
+                ติดต่อพวกเรา
+              </button>
               <a
-                href="https://www.set.or.th/th/education-research/education/tsi"
+                href="https://www.set.or.th"
                 target="_blank"
                 rel="noreferrer noopener"
-                className="hover:text-emerald-600 transition-colors"
+                className="hover:text-purple-600 transition-colors"
               >
-                สถาบัน TSI ตลาดหลักทรัพย์ฯ
+                ตลาดหลักทรัพย์แห่งประเทศไทย (SET)
               </a>
               <a
                 href="https://www.sec.or.th"
                 target="_blank"
                 rel="noreferrer noopener"
-                className="hover:text-emerald-600 transition-colors"
+                className="hover:text-purple-600 transition-colors"
               >
                 สำนักงาน ก.ล.ต. (SEC)
               </a>
               <button
                 onClick={() => setIsReportOpen(true)}
-                className="hover:text-emerald-600 transition-colors"
+                className="hover:text-purple-600 transition-colors font-medium"
               >
                 พิมพ์รายงานสรุป
               </button>
@@ -331,6 +376,9 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Vibrant Magenta-Purple Bottom Accent Bar (matching reference photo bottom strip) */}
+      <div className="w-full h-3 sm:h-3.5 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-pink-500 shrink-0" />
 
       {/* Summary Report Modal */}
       <SummaryReportModal

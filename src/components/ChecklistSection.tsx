@@ -149,35 +149,35 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Editorial Header (Green & Brown Earth Tone - No Japanese) */}
-      <div className="space-y-2 border-b border-stone-200 dark:border-stone-800 pb-6">
-        <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-          <span className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold tracking-wider">STEP 02</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
-          <span className="font-medium text-amber-800 dark:text-amber-400">เช็กลิสต์ความพร้อม</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
+      <div className="space-y-2 border-b border-slate-200 dark:border-slate-800 pb-6">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-mono text-purple-700 dark:text-purple-400 font-bold font-semibold tracking-wider">STEP 02</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
+          <span className="font-medium text-fuchsia-700 dark:text-fuchsia-400 font-semibold">เช็กลิสต์ความพร้อม</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
           <span>7 เสาหลักก่อนเริ่มลงทุน</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
           เช็กลิสต์ความพร้อมสำหรับผู้เริ่มต้นลงทุน
         </h2>
-        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-3xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
           ก่อนที่จะนำเงินก้อนแรกไปเสี่ยงในตลาดหุ้นหรือกองทุนรวม การวางรากฐานทางการเงินให้มั่นคงจะช่วยปกป้องคุณจากการขาดทุนจนหมดตัว ติ๊กเช็กแต่ละข้ออย่างรอบคอบเพื่อประเมินความพร้อมของคุณ
         </p>
       </div>
 
       {/* Progress & Status Card (Green & Brown Theme) */}
-      <div className="p-6 sm:p-7 rounded-2xl border border-stone-200 dark:border-stone-800 bg-[#FCFAF7] dark:bg-[#18201B]">
+      <div className="p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0F172A]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+              <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 ระดับความพร้อมในการลงทุนของคุณ
               </span>
-              <span className="text-xs text-stone-500 font-mono">
+              <span className="text-xs text-slate-500 font-mono">
                 (ผ่านแล้ว {completedCount}/{items.length} ข้อ)
               </span>
             </div>
-            <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {progressPct === 100
                 ? 'ยอดเยี่ยม! คุณมีเกราะป้องกันทางการเงินพร้อมก้าวสู่โลกการลงทุนอย่างมั่นใจ'
                 : progressPct >= 60
@@ -187,17 +187,17 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           </div>
 
           <div className="flex items-baseline gap-2 shrink-0">
-            <span className="text-3xl font-bold font-mono tabular-nums text-emerald-800 dark:text-emerald-300">
+            <span className="text-3xl font-bold font-mono tabular-nums text-purple-800 dark:text-purple-300">
               {progressPct}%
             </span>
-            <span className="text-xs text-amber-800 dark:text-amber-400 font-semibold">สำเร็จ</span>
+            <span className="text-xs text-fuchsia-700 dark:text-fuchsia-400 font-semibold font-semibold">สำเร็จ</span>
           </div>
         </div>
 
         {/* Progress Bar (Forest Green + Amber Brown Glow) */}
-        <div className="mt-4 w-full h-2 rounded-full bg-stone-200 dark:bg-stone-800 overflow-hidden">
+        <div className="mt-4 w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-500 dark:to-emerald-600 transition-all duration-300 ease-out"
+            className="h-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-500 dark:from-purple-500 dark:to-purple-600 transition-all duration-300 ease-out"
             style={{ width: `${progressPct}%` }}
           />
         </div>
@@ -205,13 +205,13 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
 
       {/* Filter Tabs (Segmented Buttons in Earth Tones) */}
       <div className="flex items-center justify-between flex-wrap gap-4 pt-1">
-        <div className="flex items-center gap-1.5 p-1 bg-stone-100 dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
           <button
             onClick={() => setFilter('all')}
             className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
               filter === 'all'
-                ? 'bg-white dark:bg-stone-800 text-emerald-900 dark:text-emerald-300 shadow-2xs font-semibold'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-slate-800 text-purple-900 dark:text-purple-300 shadow-2xs font-semibold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             ทั้งหมด ({items.length})
@@ -220,38 +220,38 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
             onClick={() => setFilter('foundation')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
               filter === 'foundation'
-                ? 'bg-white dark:bg-stone-800 text-emerald-900 dark:text-emerald-300 shadow-2xs font-semibold'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-slate-800 text-purple-900 dark:text-purple-300 shadow-2xs font-semibold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <Shield className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
+            <Shield className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400" />
             <span>รากฐานการเงิน</span>
           </button>
           <button
             onClick={() => setFilter('knowledge')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
               filter === 'knowledge'
-                ? 'bg-white dark:bg-stone-800 text-emerald-900 dark:text-emerald-300 shadow-2xs font-semibold'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-slate-800 text-purple-900 dark:text-purple-300 shadow-2xs font-semibold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <BookOpen className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
+            <BookOpen className="w-3.5 h-3.5 text-fuchsia-700 dark:text-fuchsia-400 font-semibold" />
             <span>ความรู้ & ความเสี่ยง</span>
           </button>
           <button
             onClick={() => setFilter('execution')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
               filter === 'execution'
-                ? 'bg-white dark:bg-stone-800 text-emerald-900 dark:text-emerald-300 shadow-2xs font-semibold'
-                : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-slate-800 text-purple-900 dark:text-purple-300 shadow-2xs font-semibold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            <Rocket className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
+            <Rocket className="w-3.5 h-3.5 text-purple-700 dark:text-purple-400" />
             <span>การลงมือปฏิบัติ</span>
           </button>
         </div>
 
-        <div className="text-xs text-stone-500">
+        <div className="text-xs text-slate-500">
           คลิกเพื่อติ๊กเครื่องหมาย หรือคลิกเพื่อดูคำแนะนำเชิงลึก
         </div>
       </div>
@@ -268,8 +268,8 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               key={item.id}
               className={`rounded-2xl border transition-all ${
                 item.isCompleted
-                  ? 'border-emerald-300/80 dark:border-emerald-900/60 bg-emerald-50/40 dark:bg-emerald-950/20'
-                  : 'border-stone-200 dark:border-stone-800 bg-[#FCFAF7] dark:bg-[#18201B] hover:border-stone-300 dark:hover:border-stone-700'
+                  ? 'border-purple-300/80 dark:border-purple-900/60 bg-purple-50/40 dark:bg-purple-950/20'
+                  : 'border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0F172A] hover:border-slate-300 dark:hover:border-slate-700'
               }`}
             >
               <div className="p-5 flex items-start gap-4">
@@ -287,9 +287,9 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                     className={`mt-0.5 transition-colors focus:outline-none ${
                       syncInfo.isAuto
                         ? item.isCompleted
-                          ? 'text-emerald-700 dark:text-emerald-400'
-                          : 'text-stone-300 dark:text-stone-600 hover:text-amber-700'
-                        : 'text-stone-300 dark:text-stone-600 hover:text-emerald-700 dark:hover:text-emerald-400 cursor-pointer'
+                          ? 'text-purple-700 dark:text-purple-400'
+                          : 'text-slate-300 dark:text-slate-600 hover:text-fuchsia-700'
+                        : 'text-slate-300 dark:text-slate-600 hover:text-purple-700 dark:hover:text-purple-400 cursor-pointer'
                     }`}
                     title={
                       syncInfo.isAuto
@@ -298,17 +298,17 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                     }
                   >
                     {item.isCompleted ? (
-                      <CheckCircle2 className="w-6 h-6 text-emerald-700 dark:text-emerald-400 fill-emerald-100 dark:fill-emerald-950" />
+                      <CheckCircle2 className="w-6 h-6 text-purple-700 dark:text-purple-400 fill-purple-100 dark:fill-purple-950" />
                     ) : (
-                      <Circle className="w-6 h-6 hover:text-stone-400" />
+                      <Circle className="w-6 h-6 hover:text-slate-400" />
                     )}
                   </button>
                   {syncInfo.isAuto ? (
-                    <span className="text-[10px] text-emerald-800 dark:text-emerald-400 font-mono mt-1 font-semibold">
+                    <span className="text-[10px] text-purple-800 dark:text-purple-400 font-mono mt-1 font-semibold">
                       AUTO
                     </span>
                   ) : (
-                    <span className="text-[10px] text-amber-700 dark:text-amber-400 font-mono mt-1">
+                    <span className="text-[10px] text-fuchsia-700 dark:text-fuchsia-400 font-semibold font-mono mt-1">
                       MANUAL
                     </span>
                   )}
@@ -320,20 +320,20 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                     <div className="flex items-center gap-2 flex-wrap">
                       <button
                         onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                        className="text-left font-semibold text-sm sm:text-base text-stone-900 dark:text-stone-100 hover:text-emerald-800 dark:hover:text-emerald-400 transition-colors"
+                        className="text-left font-semibold text-sm sm:text-base text-slate-900 dark:text-slate-100 hover:text-purple-800 dark:hover:text-purple-400 transition-colors"
                       >
                         {item.title}
                       </button>
 
                       {/* Type Pill Badge */}
                       {syncInfo.isAuto ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                          <Link2 className="w-3 h-3 text-emerald-700 dark:text-emerald-400" />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+                          <Link2 className="w-3 h-3 text-purple-700 dark:text-purple-400" />
                           ซิงค์อัตโนมัติ ({syncInfo.sourceName})
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                          <Edit3 className="w-3 h-3 text-amber-700" />
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-md bg-fuchsia-50 dark:bg-fuchsia-950/40 text-fuchsia-800 dark:text-pink-300 border border-pink-200 dark:border-fuchsia-800">
+                          <Edit3 className="w-3 h-3 text-fuchsia-700" />
                           กดเช็กเองได้เลย
                         </span>
                       )}
@@ -343,24 +343,24 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                       {shortcut && (
                         <button
                           onClick={() => onNavigateToTab(shortcut.tab)}
-                          className="flex items-center gap-1 text-xs font-medium text-emerald-800 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-emerald-200 transition-colors"
+                          className="flex items-center gap-1 text-xs font-medium text-purple-800 dark:text-purple-300 hover:text-purple-900 dark:hover:text-purple-200 transition-colors"
                         >
                           <span>{shortcut.label}</span>
-                          <ArrowRight className="w-3 h-3 text-amber-600" />
+                          <ArrowRight className="w-3 h-3 text-fuchsia-600" />
                         </button>
                       )}
                     </div>
                   </div>
 
-                  <p className="mt-1 text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+                  <p className="mt-1 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                     {item.description}
                   </p>
 
                   {/* Auto-sync Notification Helper on Click */}
                   {autoSyncTipId === item.id && syncInfo.isAuto && (
-                    <div className="mt-2.5 p-3 rounded-xl bg-amber-50/90 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex items-start justify-between gap-3 animate-fadeIn">
+                    <div className="mt-2.5 p-3 rounded-xl bg-fuchsia-50/90 dark:bg-fuchsia-950/50 border border-pink-200 dark:border-fuchsia-800 text-xs text-fuchsia-900 dark:text-pink-200 flex items-start justify-between gap-3 animate-fadeIn">
                       <div className="flex items-start gap-2">
-                        <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <Sparkles className="w-4 h-4 text-fuchsia-600 shrink-0 mt-0.5" />
                         <div>
                           <strong>ข้อนี้เชื่อมต่อกับข้อมูลจริงโดยอัตโนมัติ:</strong>{' '}
                           เกณฑ์การผ่าน: {syncInfo.conditionText} (ไม่ต้องกดติ๊กเอง)
@@ -369,7 +369,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                       {syncInfo.targetTab && (
                         <button
                           onClick={() => syncInfo.targetTab && onNavigateToTab(syncInfo.targetTab)}
-                          className="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-semibold text-[11px] shrink-0 hover:bg-emerald-800 transition-colors"
+                          className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-xs font-semibold text-[11px] shrink-0 hover:bg-purple-800 transition-colors"
                         >
                           ไปกรอกข้อมูล
                         </button>
@@ -380,20 +380,20 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   {/* Real-time Status Card */}
                   {syncInfo.isAuto ? (
                     item.isCompleted ? (
-                      <div className="mt-2.5 text-xs flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-medium bg-emerald-100/70 dark:bg-emerald-950/60 px-3 py-2 rounded-xl border border-emerald-300/80 dark:border-emerald-800">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
+                      <div className="mt-2.5 text-xs flex items-center gap-2 text-purple-800 dark:text-purple-300 font-medium bg-purple-100/70 dark:bg-purple-950/60 px-3 py-2 rounded-xl border border-purple-300/80 dark:border-purple-800">
+                        <CheckCircle2 className="w-4 h-4 text-purple-700 dark:text-purple-400 shrink-0" />
                         <span>ผ่านเกณฑ์เรียบร้อย: {syncInfo.detail}</span>
                       </div>
                     ) : (
-                      <div className="mt-2.5 text-xs flex items-center justify-between flex-wrap gap-2 text-stone-700 dark:text-stone-300 bg-stone-100/80 dark:bg-stone-800/80 px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700">
+                      <div className="mt-2.5 text-xs flex items-center justify-between flex-wrap gap-2 text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
                         <div className="flex items-center gap-2">
-                          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                          <AlertCircle className="w-4 h-4 text-fuchsia-600 shrink-0" />
                           <span>สถานะปัจจุบัน: {syncInfo.detail}</span>
                         </div>
                         {syncInfo.targetTab && (
                           <button
                             onClick={() => syncInfo.targetTab && onNavigateToTab(syncInfo.targetTab)}
-                            className="text-emerald-800 dark:text-emerald-400 hover:underline font-semibold flex items-center gap-1 text-[11px]"
+                            className="text-purple-800 dark:text-purple-400 hover:underline font-semibold flex items-center gap-1 text-[11px]"
                           >
                             <span>ไปกรอกข้อมูลเพื่อให้ผ่านเกณฑ์</span>
                             <ArrowRight className="w-3 h-3" />
@@ -402,27 +402,27 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                       </div>
                     )
                   ) : item.isCompleted ? (
-                    <div className="mt-2.5 text-xs flex items-center justify-between gap-2 text-emerald-800 dark:text-emerald-300 font-medium bg-emerald-100/70 dark:bg-emerald-950/60 px-3 py-2 rounded-xl border border-emerald-300/80 dark:border-emerald-800">
+                    <div className="mt-2.5 text-xs flex items-center justify-between gap-2 text-purple-800 dark:text-purple-300 font-medium bg-purple-100/70 dark:bg-purple-950/60 px-3 py-2 rounded-xl border border-purple-300/80 dark:border-purple-800">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-purple-700 dark:text-purple-400 shrink-0" />
                         <span>คุณได้ตรวจสอบและติ๊กยืนยันความพร้อมเรียบร้อยแล้ว</span>
                       </div>
                       <button
                         onClick={() => onToggleItem(item.id)}
-                        className="text-[11px] text-stone-500 hover:text-stone-700 underline"
+                        className="text-[11px] text-slate-500 hover:text-slate-700 underline"
                       >
                         ยกเลิกการติ๊ก
                       </button>
                     </div>
                   ) : (
-                    <div className="mt-2.5 text-xs flex items-center justify-between gap-2 text-stone-600 dark:text-stone-400 bg-stone-100/60 dark:bg-stone-800/60 px-3 py-2 rounded-xl border border-stone-200 dark:border-stone-700">
+                    <div className="mt-2.5 text-xs flex items-center justify-between gap-2 text-slate-600 dark:text-slate-400 bg-slate-100/60 dark:bg-slate-800/60 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
                       <div className="flex items-center gap-2">
-                        <Edit3 className="w-4 h-4 text-amber-600 shrink-0" />
+                        <Edit3 className="w-4 h-4 text-fuchsia-600 shrink-0" />
                         <span>ข้อนี้สามารถกดคลิกติ๊กเครื่องหมายได้ด้วยตนเองเมื่อพร้อม</span>
                       </div>
                       <button
                         onClick={() => onToggleItem(item.id)}
-                        className="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-semibold text-[11px] shrink-0 hover:bg-emerald-800 transition-colors"
+                        className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-xs font-semibold text-[11px] shrink-0 hover:bg-purple-800 transition-colors"
                       >
                         กดติ๊กข้อนี้
                       </button>
@@ -431,26 +431,26 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
 
                   {/* Expandable Why & Tip */}
                   {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-800 space-y-3">
-                      <div className="flex items-start gap-2.5 text-xs text-stone-700 dark:text-stone-300">
-                        <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                      <div className="flex items-start gap-2.5 text-xs text-slate-700 dark:text-slate-300">
+                        <AlertCircle className="w-4 h-4 text-fuchsia-600 shrink-0 mt-0.5" />
                         <div>
-                          <strong className="font-semibold text-stone-900 dark:text-stone-100 block mb-0.5">
+                          <strong className="font-semibold text-slate-900 dark:text-slate-100 block mb-0.5">
                             ทำไมข้อนี้จึงสำคัญมาก?
                           </strong>
-                          <span className="text-stone-600 dark:text-stone-400 leading-relaxed">
+                          <span className="text-slate-600 dark:text-slate-400 leading-relaxed">
                             {item.whyImportant}
                           </span>
                         </div>
                       </div>
 
-                      <div className="flex items-start gap-2.5 text-xs text-stone-700 dark:text-stone-300">
-                        <Lightbulb className="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <div className="flex items-start gap-2.5 text-xs text-slate-700 dark:text-slate-300">
+                        <Lightbulb className="w-4 h-4 text-purple-700 dark:text-purple-400 shrink-0 mt-0.5" />
                         <div>
-                          <strong className="font-semibold text-stone-900 dark:text-stone-100 block mb-0.5">
+                          <strong className="font-semibold text-slate-900 dark:text-slate-100 block mb-0.5">
                             คำแนะนำสำหรับก้าวต่อไป:
                           </strong>
-                          <span className="text-stone-600 dark:text-stone-400 leading-relaxed">
+                          <span className="text-slate-600 dark:text-slate-400 leading-relaxed">
                             {item.actionTip}
                           </span>
                         </div>
@@ -465,23 +465,23 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
       </div>
 
       {/* Navigation Banner: Prev to Finance, Next to Goals */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-[#FCFAF7] dark:bg-[#18201B]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-[#F8FAFC] dark:bg-[#0F172A]">
         <button
           onClick={() => onNavigateToTab('finance')}
-          className="flex items-center gap-2 text-xs font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"
+          className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>ย้อนกลับ: 01. ข้อมูลส่วนตัวและการเงิน</span>
         </button>
 
         <div className="flex items-center justify-between sm:justify-end gap-3">
-          <span className="text-xs text-stone-400 font-mono hidden md:inline">STEP 03 · เป้าหมายลงทุน</span>
+          <span className="text-xs text-slate-400 font-mono hidden md:inline">STEP 03 · เป้าหมายลงทุน</span>
           <button
             onClick={() => onNavigateToTab('goal')}
-            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl transition-all shadow-xs border border-amber-600/40 hover:shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-purple-700 hover:bg-purple-800 rounded-xl transition-all shadow-xs border border-fuchsia-600/40 hover:shadow-sm"
           >
             <span>ไปที่เป้าหมายการลงทุน</span>
-            <ArrowRight className="w-3.5 h-3.5 text-amber-200" />
+            <ArrowRight className="w-3.5 h-3.5 text-pink-200" />
           </button>
         </div>
       </div>

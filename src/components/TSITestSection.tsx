@@ -39,11 +39,11 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
       case 1:
         return 'text-sky-600 bg-sky-50 dark:bg-sky-950/40 border-sky-200 dark:border-sky-800';
       case 2:
-        return 'text-teal-600 bg-teal-50 dark:bg-teal-950/40 border-teal-200 dark:border-teal-800';
+        return 'text-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-950/40 border-fuchsia-200 dark:border-fuchsia-800';
       case 3:
-        return 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800';
+        return 'text-purple-600 bg-purple-50 dark:bg-purple-950/40 border-purple-200 dark:border-purple-800';
       case 4:
-        return 'text-amber-600 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800';
+        return 'text-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-950/40 border-pink-200 dark:border-fuchsia-800';
       case 5:
         return 'text-rose-600 bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800';
     }
@@ -52,18 +52,18 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Clean Minimalist Header */}
-      <div className="space-y-2 border-b border-stone-200/80 dark:border-slate-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-          <span className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold tracking-wider">STEP 04</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
-          <span className="font-medium text-[11px] text-amber-800 dark:text-amber-300 tracking-wider">ประเมินความเสี่ยง</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
+      <div className="space-y-2 border-b border-slate-200/80 dark:border-slate-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-mono text-purple-700 dark:text-purple-400 font-bold font-semibold tracking-wider">STEP 04</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
+          <span className="font-medium text-[11px] text-fuchsia-800 dark:text-pink-300 tracking-wider">ประเมินความเสี่ยง</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
           <span>แบบประเมินความเหมาะสมในการลงทุน (TSI Suitability)</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
           แบบประเมินความเหมาะสมในการลงทุน (TSI Suitability Test)
         </h2>
-        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-3xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
           พัฒนาตามหลักเกณฑ์ของสถาบันกองทุนพัฒนาบุคลากรตลาดหลักทรัพย์ (TSI) และสำนักงาน ก.ล.ต. เพื่อวัดความรู้ ประสบการณ์ ฐานะทางการเงิน และจิตวิทยาต่อความเสี่ยงของท่านอย่างแม่นยำ
         </p>
       </div>
@@ -72,7 +72,7 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
       <div
         className={`p-6 rounded-xl border transition-all ${
           answeredCount === 0
-            ? 'text-stone-700 dark:text-stone-300 bg-stone-50 dark:bg-stone-900/60 border-stone-200 dark:border-stone-800'
+            ? 'text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800'
             : getRiskColor(riskProfile.level)
         }`}
       >
@@ -123,7 +123,7 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
           </div>
           <div className="relative w-full h-3 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
             <div
-              className="h-full bg-emerald-600 dark:bg-emerald-400 transition-all duration-300"
+              className="h-full bg-purple-600 dark:bg-purple-400 transition-all duration-300"
               style={{ width: `${Math.min(100, Math.max(5, (totalScore / 40) * 100))}%` }}
             />
           </div>
@@ -144,7 +144,7 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
       {/* Preset Fast-Pick for Convenience */}
       <div className="flex items-center justify-between flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
         <span className="flex items-center gap-1.5">
-          <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
           <span>ทดลองผลประเมินระดับต่างๆ ได้อย่างรวดเร็ว:</span>
         </span>
         <div className="flex items-center gap-1.5 flex-wrap">
@@ -193,7 +193,7 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
               className={`p-5 rounded-xl border transition-all ${
                 isAnswered
                   ? 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900'
-                  : 'border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/10'
+                  : 'border-pink-200 dark:border-fuchsia-900/60 bg-fuchsia-50/20 dark:bg-fuchsia-950/10'
               }`}
             >
               <div className="flex items-start justify-between gap-4 mb-3">
@@ -201,7 +201,7 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
                   {q.question}
                 </h4>
                 {isAnswered && (
-                  <span className="flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400 shrink-0">
+                  <span className="flex items-center gap-1 text-xs font-medium text-purple-600 dark:text-purple-400 shrink-0">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>+{q.options[selectedOptionIdx].score} คะแนน</span>
                   </span>
@@ -219,7 +219,7 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
                       onClick={() => onSelectAnswer(q.id, idx)}
                       className={`p-3 rounded-lg border text-left transition-all ${
                         isSelected
-                          ? 'border-emerald-600 bg-emerald-50/50 dark:bg-emerald-950/40 text-slate-900 dark:text-white ring-1 ring-emerald-600 dark:ring-emerald-500'
+                          ? 'border-purple-600 bg-purple-50/50 dark:bg-purple-950/40 text-slate-900 dark:text-white ring-1 ring-purple-600 dark:ring-purple-500'
                           : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                       }`}
                     >
@@ -246,22 +246,22 @@ export const TSITestSection: React.FC<TSITestSectionProps> = ({
       </div>
 
       {/* Navigation Banner: Prev to Goals, Next to Assets */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl border border-stone-200/80 dark:border-slate-800 bg-[#FCFCFD] dark:bg-[#131A24]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-[#FCFCFD] dark:bg-[#131A24]">
         <button
           onClick={() => onNavigateToTab('goal')}
-          className="flex items-center gap-2 text-xs font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"
+          className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
         >
           <span>← ย้อนกลับ: 03. เป้าหมายการลงทุน</span>
         </button>
 
         <div className="flex items-center justify-between sm:justify-end gap-3">
-          <span className="text-xs text-stone-400 font-mono hidden md:inline">STEP 05 · สินทรัพย์ลงทุน</span>
+          <span className="text-xs text-slate-400 font-mono hidden md:inline">STEP 05 · สินทรัพย์ลงทุน</span>
           <button
             onClick={() => onNavigateToTab('assets')}
-            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl transition-all shadow-xs border border-amber-300/40 hover:shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-purple-700 hover:bg-purple-800 rounded-xl transition-all shadow-xs border border-pink-300/40 hover:shadow-sm"
           >
             <span>ไปที่สำรวจสินทรัพย์ลงทุน</span>
-            <ArrowRight className="w-3.5 h-3.5 text-amber-300" />
+            <ArrowRight className="w-3.5 h-3.5 text-pink-300" />
           </button>
         </div>
       </div>

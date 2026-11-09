@@ -57,22 +57,22 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Overarching Section Header (Green & Warm Brown Earth Tone - No Japanese) */}
-      <div className="space-y-3 border-b border-stone-200 dark:border-stone-800 pb-6">
-        <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
-          <span className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold tracking-wider">
+      <div className="space-y-3 border-b border-slate-200 dark:border-slate-800 pb-6">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-mono text-purple-700 dark:text-purple-400 font-bold font-semibold tracking-wider">
             STEP 01
           </span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
-          <span className="font-medium text-amber-800 dark:text-amber-400">สำรวจตนเองก่อนเริ่มลงทุน</span>
-          <span aria-hidden="true" className="text-stone-300">/</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
+          <span className="font-medium text-fuchsia-700 dark:text-fuchsia-400 font-semibold">สำรวจตนเองก่อนเริ่มลงทุน</span>
+          <span aria-hidden="true" className="text-slate-300">/</span>
           <span>ความพร้อมทางการเงิน & ขีดความสามารถรับความเสี่ยง</span>
         </div>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               สำรวจตนเองก่อนเริ่มลงทุน
             </h2>
-            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-3xl leading-relaxed mt-1">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed mt-1">
               การลงทุนที่ประสบความสำเร็จต้องเริ่มจากการรู้จักตนเองใน 2 มิติหลัก:
               <strong> 1. สุขภาพทางการเงินจริง</strong> (สภาพคล่อง หนี้สิน และเงินสำรองฉุกเฉิน) และ
               <strong> 2. ขีดความสามารถในการรับความเสี่ยง</strong> ตามแบบประเมิน TSI (10 ข้อมาตรฐาน ก.ล.ต.)
@@ -83,18 +83,18 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
             <span
               className={`text-xs font-semibold px-3 py-1.5 rounded-lg border flex items-center gap-1.5 ${
                 hasFinanceData && isTsiComplete
-                  ? 'bg-emerald-100 text-emerald-800 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800'
-                  : 'bg-stone-100 text-stone-700 border-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:border-stone-700'
+                  ? 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800'
+                  : 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
               }`}
             >
               {hasFinanceData && isTsiComplete ? (
                 <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <CheckCircle2 className="w-4 h-4 text-purple-600" />
                   <span>สำรวจครบทั้ง 2 ส่วนแล้ว</span>
                 </>
               ) : (
                 <>
-                  <Clock className="w-4 h-4 text-stone-400" />
+                  <Clock className="w-4 h-4 text-slate-400" />
                   <span>
                     ความคืบหน้า: {(hasFinanceData ? 1 : 0) + (isTsiComplete ? 1 : 0)}/2 ส่วน
                   </span>
@@ -111,27 +111,27 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
             onClick={() => setSubTab('finance')}
             className={`p-3.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${
               subTab === 'finance'
-                ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-500 shadow-2xs'
-                : 'bg-stone-50 dark:bg-stone-900 border-stone-200 dark:border-stone-800 hover:border-emerald-300'
+                ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-500 shadow-2xs'
+                : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-purple-300'
             }`}
           >
             <div className="flex items-center gap-2.5">
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
                   hasFinanceData
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-300'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                 }`}
               >
                 1
               </div>
               <div>
-                <div className="font-semibold text-stone-900 dark:text-stone-100">
+                <div className="font-semibold text-slate-900 dark:text-slate-100">
                   ข้อมูลส่วนตัวและสถานะการเงิน
                 </div>
-                <div className="text-[11px] text-stone-500 dark:text-stone-400">
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">
                   {hasFinanceData ? (
-                    <span className="text-emerald-700 dark:text-emerald-400 font-medium">
+                    <span className="text-purple-700 dark:text-purple-400 font-medium">
                       เงินสำรอง {emergencyCoverageMonths} เดือน · หนี้คงค้าง {finance.totalDebt.toLocaleString()} บาท
                     </span>
                   ) : (
@@ -140,7 +140,7 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
                 </div>
               </div>
             </div>
-            <div className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-0.5">
+            <div className="text-[11px] font-semibold text-purple-700 dark:text-purple-400 flex items-center gap-0.5">
               <span>{subTab === 'finance' ? 'กำลังดู' : 'ดูส่วนนี้'}</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </div>
@@ -151,27 +151,27 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
             onClick={() => setSubTab('tsi')}
             className={`p-3.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${
               subTab === 'tsi'
-                ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-500 shadow-2xs'
-                : 'bg-stone-50 dark:bg-stone-900 border-stone-200 dark:border-stone-800 hover:border-emerald-300'
+                ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-500 shadow-2xs'
+                : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-purple-300'
             }`}
           >
             <div className="flex items-center gap-2.5">
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
                   isTsiComplete
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-300'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                 }`}
               >
                 2
               </div>
               <div>
-                <div className="font-semibold text-stone-900 dark:text-stone-100">
+                <div className="font-semibold text-slate-900 dark:text-slate-100">
                   แบบประเมินความเสี่ยง TSI (10 ข้อ)
                 </div>
-                <div className="text-[11px] text-stone-500 dark:text-stone-400">
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">
                   {isTsiComplete ? (
-                    <span className="text-emerald-700 dark:text-emerald-400 font-medium">
+                    <span className="text-purple-700 dark:text-purple-400 font-medium">
                       ระดับ {riskProfile.level}: {riskProfile.title} ({tsiScore} คะแนน)
                     </span>
                   ) : (
@@ -180,7 +180,7 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
                 </div>
               </div>
             </div>
-            <div className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-0.5">
+            <div className="text-[11px] font-semibold text-purple-700 dark:text-purple-400 flex items-center gap-0.5">
               <span>{subTab === 'tsi' ? 'กำลังดู' : 'ดูส่วนนี้'}</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </div>
@@ -189,31 +189,31 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
       </div>
 
       {/* Sub-Tabs Switcher Bar */}
-      <div className="flex items-center justify-center sm:justify-start gap-2 border-b border-stone-200 dark:border-stone-800 pb-3">
+      <div className="flex items-center justify-center sm:justify-start gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
         <button
           onClick={() => setSubTab('finance')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
             subTab === 'finance'
-              ? 'bg-emerald-800 text-white shadow-xs'
-              : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200'
+              ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold shadow-xs shadow-xs'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
           }`}
         >
           <Wallet className="w-4 h-4" />
           <span>ส่วนที่ 1: ข้อมูลส่วนตัวและการเงิน</span>
-          {hasFinanceData && <span className="w-2 h-2 rounded-full bg-emerald-300 ml-1" />}
+          {hasFinanceData && <span className="w-2 h-2 rounded-full bg-purple-300 ml-1" />}
         </button>
 
         <button
           onClick={() => setSubTab('tsi')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
             subTab === 'tsi'
-              ? 'bg-emerald-800 text-white shadow-xs'
-              : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200'
+              ? 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 font-bold shadow-xs shadow-xs'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
           }`}
         >
           <Award className="w-4 h-4" />
           <span>ส่วนที่ 2: แบบประเมินความเสี่ยง TSI</span>
-          {isTsiComplete && <span className="w-2 h-2 rounded-full bg-emerald-300 ml-1" />}
+          {isTsiComplete && <span className="w-2 h-2 rounded-full bg-purple-300 ml-1" />}
         </button>
       </div>
 
@@ -234,9 +234,9 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
           />
 
           {/* Quick Step Switcher to Part 2 */}
-          <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-amber-900 dark:text-amber-200">
-              <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+          <div className="p-4 rounded-2xl bg-fuchsia-50/70 dark:bg-fuchsia-950/30 border border-pink-200 dark:border-fuchsia-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2 text-fuchsia-900 dark:text-pink-200">
+              <Sparkles className="w-4 h-4 text-fuchsia-600 shrink-0" />
               <span>
                 กรอกข้อมูลการเงินเรียบร้อยแล้ว? ขั้นต่อไปคือทำแบบประเมินความเสี่ยง TSI 10 ข้อ
               </span>
@@ -246,7 +246,7 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
                 setSubTab('tsi');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold flex items-center justify-center gap-1.5 transition-colors self-end sm:self-auto shrink-0 shadow-xs"
+              className="px-4 py-2 rounded-xl bg-slate-950 hover:bg-black text-white font-bold shadow-sm font-semibold flex items-center justify-center gap-1.5 transition-colors self-end sm:self-auto shrink-0 shadow-xs"
             >
               <span>ไปทำแบบประเมินความเสี่ยง TSI (ส่วนที่ 2)</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -271,13 +271,13 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
           />
 
           {/* Quick Step Switcher after TSI */}
-          <div className="p-4 rounded-2xl bg-[#FCFAF7] dark:bg-[#18201B] border border-stone-200 dark:border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="p-4 rounded-2xl bg-[#F8FAFC] dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
             <button
               onClick={() => {
                 setSubTab('finance');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-1.5 text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white font-semibold transition-colors"
+              className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-semibold transition-colors"
             >
               <span>← ย้อนกลับไปตรวจข้อมูลการเงิน</span>
             </button>
@@ -286,7 +286,7 @@ export const SelfAssessmentSection: React.FC<SelfAssessmentSectionProps> = ({
                 onNavigateToTab('checklist');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+              className="px-4 py-2 rounded-xl bg-slate-950 hover:bg-black text-white font-bold shadow-sm font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
             >
               <span>ถัดไป: ตรวจเช็กลิสต์ความพร้อม 7 เสาหลัก</span>
               <ArrowRight className="w-3.5 h-3.5" />
