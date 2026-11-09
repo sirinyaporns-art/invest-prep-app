@@ -8,8 +8,6 @@ import {
   ChevronDown,
   Check,
   SlidersHorizontal,
-  Download,
-  FolderGit2,
   Home,
   CheckCircle2,
   PieChart,
@@ -28,7 +26,6 @@ interface NavbarProps {
   isDarkMode: boolean;
   onToggleTheme: () => void;
   onOpenReport: () => void;
-  onOpenGitHubModal: () => void;
   onResetData: () => void;
   onLoadDemoData?: () => void;
   activeTab: string;
@@ -52,7 +49,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onToggleTheme,
   onOpenReport,
-  onOpenGitHubModal,
   onResetData,
   onLoadDemoData,
   activeTab,
@@ -373,38 +369,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       </span>
                     </button>
                   )}
-
-                  <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
-
-                  {/* Download HTML for Offline/GitHub */}
-                  <a
-                    href="/download/index.html"
-                    download="index.html"
-                    onClick={() => setIsToolsOpen(false)}
-                    className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Download className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                      <span>ดาวน์โหลดไฟล์ index.html</span>
-                    </span>
-                    <span className="text-[10px] font-mono bg-purple-50 dark:bg-purple-950 text-purple-800 dark:text-purple-300 px-1.5 py-0.5 rounded">
-                      Single File
-                    </span>
-                  </a>
-
-                  {/* GitHub Pages Deployment Guide Modal */}
-                  <button
-                    onClick={() => {
-                      onOpenGitHubModal();
-                      setIsToolsOpen(false);
-                    }}
-                    className="w-full px-3.5 py-2.5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors"
-                  >
-                    <span className="flex items-center gap-2">
-                      <FolderGit2 className="w-4 h-4 text-fuchsia-600 dark:text-fuchsia-400" />
-                      <span>คู่มือนำขึ้น GitHub Pages</span>
-                    </span>
-                  </button>
                 </div>
               )}
             </div>

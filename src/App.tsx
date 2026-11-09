@@ -14,7 +14,6 @@ import { CautionSection } from './components/CautionSection';
 import { KnowledgeAndLegalHubSection } from './components/KnowledgeAndLegalHubSection';
 import { RecommendedBrokersSection } from './components/RecommendedBrokersSection';
 import { SummaryReportModal } from './components/SummaryReportModal';
-import { GitHubModal } from './components/GitHubModal';
 import { AboutAndContactSection } from './components/AboutAndContactSection';
 
 import { INITIAL_CHECKLIST } from './data/starterChecklist';
@@ -78,7 +77,6 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [activeTab, setActiveTab] = useState<string>('home');
   const [isReportOpen, setIsReportOpen] = useState(false);
-  const [isGitHubOpen, setIsGitHubOpen] = useState(false);
 
   // Core App State: Clean slate with zero pre-filled values
   const [checklist, setChecklist] = useState<ChecklistItem[]>(INITIAL_CHECKLIST);
@@ -199,7 +197,6 @@ export default function App() {
         isDarkMode={isDarkMode}
         onToggleTheme={() => setIsDarkMode((prev) => !prev)}
         onOpenReport={() => setIsReportOpen(true)}
-        onOpenGitHubModal={() => setIsGitHubOpen(true)}
         onResetData={handleResetData}
         onLoadDemoData={handleLoadDemoData}
         activeTab={activeTab}
@@ -218,7 +215,6 @@ export default function App() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               onNavigateToTab={setActiveTab}
-              onOpenGitHubModal={() => setIsGitHubOpen(true)}
               finance={finance}
               completedChecklistCount={completedChecklistCount}
               totalChecklistCount={checklist.length}
@@ -390,12 +386,6 @@ export default function App() {
         riskProfile={riskProfile}
         tsiScore={tsiScore}
         assets={assets}
-      />
-
-      {/* GitHub Deployment & index.html Modal */}
-      <GitHubModal
-        isOpen={isGitHubOpen}
-        onClose={() => setIsGitHubOpen(false)}
       />
     </div>
   );

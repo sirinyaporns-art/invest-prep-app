@@ -21,7 +21,6 @@ import { InvestmentGraphBackground } from './InvestmentGraphBackground';
 interface WelcomeSectionProps {
   onStart: () => void;
   onNavigateToTab?: (tabId: string) => void;
-  onOpenGitHubModal?: () => void;
   finance: PersonalFinance;
   completedChecklistCount: number;
   totalChecklistCount: number;
@@ -30,7 +29,6 @@ interface WelcomeSectionProps {
 export const WelcomeSection: React.FC<WelcomeSectionProps> = ({
   onStart,
   onNavigateToTab,
-  onOpenGitHubModal,
   finance,
   completedChecklistCount,
   totalChecklistCount,
